@@ -996,6 +996,34 @@ select.form-control option {
   font-size: 1rem;
   font-weight: 700;
   color: #fff;
+  cursor: pointer;
+}
+
+.editor-heading:hover {
+  color: var(--accent-cyan);
+}
+
+.title-with-rename {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-rename-form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-xs {
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  line-height: 1.2;
+}
+
+.text-cyan {
+  color: var(--accent-cyan);
 }
 
 .editor-actions {

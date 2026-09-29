@@ -119,6 +119,10 @@
     inputBannerTitle: document.getElementById('input-banner-title'),
     btnUpdateBannerMeta: document.getElementById('btn-update-banner-meta'),
     btnSetAsActiveBanner: document.getElementById('btn-set-as-active-banner'),
+    btnOpenRename: document.getElementById('btn-open-rename'),
+    btnCancelRename: document.getElementById('btn-cancel-rename'),
+    titleDisplayBox: document.getElementById('title-display-box'),
+    titleRenameBox: document.getElementById('title-rename-box'),
     btnToggleJsonEditor: document.getElementById('btn-toggle-json-editor'),
     jsonEditorContainer: document.getElementById('json-editor-container'),
     lblActiveEditorBannerName: document.getElementById('lbl-active-editor-banner-name'),
@@ -357,6 +361,13 @@
     if (dom.lblActiveEditorBannerName) {
       dom.lblActiveEditorBannerName.textContent = bannerMeta.title;
     }
+    if (dom.inputBannerTitle) {
+      dom.inputBannerTitle.value = bannerMeta.title;
+    }
+    if (dom.titleDisplayBox && dom.titleRenameBox) {
+      dom.titleRenameBox.classList.add('hidden');
+      dom.titleDisplayBox.classList.remove('hidden');
+    }
     if (dom.btnSetAsActiveBanner) {
       const isExamActive = bannerMeta.id === state.runner.activeBannerId;
       if (isExamActive) {
@@ -526,6 +537,86 @@
       const bannerId = e.target.value;
       if (bannerId) {
         await setActiveBanner(bannerId);
+      }
+    });
+  }
+
+  // Chỉnh sửa tên hiển thị của Banner
+  function openRenameBanner() {
+    const currentMeta = state.banners.find((b) => b.id === state.currentBannerId);
+    if (!currentMeta) return;
+    if (dom.inputBannerTitle) {
+      dom.inputBannerTitle.value = currentMeta.title;
+    }
+    if (dom.titleDisplayBox && dom.titleRenameBox) {
+      dom.titleDisplayBox.classList.add('hidden');
+      dom.titleRenameBox.classList.remove('hidden');
+      if (dom.inputBannerTitle) {
+        dom.inputBannerTitle.focus();
+        dom.inputBannerTitle.select();
+      }
+    }
+  }
+
+  function closeRenameBanner() {
+    if (dom.titleDisplayBox && dom.titleRenameBox) {
+      dom.titleRenameBox.classList.add('hidden');
+      dom.titleDisplayBox.classList.remove('hidden');
+    }
+  }
+
+  async function saveBannerTitle() {
+    if (!dom.inputBannerTitle) return;
+    const newTitle = dom.inputBannerTitle.value.trim();
+    if (!newTitle) {
+      return alert('Vui lòng nhập tên phần thi!');
+    }
+
+    try {
+      const res = await fetch(`/api/banners/${state.currentBannerId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: newTitle }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        const meta = state.banners.find((b) => b.id === state.currentBannerId);
+        if (meta) meta.title = newTitle;
+        renderBannerDropdown();
+        renderBannerSubtabs();
+        updateActiveBannerEditorHeader(meta);
+        closeRenameBanner();
+      } else {
+        alert('Lỗi: Không thể lưu tên phần thi mới!');
+      }
+    } catch (err) {
+      alert('Lỗi cập nhật tên banner: ' + err.message);
+    }
+  }
+
+  if (dom.btnOpenRename) {
+    dom.btnOpenRename.addEventListener('click', openRenameBanner);
+  }
+
+  if (dom.lblActiveEditorBannerName) {
+    dom.lblActiveEditorBannerName.addEventListener('dblclick', openRenameBanner);
+  }
+
+  if (dom.btnCancelRename) {
+    dom.btnCancelRename.addEventListener('click', closeRenameBanner);
+  }
+
+  if (dom.btnUpdateBannerMeta) {
+    dom.btnUpdateBannerMeta.addEventListener('click', saveBannerTitle);
+  }
+
+  if (dom.inputBannerTitle) {
+    dom.inputBannerTitle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        saveBannerTitle();
+      } else if (e.key === 'Escape') {
+        closeRenameBanner();
       }
     });
   }

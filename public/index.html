@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2.0.0">
+  <link rel="stylesheet" href="style.css?v=2.1.0">
 </head>
 <body class="dark-theme">
   <!-- Top Navigation Bar -->
@@ -294,7 +294,17 @@
         <div class="json-editor-card">
           <div class="editor-header">
             <div class="editor-title-group">
-              <span class="editor-heading" id="lbl-active-editor-banner-name">Phần thi 4 - Huỳnh Thúc Kháng (Banner 4)</span>
+              <div class="title-with-rename" id="title-display-box">
+                <span class="editor-heading" id="lbl-active-editor-banner-name" title="Nhấp đúp hoặc bấm nút ✏️ để đổi tên">Phần thi 4 - Huỳnh Thúc Kháng (Banner 4)</span>
+                <button class="btn btn-ghost btn-xs text-cyan" id="btn-open-rename" title="Chỉnh sửa tên phần thi này">
+                  ✏️ Đổi Tên
+                </button>
+              </div>
+              <div class="title-rename-form hidden" id="title-rename-box">
+                <input type="text" id="input-banner-title" class="form-control form-control-sm" placeholder="Nhập tên mới..." style="width: 250px;">
+                <button class="btn btn-primary btn-sm" id="btn-update-banner-meta">Lưu</button>
+                <button class="btn btn-secondary btn-sm" id="btn-cancel-rename">Hủy</button>
+              </div>
               <span class="badge badge-success" id="json-answers-status">✔ 20 câu hỏi</span>
             </div>
             <div class="editor-actions">
@@ -396,6 +406,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=2.0.0"></script>
+  <script src="app.js?v=2.1.0"></script>
 </body>
 </html>
