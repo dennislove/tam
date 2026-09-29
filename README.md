@@ -126,9 +126,18 @@ pnpm start -- --fixed RANDOM
 
 ---
 
-## 📊 Kết quả & Ảnh chụp màn hình
+## 🌐 Giao Diện Web Dashboard (Port 3000)
 
-- Mỗi khi hoàn thành lượt thi, công cụ tự động chụp màn hình kết quả và lưu vào:
-  `logs/screenshots/{username}_result.png`
-- Nếu xảy ra lỗi bất ngờ, ảnh màn hình thời điểm lỗi cũng được tự động lưu vào:
-  `logs/screenshots/{username}_error_{timestamp}.png` để phục vụ chẩn đoán.
+1. **Khởi động 1 click**: Click đúp vào file `Chay_Tool_Web_Port_3000.bat`.
+2. **Khởi động qua lệnh**:
+   ```bash
+   pnpm ui
+   ```
+3. Mở trình duyệt tại: `http://localhost:3000`
+   - Quản lý & nạp đáp án 5 Banner thi riêng biệt.
+   - Bắt đầu từ bất kỳ tài khoản nào hoặc chạy lại tài khoản bị lỗi.
+   - Theo dõi log trực tiếp, xem ảnh chụp màn hình kết quả ngay trên web.
+
+---
+
+# tool-tnvn-app

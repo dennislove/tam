@@ -91,10 +91,10 @@ export class OcrSolver {
 
     const worker = await this.getWorker();
 
-    // 1. Nhận diện nội dung câu hỏi (nằm trên nút tròn đáp án đầu tiên)
-    const questionTop = Math.max(220, circles[0] - 170);
-    const questionBottom = circles[0] - 15;
-    const questionBuffer = this.cropPng(png, 20, questionTop, 700, questionBottom);
+    // 1. Nhận diện nội dung câu hỏi (mở rộng từ y=160 để không bị mất dòng đầu)
+    const questionTop = 160;
+    const questionBottom = Math.max(questionTop + 60, circles[0] - 10);
+    const questionBuffer = this.cropPng(png, 20, questionTop, 700, questionBottom, false);
 
     const qResult = await worker.recognize(questionBuffer);
     const rawQuestionText = (qResult.data.text || '').trim();
@@ -115,35 +115,55 @@ export class OcrSolver {
       }
     }
 
-    if (!matchedBankItem || bestQuestionScore < 0.45) {
+    if (!matchedBankItem || bestQuestionScore < 0.40) {
       return null;
     }
 
     const targetAnswer = matchedBankItem.answer;
     const cleanTargetAnswer = normalizeText(targetAnswer);
+    const targetNums: string[] = cleanTargetAnswer.match(/\d+/g) || [];
 
-    // 3. Nhận diện 4 dòng phương án theo vị trí 4 nút tròn Y
+    // Tìm vị trí của đáp án trong danh sách options của answers.json (nếu có)
+    let bankOptionIndex = -1;
+    if (matchedBankItem.options && Array.isArray(matchedBankItem.options)) {
+      bankOptionIndex = matchedBankItem.options.findIndex(
+        (opt) => normalizeText(opt) === cleanTargetAnswer || cleanOptionText(opt) === cleanTargetAnswer
+      );
+    }
+
+    // 3. Nhận diện 4 dòng phương án theo vị trí 4 nút tròn Y (mở rộng vùng crop để lấy hết đáp án nhiều dòng)
     const optionTexts: string[] = [];
     let bestOptionScore = -1;
-    let bestOptionIndex = 0;
+    let bestOptionIndex = bankOptionIndex >= 0 ? bankOptionIndex : 0;
 
     for (let i = 0; i < 4; i++) {
       const centerY = circles[i];
-      const optTop = centerY - 25;
-      const optBottom = centerY + 25;
-      const optBuffer = this.cropPng(png, 90, optTop, 690, optBottom);
+      const optTop = Math.max(0, centerY - 28);
+      // Mở rộng xuống tận nút tiếp theo để lấy trọn vẹn đáp án 2-3 dòng chữ
+      const optBottom = i < 3 ? circles[i + 1] - 8 : Math.min(png.height - 110, centerY + 100);
+      const optBuffer = this.cropPng(png, 85, optTop, 700, optBottom, false);
 
       const optResult = await worker.recognize(optBuffer);
       const rawOptText = (optResult.data.text || '').trim();
       optionTexts.push(rawOptText);
 
       const cleanOpt = cleanOptionText(rawOptText);
-      let score = calculateTextSimilarity(cleanOpt, cleanTargetAnswer);
+      const optNums: string[] = cleanOpt.match(/\d+/g) || [];
 
-      if (cleanOpt === cleanTargetAnswer) {
-        score = 1.0;
-      } else if (cleanOpt.includes(cleanTargetAnswer) || cleanTargetAnswer.includes(cleanOpt)) {
-        score = Math.max(score, 0.9);
+      // Kiểm tra tính khớp số nếu đáp án có chứa số (năm, ngày, số lượng...)
+      let numbersMatch = true;
+      if (targetNums.length > 0) {
+        numbersMatch = targetNums.every((n) => optNums.includes(n));
+      }
+
+      let score = 0;
+      if (numbersMatch) {
+        score = calculateTextSimilarity(cleanOpt, cleanTargetAnswer);
+        if (cleanOpt === cleanTargetAnswer) {
+          score = 1.0;
+        } else if (cleanOpt.includes(cleanTargetAnswer) || cleanTargetAnswer.includes(cleanOpt)) {
+          score = Math.max(score, 0.95);
+        }
       }
 
       if (score > bestOptionScore) {
@@ -152,14 +172,20 @@ export class OcrSolver {
       }
     }
 
+    // Nếu không có option nào qua OCR đạt độ tin cậy cao và có vị trí chuẩn từ answers.json
+    if (bestOptionScore < 0.4 && bankOptionIndex >= 0 && bankOptionIndex < 4) {
+      bestOptionIndex = bankOptionIndex;
+      bestOptionScore = 0.9;
+    }
+
     return {
       questionMatched: matchedBankItem.question,
       detectedQuestionText: rawQuestionText,
       targetAnswer,
       matchedOptionIndex: bestOptionIndex,
-      matchedOptionText: optionTexts[bestOptionIndex],
+      matchedOptionText: optionTexts[bestOptionIndex] || targetAnswer,
       targetCoord: {
-        x: 50,
+        x: 200, // Tọa độ dòng đáp án chuẩn
         y: circles[bestOptionIndex],
       },
       confidence: (bestQuestionScore + (bestOptionScore > 0 ? bestOptionScore : 0.5)) / 2,

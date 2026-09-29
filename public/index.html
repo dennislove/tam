@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TNVN Auto Exam Pro - Bảng Điều Khiển Tự Động Thi Trực Tuyến</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=2.0.0">
+</head>
+<body class="dark-theme">
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <div class="brand-logo">
+        <span class="logo-icon">⚡</span>
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-title">TNVN AUTO EXAM PRO</h1>
+        <span class="brand-subtitle">Hệ Thống Tự Động Hóa Thi Trực Tuyến Thanh Niên Việt Nam</span>
+      </div>
+    </div>
+
+    <!-- Runner Status Indicator -->
+    <div class="nav-status-group">
+      <div class="status-badge" id="global-status-badge">
+        <span class="status-dot"></span>
+        <span class="status-text" id="global-status-text">Đang nghỉ (Idle)</span>
+      </div>
+
+      <div class="banner-active-pill" id="current-active-banner-pill" title="Mục thi hiện tại">
+        <span class="pill-label">Mục thi:</span>
+        <span class="pill-val" id="pill-banner-name">Đang tải...</span>
+      </div>
+
+      <button class="btn btn-secondary btn-sm" id="btn-reconnect-adb" title="Quét lại thiết bị ADB / LDPlayer">
+        <span class="icon">🔄</span> Quét Máy Ảo
+      </button>
+    </div>
+  </header>
+
+  <!-- BANNER WAIT ALERT POPUP CARD (Appears when waiting for user to select banner) -->
+  <aside class="banner-alert-card hidden" id="banner-alert-banner" aria-label="Thông báo chọn Banner">
+    <div class="banner-alert-content">
+      <div class="banner-alert-icon-wrap">
+        <div class="pulsing-halo"></div>
+        <span class="alert-icon">👆</span>
+      </div>
+      <div class="banner-alert-body">
+        <h2 class="alert-title">ĐÃ VÀO "CUỘC THI TRỰC TUYẾN" - HÃY CHỌN BANNER TRÊN MÁY ẢO!</h2>
+        <p class="alert-desc">
+          Tool đã tạm dừng trên máy ảo <b id="wait-device-name">...</b> với tài khoản <b id="wait-account-name">...</b>.<br>
+          👉 Dùng chuột trên LDPlayer: <b>Click vào đúng Banner cuộc thi bạn muốn thi</b>.<br>
+          👉 Khi màn hình hiện nút <b>"BẮT ĐẦU BÀI THI"</b>, hãy bấm nút dưới đây để tiếp tục:
+        </p>
+      </div>
+      <div class="banner-alert-actions">
+        <button class="btn btn-emerald btn-lg pulse-glow" id="btn-resume-run">
+          <span class="icon">🚀</span> TIẾP TỤC LÀM BÀI (ENTER)
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Container -->
+  <main class="main-layout">
+    <!-- Left Navigation Tabs -->
+    <nav class="sidebar" aria-label="Menu điều hướng">
+      <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="tab-dashboard" id="tab-nav-dashboard">
+          <span class="tab-icon">🎮</span>
+          <span class="tab-label">Điều Khiển & Tiến Trình</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-accounts" id="tab-nav-accounts">
+          <span class="tab-icon">👥</span>
+          <span class="tab-label">Danh Sách Tài Khoản</span>
+          <span class="tab-counter" id="badge-total-accounts">0</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-banners" id="tab-nav-banners">
+          <span class="tab-icon">📚</span>
+          <span class="tab-label">Ngân Hàng 5 Banner</span>
+          <span class="tab-counter info-counter" id="badge-total-banners">5</span>
+        </button>
+      </div>
+
+      <!-- Quick Run Stats Card -->
+      <section class="sidebar-stats-card" aria-label="Thống kê nhanh">
+        <h3 class="card-title">TIẾN ĐỘ THI</h3>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%"></div>
+        </div>
+        <div class="stats-mini-grid">
+          <div class="stat-mini-box">
+            <span class="stat-label">Tổng</span>
+            <span class="stat-num text-cyan" id="stat-total">0</span>
+          </div>
+          <div class="stat-mini-box">
+            <span class="stat-label">Thành công</span>
+            <span class="stat-num text-green" id="stat-completed">0</span>
+          </div>
+          <div class="stat-mini-box">
+            <span class="stat-label">Lỗi</span>
+            <span class="stat-num text-red" id="stat-failed">0</span>
+          </div>
+        </div>
+      </section>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="content-viewport">
+      <!-- ========================================== -->
+      <!-- TAB 1: ĐIỀU KHIỂN & TIẾN TRÌNH (DASHBOARD) -->
+      <!-- ========================================== -->
+      <div class="tab-pane active" id="tab-dashboard">
+        <!-- Quick Control Panel -->
+        <section class="dashboard-control-panel">
+          <div class="control-row">
+            <!-- 1. Chọn Banner -->
+            <div class="form-group flex-1">
+              <label for="select-banner">
+                <span class="label-icon">🎯</span> Mục Thi / Banner:
+              </label>
+              <select class="form-control" id="select-banner">
+                <option value="">Đang tải danh sách 5 banner...</option>
+              </select>
+            </div>
+
+            <!-- 2. Chọn Máy ảo LDPlayer -->
+            <div class="form-group flex-1">
+              <label for="select-device">
+                <span class="label-icon">📱</span> Máy Ảo LDPlayer:
+              </label>
+              <select class="form-control" id="select-device">
+                <option value="">Tất cả thiết bị sẵn sàng</option>
+              </select>
+            </div>
+
+            <!-- 3. Lựa chọn Bắt đầu từ tài khoản -->
+            <div class="form-group flex-1">
+              <label for="select-start-account">
+                <span class="label-icon">▶️</span> Bắt Đầu Từ Tài Khoản:
+              </label>
+              <select class="form-control" id="select-start-account">
+                <option value="1">#1 - Đầu danh sách</option>
+              </select>
+            </div>
+
+            <!-- Nút Khởi động / Dừng / Chạy lại lỗi -->
+            <div class="actions-group">
+              <button class="btn btn-primary btn-lg" id="btn-start-run">
+                <span class="icon">▶</span> BẮT ĐẦU CHẠY
+              </button>
+              <button class="btn btn-danger btn-lg hidden" id="btn-stop-run">
+                <span class="icon">⏹</span> DỪNG LẠI
+              </button>
+              <button class="btn btn-outline-cyan btn-lg" id="btn-run-failed-only" title="Chạy lại những tài khoản bị lỗi">
+                <span class="icon">🔄</span> Chạy Lại Acc Lỗi
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Current Running Status Box -->
+        <section class="running-info-card" id="running-info-card">
+          <div class="info-card-header">
+            <h3 class="info-title">TRẠNG THÁI TIẾN TRÌNH</h3>
+            <span class="badge" id="info-status-badge">Sẵn sàng</span>
+          </div>
+          <div class="info-grid">
+            <div class="info-col">
+              <span class="info-key">Tài khoản đang chạy:</span>
+              <span class="info-val text-cyan" id="info-current-acc">Chưa có</span>
+            </div>
+            <div class="info-col">
+              <span class="info-key">Thiết bị máy ảo:</span>
+              <span class="info-val" id="info-current-device">Tự động</span>
+            </div>
+            <div class="info-col">
+              <span class="info-key">Mục thi áp dụng:</span>
+              <span class="info-val text-emerald" id="info-current-banner">Chưa chọn</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Live Terminal Logs Console -->
+        <section class="console-card">
+          <div class="console-header">
+            <div class="console-title-group">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="console-title">NHẬT KÝ THI TRỰC TIẾP (LIVE CONSOLE LOG)</span>
+            </div>
+            <div class="console-controls">
+              <label class="checkbox-label">
+                <input type="checkbox" id="chk-autoscroll" checked> Tự động cuộn
+              </label>
+              <button class="btn btn-ghost btn-sm" id="btn-clear-logs" title="Xóa màn hình log">
+                Xóa Log
+              </button>
+            </div>
+          </div>
+          <div class="console-output" id="console-output">
+            <div class="log-line text-muted">[Sẵn sàng] Hệ thống đã kết nối tới Server. Hãy chọn Banner và bấm "Bắt Đầu Chạy".</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: QUẢN LÝ DANH SÁCH TÀI KHOẢN -->
+      <!-- ========================================== -->
+      <div class="tab-pane" id="tab-accounts">
+        <section class="panel-header">
+          <div class="panel-title-group">
+            <h2 class="panel-title">DANH SÁCH TÀI KHOẢN DÙNG CHUNG</h2>
+            <p class="panel-desc">Tất cả tài khoản lưu tại <code>accounts.json</code> dùng chung cho 5 banner. Bạn có thể chọn tiếp tục chạy từ bất kỳ tài khoản nào.</p>
+          </div>
+          <div class="panel-actions">
+            <button class="btn btn-primary btn-sm" id="btn-open-add-acc-modal">
+              <span class="icon">➕</span> Thêm Tài Khoản
+            </button>
+            <button class="btn btn-secondary btn-sm" id="btn-open-import-acc-modal">
+              <span class="icon">📥</span> Nhập / Sửa JSON
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btn-reset-all-statuses" title="Đặt lại trạng thái toàn bộ danh sách">
+              <span class="icon">🔄</span> Đặt Lại Trạng Thái
+            </button>
+          </div>
+        </section>
+
+        <!-- Filters & Search Toolbar -->
+        <div class="toolbar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="input-search-account" placeholder="Tìm kiếm theo email, số điện thoại...">
+          </div>
+          <div class="filter-group">
+            <button class="filter-chip active" data-filter="all">Tất cả (<span id="count-filter-all">0</span>)</button>
+            <button class="filter-chip" data-filter="pending">Chờ chạy (<span id="count-filter-pending">0</span>)</button>
+            <button class="filter-chip" data-filter="success">Thành công (<span id="count-filter-success">0</span>)</button>
+            <button class="filter-chip" data-filter="error">Lỗi (<span id="count-filter-error">0</span>)</button>
+          </div>
+          <div class="bulk-actions push-right">
+            <button class="btn btn-emerald btn-sm" id="btn-run-selected-accounts" disabled>
+              ▶ Chạy Các Acc Đã Chọn (<span id="selected-acc-count">0</span>)
+            </button>
+          </div>
+        </div>
+
+        <!-- Accounts Table -->
+        <div class="table-responsive">
+          <table class="data-table" id="table-accounts">
+            <thead>
+              <tr>
+                <th style="width: 40px;">
+                  <input type="checkbox" id="chk-select-all-accs">
+                </th>
+                <th style="width: 50px;">STT</th>
+                <th>Tài Khoản (Username)</th>
+                <th>Mật Khẩu</th>
+                <th>Trạng Thái</th>
+                <th>Thời Gian</th>
+                <th>Ảnh / Lỗi</th>
+                <th style="width: 220px; text-align: right;">Thao Tác Nhanh</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-accounts">
+              <tr>
+                <td colspan="8" class="text-center text-muted py-4">Đang tải danh sách tài khoản...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 3: NGÂN HÀNG 5 BANNER -->
+      <!-- ========================================== -->
+      <div class="tab-pane" id="tab-banners">
+        <section class="panel-header">
+          <div class="panel-title-group">
+            <h2 class="panel-title">ĐÁP ÁN 5 BANNER</h2>
+            <p class="panel-desc">Chọn banner để xem hoặc nạp đáp án JSON.</p>
+          </div>
+        </section>
+
+        <!-- 5 Banner Tabs Selector -->
+        <div class="banner-subtabs" id="banner-subtabs-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Streamlined JSON Card -->
+        <div class="json-editor-card">
+          <div class="editor-header">
+            <div class="editor-title-group">
+              <span class="editor-heading" id="lbl-active-editor-banner-name">Phần thi 4 - Huỳnh Thúc Kháng (Banner 4)</span>
+              <span class="badge badge-success" id="json-answers-status">✔ 20 câu hỏi</span>
+            </div>
+            <div class="editor-actions">
+              <button class="btn btn-outline-cyan btn-sm" id="btn-set-as-active-banner" title="Chọn phần thi này để chạy làm bài tự động">
+                🎯 Chọn Thi Phần Này
+              </button>
+              <button class="btn btn-secondary btn-sm" id="btn-toggle-json-editor">
+                👁️ Xem / Sửa Đáp Án JSON
+              </button>
+              <button class="btn btn-emerald btn-sm" id="btn-save-current-banner-answers">
+                💾 Lưu Đáp Án
+              </button>
+            </div>
+          </div>
+
+          <div class="editor-body hidden" id="json-editor-container">
+            <textarea id="textarea-json-answers" class="code-editor-main" spellcheck="false" placeholder='[
+  {
+    "question": "Nội dung câu hỏi?",
+    "options": ["Đáp án A", "Đáp án B", "Đáp án C", "Đáp án D"],
+    "answer": "Đáp án đúng chính xác"
+  }
+]'></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: XEM ẢNH KẾT QUẢ PHÓNG TO -->
+  <!-- ========================================== -->
+  <div class="modal hidden" id="modal-screenshot-preview">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-screenshot-title">Ảnh Chụp Kết Quả Bài Thi</h3>
+        <button class="modal-close" id="btn-close-screenshot-modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="" id="img-screenshot-full" alt="Ảnh chụp kết quả" class="screenshot-full-preview">
+      </div>
+      <div class="modal-footer">
+        <a href="" target="_blank" class="btn btn-secondary btn-sm" id="btn-download-screenshot">Mở Trong Tab Mới</a>
+        <button class="btn btn-primary btn-sm" id="btn-dismiss-screenshot-modal">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- MODAL: NHẬP / SỬA JSON DANH SÁCH TÀI KHOẢN -->
+  <!-- ========================================== -->
+  <div class="modal hidden" id="modal-json-accounts">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title">Nhập / Chỉnh Sửa Danh Sách Tài Khoản</h3>
+        <button class="modal-close" id="btn-close-json-accounts-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-hint">
+          Chỉnh sửa danh sách tài khoản dưới định dạng JSON (dùng chung cho 5 banner):<br>
+          <code>[ { "username": "0866251495", "password": "matkhau" } ]</code>
+        </p>
+        <textarea id="textarea-json-accounts" class="code-editor" spellcheck="false"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="btn-cancel-json-accounts">Hủy Bỏ</button>
+        <button class="btn btn-primary btn-sm" id="btn-confirm-save-json-accounts">Lưu Danh Sách</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: THÊM 1 TÀI KHOẢN -->
+  <!-- ========================================== -->
+  <div class="modal hidden" id="modal-add-account">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h3 class="modal-title">Thêm Tài Khoản Mới</h3>
+        <button class="modal-close" id="btn-close-add-acc-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label for="input-new-acc-username">Tên đăng nhập (Email / SĐT / CCCD):</label>
+          <input type="text" id="input-new-acc-username" class="form-control" placeholder="ví dụ: 0866251495 hoặc email@gmail.com">
+        </div>
+        <div class="form-group mb-3">
+          <label for="input-new-acc-password">Mật khẩu:</label>
+          <input type="text" id="input-new-acc-password" class="form-control" placeholder="Mật khẩu tài khoản...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="btn-cancel-add-acc">Hủy</button>
+        <button class="btn btn-emerald btn-sm" id="btn-confirm-add-acc">Thêm Tài Khoản</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=2.0.0"></script>
+</body>
+</html>

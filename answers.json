@@ -1,202 +1,202 @@
 [
-    {
-        "question": "Cụ Huỳnh Thúc Kháng sinh ngày tháng năm nào?",
-        "options": [
-            "01-10-1875",
-            "01-01-1877",
-            "10-10-1876",
-            "01-10-1876"
-        ],
-        "answer": "01-10-1876"
-    },
-    {
-        "question": "Cụ Huỳnh Thúc Kháng đỗ Giải nguyên trong khoa thi nào?",
-        "options": [
-            "Khoa Quý Mão 1903",
-            "Khoa Canh Tý 1900",
-            "Khoa Giáp Thìn 1904",
-            "Khoa Giáp Ngọ 1894"
-        ],
-        "answer": "Khoa Canh Tý 1900"
-    },
-    {
-        "question": "Tên thật lúc thiếu thời của cụ Huỳnh Thúc Kháng là gì?",
-        "options": [
-            "Huỳnh Văn Thước",
-            "Huỳnh Văn Phụng",
-            "Huỳnh Hanh",
-            "Huỳnh Văn Phương"
-        ],
-        "answer": "Huỳnh Văn Thước"
-    },
-    {
-        "question": "Cụ Huỳnh Thúc Kháng bị thực dân Pháp bắt lần đầu vào năm nào?",
-        "options": [
-            "1907",
-            "1908",
-            "1905",
-            "1910"
-        ],
-        "answer": "1908"
-    },
-    {
-        "question": "Một trong những đóng góp lớn nhất của Tiếng Dân đối với xã hội là gì?",
-        "options": [
-            "Quảng bá hàng hóa Pháp",
-            "Chỉ trích phong trào cách mạng của công nhân",
-            "Dạy cách làm giàu cho quan lại",
-            "Giáo dục lòng yêu nước, căm thù quân cướp nước, mở mang dân trí"
-        ],
-        "answer": "Giáo dục lòng yêu nước, căm thù quân cướp nước, mở mang dân trí"
-    },
-    {
-        "question": "Việc sáng lập báo Tiếng Dân thể hiện khát vọng gì của cụ Huỳnh Thúc Kháng?",
-        "options": [
-            "Có diễn đàn bảo vệ dân quyền và truyền bá tư tưởng tiến bộ",
-            "Làm giàu",
-            "Phát triển giáo dục tư nhân",
-            "Mở rộng kinh doanh"
-        ],
-        "answer": "Có diễn đàn bảo vệ dân quyền và truyền bá tư tưởng tiến bộ"
-    },
-    {
-        "question": "Nội dung chính của bài phú “Lương ngọc danh sơn” là gì?",
-        "options": [
-            "Bài xích khoa cử hủ lậu, cổ xúy tân học và lòng yêu nước",
-            "Ca ngợi vẻ đẹp của núi rừng",
-            "Ủng hộ chính sách của Pháp",
-            "Than thân trách phận"
-        ],
-        "answer": "Bài xích khoa cử hủ lậu, cổ xúy tân học và lòng yêu nước"
-    },
-    {
-        "question": "Chức vụ đầu tiên cụ Huỳnh Thúc Kháng nắm giữ trong Chính phủ liên hiệp kháng chiến là gì?",
-        "options": [
-            "Bộ trưởng Bộ Ngoại giao",
-            "Bộ trưởng Bộ Giáo dục",
-            "Bộ trưởng Bộ Nội vụ",
-            "Chủ tịch Quốc hội"
-        ],
-        "answer": "Bộ trưởng Bộ Nội vụ"
-    },
-    {
-        "question": "Cụ Huỳnh Thúc Kháng xuất thân trong gia đình như thế nào?",
-        "options": [
-            "Công nhân đô thị",
-            "Nhà nho nghèo gốc nông dân",
-            "Quan lại giàu có",
-            "Thương gia lớn"
-        ],
-        "answer": "Nhà nho nghèo gốc nông dân"
-    },
-    {
-        "question": "Báo Tiếng Dân ra bao nhiêu kỳ mỗi tuần trong giai đoạn đầu?",
-        "options": [
-            "Mỗi ngày 1 kỳ",
-            "Mỗi tuần 2 kỳ (thứ Tư và thứ Bảy)",
-            "Mỗi tháng 2 kỳ",
-            "Mỗi tuần 1 kỳ"
-        ],
-        "answer": "Mỗi tuần 2 kỳ (thứ Tư và thứ Bảy)"
-    },
-    {
-        "question": "Lý do chính khiến cụ Huỳnh Thúc Kháng bị bắt năm 1908 là gì?",
-        "options": [
-            "Bị quy tội xúi giục dân chúng trong phong trào cự sưu chống thuế",
-            "In ấn báo chí lậu",
-            "Tổ chức ám sát quan Pháp",
-            "Đi sang Nhật Bản trái phép"
-        ],
-        "answer": "Bị quy tội xúi giục dân chúng trong phong trào cự sưu chống thuế"
-    },
-    {
-        "question": "Cụ Huỳnh Thúc Kháng đắc cử vào Viện Dân biểu Trung Kỳ năm nào?",
-        "options": [
-            "1925",
-            "1928",
-            "1921",
-            "1926"
-        ],
-        "answer": "1926"
-    },
-    {
-        "question": "Năm 1923, cụ Huỳnh Thúc Kháng đã trả lời thế nào khi Khâm sứ Pasquier mời làm việc tại Viện Bác cổ?",
-        "options": [
-            "Xin thời gian suy nghĩ",
-            "Chấp nhận ngay",
-            "Đòi tăng lương cao",
-            "Từ chối thẳng thừng vì không muốn làm quan"
-        ],
-        "answer": "Từ chối thẳng thừng vì không muốn làm quan"
-    },
-    {
-        "question": "Cụ Huỳnh Thúc Kháng mất tại đâu?",
-        "options": [
-            "Thành phố Đà Nẵng",
-            "Chiến khu Việt Bắc",
-            "Tỉnh Quảng Ngãi",
-            "Thành phố Huế"
-        ],
-        "answer": "Tỉnh Quảng Ngãi"
-    },
-    {
-        "question": "Cụ Huỳnh Thúc Kháng quan niệm thế nào về chữ Quốc ngữ?",
-        "options": [
-            "Là hồn trong nước, dễ phổ cập tri thức",
-            "Chỉ dùng trong buôn bán",
-            "Chữ của thực dân Pháp",
-            "Không quan trọng bằng chữ Hán"
-        ],
-        "answer": "Là hồn trong nước, dễ phổ cập tri thức"
-    },
-    {
-        "question": "Phụ tá biên tập đắc lực nhất cho cụ Huỳnh Thúc Kháng ở báo Tiếng Dân là ai?",
-        "options": [
-            "Đào Duy Anh",
-            "Tôn Quang Phiệt",
-            "Võ Nguyên Giáp",
-            "Trần Đình Phiên"
-        ],
-        "answer": "Đào Duy Anh"
-    },
-    {
-        "question": "Vụ xung đột nổi tiếng giữa cụ Huỳnh và một quan chức Pháp năm 1926–1927 tên là gì?",
-        "options": [
-            "Vụ Pasquier – Huỳnh Thúc Kháng",
-            "Vụ Jabouille – Huỳnh Thúc Kháng",
-            "Vụ Đơloa – Huỳnh Thúc Kháng",
-            "Vụ Varenne – Huỳnh Thúc Kháng"
-        ],
-        "answer": "Vụ Jabouille – Huỳnh Thúc Kháng"
-    },
-    {
-        "question": "Tờ báo Tiếng Dân ra số đầu tiên vào ngày nào?",
-        "options": [
-            "24-03-1927",
-            "10-10-1928",
-            "10-08-1927",
-            "01-01-1927"
-        ],
-        "answer": "10-08-1927"
-    },
-    {
-        "question": "Cụ Huỳnh Thúc Kháng trút hơi thở cuối cùng vào ngày nào?",
-        "options": [
-            "29-04-1947",
-            "19-04-1947",
-            "21-04-1947",
-            "01-05-1947"
-        ],
-        "answer": "21-04-1947"
-    },
-    {
-        "question": "Năm 1923, cụ Huỳnh Thúc Kháng đã trả lời thế nào khi Khâm sứ Pasquier mời làm việc tại Viện Bác cổ?",
-        "options": [
-            "Từ chối thẳng thừng vì không muốn làm quan",
-            "Đòi tăng lương cao",
-            "Chấp nhận ngay",
-            "Xin thời gian suy nghĩ"
-        ],
-        "answer": "Từ chối thẳng thừng vì không muốn làm quan"
-    }
+  {
+    "question": "Bài thơ cụ Huỳnh Thúc Kháng viết khi báo bị đình bản có câu \"Miệng vàng buộc chặt ba vòng sắt\", vòng sắt đó tượng trưng cho cái gì?",
+    "options": [
+      "Những quy định về in ấn",
+      "Vòng vây của mật thám",
+      "Sự bóp nghẹt quyền ngôn luận của thực dân Pháp",
+      "Sự khó khăn về kinh tế"
+    ],
+    "answer": "Sự bóp nghẹt quyền ngôn luận của thực dân Pháp"
+  },
+  {
+    "question": "Trong thời gian làm Quyền Chủ tịch nước, cụ Huỳnh Thúc Kháng đã ký bao nhiêu sắc lệnh?",
+    "options": [
+      "trên 100 sắc lệnh",
+      "dưới 66 sắc lệnh",
+      "dưới 100 sắc lệnh",
+      "90 sắc lệnh"
+    ],
+    "answer": "trên 100 sắc lệnh"
+  },
+  {
+    "question": "Thân phụ của cụ Huỳnh Thúc Kháng tên là gì?",
+    "options": [
+      "Huỳnh Văn Phương",
+      "Huỳnh Văn Lân",
+      "Huỳnh Văn Xuyên",
+      "Huỳnh Văn Lập"
+    ],
+    "answer": "Huỳnh Văn Phương"
+  },
+  {
+    "question": "Theo tâm nguyện, cụ Huỳnh Thúc Kháng được nhân dân an táng tại đâu?",
+    "options": [
+      "Núi Ngự Bình (Huế)",
+      "Nghĩa trang Mai Dịch",
+      "Đỉnh núi Thiên Ấn (Quảng Ngãi)",
+      "Quê nhà Thạnh Bình"
+    ],
+    "answer": "Đỉnh núi Thiên Ấn (Quảng Ngãi)"
+  },
+  {
+    "question": "Trong bức thư gửi đồng bào toàn quốc báo tin cụ Huỳnh Thúc Kháng qua đời, Bác Hồ đã ca ngợi cụ là người như thế nào?",
+    "options": [
+      "Người giàu sang không làm xiêu lòng, nghèo khổ không làm nản chí, oai vũ không làm sờn gan",
+      "Một chiến sĩ cộng sản kiên trung",
+      "Một người làm báo vĩ đại",
+      "Một nhà bác học lớn"
+    ],
+    "answer": "Người giàu sang không làm xiêu lòng, nghèo khổ không làm nản chí, oai vũ không làm sờn gan"
+  },
+  {
+    "question": "Tác phẩm kịch nào được cụ Huỳnh Thúc Kháng viết chung với Phan Châu Trinh và Phan Thúc Duyện trong tù?",
+    "options": [
+      "Tuồng Sơn Hậu",
+      "Tuồng Trưng Vương",
+      "Tuồng Quan Công",
+      "Vở kịch Nỗi lòng người đi"
+    ],
+    "answer": "Tuồng Trưng Vương"
+  },
+  {
+    "question": "Nhận xét của cụ Huỳnh Thúc Kháng về Bác Hồ sau một thời gian làm việc chung là gì?",
+    "options": [
+      "Là một nhà quân sự thuần túy",
+      "Một người rất khó gần",
+      "Chính trị, ngoại giao, kinh tế, cả quân sự, gồm đủ! Cụ Hồ thật là giỏi đủ mặt!",
+      "Chỉ giỏi về lý luận"
+    ],
+    "answer": "Chính trị, ngoại giao, kinh tế, cả quân sự, gồm đủ! Cụ Hồ thật là giỏi đủ mặt!"
+  },
+  {
+    "question": "Sau khi rời nghị trường, cụ Huỳnh Thúc Kháng tập trung vào công việc gì?",
+    "options": [
+      "Đi du lịch",
+      "Mở trường học",
+      "Tham gia khởi nghĩa",
+      "Làm báo Tiếng Dân"
+    ],
+    "answer": "Làm báo Tiếng Dân"
+  },
+  {
+    "question": "Báo Tiếng Dân bị thực dân Pháp ra lệnh đình bản vào ngày nào?",
+    "options": [
+      "19-12-1946",
+      "24-04-1943",
+      "10143",
+      "16477"
+    ],
+    "answer": "24-04-1943"
+  },
+  {
+    "question": "\"Lời vĩnh quyết\" của cụ Huỳnh Thúc Kháng gửi cho ai trước khi mất?",
+    "options": [
+      "Chủ tịch Hồ Chí Minh",
+      "Gia đình ở Tiên Phước",
+      "Phái đoàn Pháp",
+      "Những người bạn tù Côn Đảo"
+    ],
+    "answer": "Chủ tịch Hồ Chí Minh"
+  },
+  {
+    "question": "Chuyến \"Nam du\" của ba vị chí sĩ Duy Tân: Phan Châu Trinh, Huỳnh Thúc Kháng, Trần Quý Cáp diễn ra vào năm nào?",
+    "options": [
+      "1904",
+      "1905",
+      "1906",
+      "1907"
+    ],
+    "answer": "1905"
+  },
+  {
+    "question": "Lý do nào khiến cụ Huỳnh Thúc Kháng quyết định ra Hà Nội nhận chức sau khi nhận điện mời lần thứ hai của Chủ tịch Hồ Chí Minh?",
+    "options": [
+      "Do bị ép buộc bởi áp lực chính trị từ chính quyền cách mạng",
+      "Do sự kính trọng và tin tưởng tuyệt đối vào nhân cách, lý tưởng cứu nước của Chủ tịch Hồ Chí Minh",
+      "Do muốn tìm kiếm cơ hội thăng tiến trên con đường quan lộ",
+      "Do được hứa hẹn về lợi ích kinh tế cho gia đình và người thân"
+    ],
+    "answer": "Do sự kính trọng và tin tưởng tuyệt đối vào nhân cách, lý tưởng cứu nước của Chủ tịch Hồ Chí Minh"
+  },
+  {
+    "question": "Trong đơn gửi Khâm sứ Trung kỳ năm 1927 xin xuất bản báo Tiếng Dân, cụ Huỳnh Thúc Kháng đã đề nghị đặt trụ sở tòa soạn tại đâu?",
+    "options": [
+      "Hà Nội",
+      "Đà Nẵng",
+      "Sài Gòn",
+      "Huế"
+    ],
+    "answer": "Đà Nẵng"
+  },
+  {
+    "question": "Số phiếu cụ Huỳnh Thúc Kháng đạt được trong cuộc bầu cử dân biểu tại Quảng Nam là bao nhiêu?",
+    "options": [
+      "400/640 phiếu",
+      "100% phiếu bầu",
+      "500/640 phiếu",
+      "620/640 phiếu"
+    ],
+    "answer": "620/640 phiếu"
+  },
+  {
+    "question": "Nội dung của tập \"Thi tù tùng thoại\" là gì?",
+    "options": [
+      "Ghi chép về văn thơ và lịch sử trong chốn lao tù Côn Đảo",
+      "Lịch sử phong trào Cần vương",
+      "Các bài diễn văn tại Viện Dân biểu",
+      "Tuyển tập các bài xã luận báo Tiếng Dân"
+    ],
+    "answer": "Ghi chép về văn thơ và lịch sử trong chốn lao tù Côn Đảo"
+  },
+  {
+    "question": "Bộ ba lãnh đạo phong trào Duy Tân ở Trung Kỳ gồm những ai?",
+    "options": [
+      "Nguyễn Thành, Phan Bội Châu, Huỳnh Thúc Kháng",
+      "Phan Châu Trinh, Huỳnh Thúc Kháng, Trần Quý Cáp",
+      "Trần Văn Dư, Nguyễn Duy Hiệu, Huỳnh Thúc Kháng",
+      "Phan Bội Châu, Phan Châu Trinh, Huỳnh Thúc Kháng"
+    ],
+    "answer": "Phan Châu Trinh, Huỳnh Thúc Kháng, Trần Quý Cáp"
+  },
+  {
+    "question": "Cuộc đời cụ Huỳnh Thúc Kháng được coi là biểu tượng của điều gì trong lịch sử Việt Nam?",
+    "options": [
+      "Cái \"gạch nối\" lịch sử giữa phong trào yêu nước cũ và cách mạng vô sản",
+      "Sự trung thành tuyệt đối với triều đình",
+      "Nhà báo duy nhất không bị kiểm duyệt",
+      "Thành công của con đường bạo động"
+    ],
+    "answer": "Cái \"gạch nối\" lịch sử giữa phong trào yêu nước cũ và cách mạng vô sản"
+  },
+  {
+    "question": "Cụ Huỳnh Thúc Kháng gọi Bác Hồ là người như thế nào?",
+    "options": [
+      "Người thanh niên nhiệt huyết",
+      "Một nhà nho tài ba",
+      "Người tri kỷ, vị lãnh tụ thiên tài, anh hùng dân tộc",
+      "Một người bạn bình thường"
+    ],
+    "answer": "Người tri kỷ, vị lãnh tụ thiên tài, anh hùng dân tộc"
+  },
+  {
+    "question": "Sau khi đỗ Giải nguyên, cụ Huỳnh Thúc Kháng vẫn tiếp tục con đường học tập vì mục tiêu nào?",
+    "options": [
+      "Đi du học",
+      "Cống hiến cho đất nước và nhân dân",
+      "Giúp gia đình giàu có",
+      "Làm quan để hưởng bổng lộc"
+    ],
+    "answer": "Cống hiến cho đất nước và nhân dân"
+  },
+  {
+    "question": "Câu nói nổi tiếng Bác Hồ dặn cụ Huỳnh Thúc Kháng trước khi đi Pháp là gì?",
+    "options": [
+      "Đoàn kết, đoàn kết, đại đoàn kết",
+      "Quyết chiến quyết thắng",
+      "Dĩ bất biến ứng vạn biến",
+      "Không có gì quý hơn độc lập tự do"
+    ],
+    "answer": "Dĩ bất biến ứng vạn biến"
+  }
 ]

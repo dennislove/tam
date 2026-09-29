@@ -75,31 +75,38 @@ export const COORDINATES = {
     CUOC_THI_TRUC_TUYEN_CARD: { x: 360, y: 230, description: 'Mục Cuộc thi trực tuyến' },
     // Tab "Đang diễn ra"
     TAB_DANG_DIEN_RA: { x: 140, y: 165, description: 'Tab Đang diễn ra' },
-    // Banner cuộc thi đầu tiên: "Tuan 1_Cuộc thi Huỳnh Thúc Kháng"
-    EXAM_BANNER_FIRST: { x: 360, y: 460, description: 'Banner Cuộc thi Huỳnh Thúc Kháng' },
-    // Nút màu xanh lớn: "BẮT ĐẦU BÀI THI" hoặc "LÀM LẠI BÀI THI" (bounds [24, 665][696, 730] -> tâm x: 360, y: 698)
-    BTN_LAM_BAI_THI: { x: 360, y: 698, description: 'Nút BẮT ĐẦU BÀI THI / LÀM LẠI BÀI THI' },
+    // Banner cuộc thi đầu tiên (dùng làm fallback)
+    EXAM_BANNER_FIRST: { x: 360, y: 460, description: 'Banner Cuộc thi đầu tiên' },
+    // Banner cuộc thi Tuần 4 Huỳnh Thúc Kháng (sau khi cuộn xuống trang)
+    EXAM_BANNER_TUAN_3: { x: 360, y: 500, description: 'Banner Tuần 4_Cuộc thi Huỳnh Thúc Kháng' },
+    // Nút màu xanh lớn: "BẮT ĐẦU BÀI THI" hoặc "LÀM LẠI BÀI THI" (bounds [30, 830][690, 905] -> tâm x: 360, y: 868)
+    BTN_LAM_BAI_THI: { x: 360, y: 868, description: 'Nút BẮT ĐẦU BÀI THI / LÀM LẠI BÀI THI' },
   },
 
   // Bước 3: Màn hình làm 20 câu trắc nghiệm
   EXAM: {
-    // 4 lựa chọn đáp án A, B, C, D (tâm radio button tròn chuẩn)
+    // 4 lựa chọn đáp án A, B, C, D (tâm dòng đáp án chuẩn)
     OPTIONS: {
-      A: { x: 50, y: 475, description: 'Đáp án A' },
-      B: { x: 50, y: 545, description: 'Đáp án B' },
-      C: { x: 50, y: 615, description: 'Đáp án C' },
-      D: { x: 50, y: 685, description: 'Đáp án D' },
+      A: { x: 200, y: 475, description: 'Đáp án A' },
+      B: { x: 200, y: 545, description: 'Đáp án B' },
+      C: { x: 200, y: 615, description: 'Đáp án C' },
+      D: { x: 200, y: 685, description: 'Đáp án D' },
     },
+    // Nút icon Mũi tên sang trái '<' ở góc dưới cùng bên trái (bounds [27, 1164][170, 1247])
+    BTN_PREV_QUESTION: { x: 98, y: 1205, description: 'Nút mũi tên sang trái (<)' },
+    // Nút "DANH SÁCH CÂU HỎI" ở giữa thanh đáy (bounds [187, 1164][533, 1247])
+    BTN_DANH_SACH_CAU_HOI: { x: 360, y: 1205, description: 'Nút DANH SÁCH CÂU HỎI' },
     // Nút icon Mũi tên sang phải '>' ở góc dưới cùng bên phải để chuyển sang câu tiếp theo
     // Bounds [550, 1164][693, 1247] -> Tâm chuẩn (622, 1205)
     BTN_NEXT_QUESTION: { x: 622, y: 1205, description: 'Nút mũi tên sang phải (>)' },
-    // Nút xanh "NỘP BÀI" ở góc trên cùng bên phải màn hình (bounds [434, 150][686, 224] -> tâm x: 560, y: 187)
-    BTN_NOP_BAI: { x: 560, y: 187, description: 'Nút NỘP BÀI (góc trên phải)' },
-    // Popup xác nhận nộp bài: Nút xanh "NỘP BÀI" (bounds [368, 594][594, 670] -> tâm x: 480, y: 632)
-    POPUP_CONFIRM_DONG_Y: { x: 480, y: 632, description: 'Nút Nộp bài trên popup xác nhận' },
-    // Popup xác nhận: Nút xám "QUAY LẠI" (bounds [126, 594][352, 670] -> tâm x: 240, y: 632)
-    POPUP_QUAY_LAI: { x: 240, y: 632, description: 'Nút QUAY LẠI trên popup xác nhận' },
-    // Popup thông báo nộp bài thành công: Nút xanh "XEM KẾT QUẢ" (bounds [120, 694][600, 774] -> tâm x: 360, y: 734)
-    POPUP_XEM_KET_QUA: { x: 360, y: 734, description: 'Nút XEM KẾT QUẢ' },
+    // Nút xanh "NỘP BÀI" ở góc trên bên phải (bên cạnh đồng hồ đếm ngược)
+    // Bounds thực tế trên 720x1280: [437, 189][689, 281] -> Tâm chuẩn (563, 235)
+    BTN_NOP_BAI: { x: 563, y: 235, description: 'Nút NỘP BÀI (góc trên phải)' },
+    // Popup xác nhận nộp bài: Nút xanh "NỘP BÀI" bên phải (bounds [365, 768][587, 863] -> tâm x: 476, y: 815)
+    POPUP_CONFIRM_DONG_Y: { x: 476, y: 815, description: 'Nút NỘP BÀI trên popup xác nhận (bên phải)' },
+    // Popup xác nhận: Nút xám "QUAY LẠI" bên trái (bounds [133, 768][355, 863] -> tâm x: 211, y: 815)
+    POPUP_QUAY_LAI: { x: 211, y: 815, description: 'Nút QUAY LẠI trên popup xác nhận (bên trái)' },
+    // Popup thông báo nộp bài thành công: Nút xanh "XEM KẾT QUẢ" (bounds [129, 892][592, 987] -> tâm x: 361, y: 939)
+    POPUP_XEM_KET_QUA: { x: 361, y: 939, description: 'Nút XEM KẾT QUẢ' },
   },
 };

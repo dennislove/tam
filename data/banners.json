@@ -1,0 +1,45 @@
+{
+  "activeBannerId": "banner_4",
+  "banners": [
+    {
+      "id": "banner_1",
+      "key": 1,
+      "title": "Phần thi 1 (Banner 1)",
+      "description": "Ngân hàng đáp án phần thi 1",
+      "fileName": "answers_banner_1.json",
+      "totalQuestions": 0
+    },
+    {
+      "id": "banner_2",
+      "key": 2,
+      "title": "Phần thi 2 (Banner 2)",
+      "description": "Ngân hàng đáp án phần thi 2",
+      "fileName": "answers_banner_2.json",
+      "totalQuestions": 0
+    },
+    {
+      "id": "banner_3",
+      "key": 3,
+      "title": "Phần thi 3 (Banner 3)",
+      "description": "Ngân hàng đáp án phần thi 3",
+      "fileName": "answers_banner_3.json",
+      "totalQuestions": 0
+    },
+    {
+      "id": "banner_4",
+      "key": 4,
+      "title": "Phần thi 4 - Huỳnh Thúc Kháng (Banner 4)",
+      "description": "Cuộc thi tìm hiểu về Cụ Huỳnh Thúc Kháng",
+      "fileName": "answers_banner_4.json",
+      "totalQuestions": 20
+    },
+    {
+      "id": "banner_5",
+      "key": 5,
+      "title": "Phần thi 5 (Banner 5)",
+      "description": "Ngân hàng đáp án phần thi 5",
+      "fileName": "answers_banner_5.json",
+      "totalQuestions": 0
+    }
+  ]
+}
