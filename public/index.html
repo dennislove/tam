@@ -151,7 +151,7 @@
               <button class="btn btn-primary btn-lg" id="btn-start-run">
                 <span class="icon">▶</span> BẮT ĐẦU CHẠY
               </button>
-              <button class="btn btn-danger btn-lg hidden" id="btn-stop-run">
+              <button class="btn btn-emergency btn-lg hidden" id="btn-stop-run">
                 <span class="icon">⏹</span> DỪNG LẠI
               </button>
               <button class="btn btn-outline-cyan btn-lg" id="btn-run-failed-only" title="Chạy lại những tài khoản bị lỗi">
@@ -334,25 +334,7 @@
     </div>
   </main>
 
-  <!-- ========================================== -->
-  <!-- MODAL: XEM ẢNH KẾT QUẢ PHÓNG TO -->
-  <!-- ========================================== -->
-  <div class="modal hidden" id="modal-screenshot-preview">
-    <div class="modal-backdrop"></div>
-    <div class="modal-content modal-lg">
-      <div class="modal-header">
-        <h3 class="modal-title" id="modal-screenshot-title">Ảnh Chụp Kết Quả Bài Thi</h3>
-        <button class="modal-close" id="btn-close-screenshot-modal">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <img src="" id="img-screenshot-full" alt="Ảnh chụp kết quả" class="screenshot-full-preview">
-      </div>
-      <div class="modal-footer">
-        <a href="" target="_blank" class="btn btn-secondary btn-sm" id="btn-download-screenshot">Mở Trong Tab Mới</a>
-        <button class="btn btn-primary btn-sm" id="btn-dismiss-screenshot-modal">Đóng</button>
-      </div>
-    </div>
-  </div>
+
 
 
   <!-- ========================================== -->
@@ -406,6 +388,39 @@
     </div>
   </div>
 
-  <script src="app.js?v=2.1.0"></script>
+  <!-- ========================================== -->
+  <!-- MODAL: XÁC THỰC MẬT KHẨU QUẢN TRỊ -->
+  <!-- ========================================== -->
+  <div class="modal hidden" id="modal-auth-gate">
+    <div class="modal-backdrop" id="modal-auth-backdrop"></div>
+    <div class="modal-content modal-sm" style="max-width:420px;">
+      <div class="modal-header" style="border-bottom:1px solid rgba(255,255,255,0.1);">
+        <h3 class="modal-title" style="display:flex;align-items:center;gap:8px;">
+          <span>🔒</span> Xác Thực Quản Trị
+        </h3>
+      </div>
+      <div class="modal-body" style="padding:24px 28px;">
+        <p style="color:var(--text-secondary);margin-bottom:16px;font-size:0.9rem;">
+          Vui lòng nhập mật khẩu để thực hiện thao tác này.
+        </p>
+        <div class="form-group">
+          <label for="input-auth-password" style="font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;display:block;">Mật khẩu:</label>
+          <input type="password" id="input-auth-password" class="form-control"
+            placeholder="Nhập mật khẩu quản trị..."
+            style="font-size:1rem;letter-spacing:0.1em;"
+            autocomplete="current-password">
+          <p id="auth-error-msg" style="color:#f43f5e;font-size:0.82rem;margin-top:8px;display:none;">
+            ❌ Mật khẩu không đúng! Vui lòng thử lại.
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="btn-auth-cancel">Hủy Bỏ</button>
+        <button class="btn btn-primary btn-sm" id="btn-auth-confirm">🔓 Xác Nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=2.2.0"></script>
 </body>
 </html>

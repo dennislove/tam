@@ -133,12 +133,6 @@
     btnSaveCurrentBannerAnswers: document.getElementById('btn-save-current-banner-answers'),
 
     // Modals
-    modalScreenshotPreview: document.getElementById('modal-screenshot-preview'),
-    imgScreenshotFull: document.getElementById('img-screenshot-full'),
-    btnDownloadScreenshot: document.getElementById('btn-download-screenshot'),
-    btnCloseScreenshotModal: document.getElementById('btn-close-screenshot-modal'),
-    btnDismissScreenshotModal: document.getElementById('btn-dismiss-screenshot-modal'),
-
     modalJsonAccounts: document.getElementById('modal-json-accounts'),
     textareaJsonAccounts: document.getElementById('textarea-json-accounts'),
     btnCancelJsonAccounts: document.getElementById('btn-cancel-json-accounts'),
@@ -170,6 +164,88 @@
       if (targetPane) targetPane.classList.add('active');
     });
   });
+
+  // ============================================================
+  // AUTH GATE — XÁC THỰC MẬT KHẨU QUẢN TRỊ
+  // ============================================================
+  const AUTH_KEY = 'tnvn_admin_authed';
+  const CORRECT_HASH = btoa('Dennis0923#'); // base64 cơ bản, đủ để ngăn người dùng thường
+
+  function isAuthed() {
+    return localStorage.getItem(AUTH_KEY) === CORRECT_HASH;
+  }
+
+  function goToDashboard() {
+    document.getElementById('tab-nav-dashboard').click();
+  }
+
+  /**
+   * requireAuth(callback)
+   * Nếu đã xác thực rồi → gọi callback ngay.
+   * Nếu chưa → hiện modal nhập pass.
+   * Nếu hủy/đóng → redirect về tab Điều khiển.
+   */
+  function requireAuth(callback) {
+    if (isAuthed()) {
+      callback();
+      return;
+    }
+
+    const modal = document.getElementById('modal-auth-gate');
+    const input = document.getElementById('input-auth-password');
+    const errorMsg = document.getElementById('auth-error-msg');
+    const btnConfirm = document.getElementById('btn-auth-confirm');
+    const btnCancel = document.getElementById('btn-auth-cancel');
+    const backdrop = document.getElementById('modal-auth-backdrop');
+
+    // Reset state
+    input.value = '';
+    errorMsg.style.display = 'none';
+    modal.classList.remove('hidden');
+    setTimeout(() => input.focus(), 100);
+
+    function closeModal(proceed) {
+      modal.classList.add('hidden');
+      input.value = '';
+      errorMsg.style.display = 'none';
+      btnConfirm.removeEventListener('click', onConfirm);
+      btnCancel.removeEventListener('click', onCancel);
+      backdrop.removeEventListener('click', onCancel);
+      input.removeEventListener('keydown', onKeydown);
+      if (proceed) {
+        callback();
+      } else {
+        // Bỏ qua → về tab Điều khiển
+        goToDashboard();
+      }
+    }
+
+    function onConfirm() {
+      const val = input.value;
+      if (btoa(val) === CORRECT_HASH) {
+        localStorage.setItem(AUTH_KEY, CORRECT_HASH);
+        closeModal(true);
+      } else {
+        errorMsg.style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    function onCancel() {
+      closeModal(false);
+    }
+
+    function onKeydown(e) {
+      if (e.key === 'Enter') onConfirm();
+      if (e.key === 'Escape') onCancel();
+    }
+
+    btnConfirm.addEventListener('click', onConfirm);
+    btnCancel.addEventListener('click', onCancel);
+    backdrop.addEventListener('click', onCancel);
+    input.addEventListener('keydown', onKeydown);
+  }
 
   // ============================================================
   // SERVER-SENT EVENTS (SSE) STREAM
@@ -496,31 +572,33 @@
 
   // Lưu ngân hàng đáp án hiện tại
   if (dom.btnSaveCurrentBannerAnswers) {
-    dom.btnSaveCurrentBannerAnswers.addEventListener('click', async () => {
-      try {
-        const parsed = JSON.parse(dom.textareaJsonAnswers.value);
-        if (!Array.isArray(parsed)) {
-          return alert('Dữ liệu đáp án phải là một mảng JSON các câu hỏi!');
-        }
+    dom.btnSaveCurrentBannerAnswers.addEventListener('click', () => {
+      requireAuth(async () => {
+        try {
+          const parsed = JSON.parse(dom.textareaJsonAnswers.value);
+          if (!Array.isArray(parsed)) {
+            return alert('Dữ liệu đáp án phải là một mảng JSON các câu hỏi!');
+          }
 
-        const res = await fetch(`/api/banners/${state.currentBannerId}/answers`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ answers: parsed }),
-        });
-        const data = await res.json();
-        if (data.success) {
-          state.bannerAnswers = parsed;
-          updateJsonAnswersStatus(parsed.length);
-          await loadBanners();
-          const banner = state.banners.find((b) => b.id === state.currentBannerId);
-          alert(`✔ Đã lưu thành công ${parsed.length} câu hỏi cho [${banner ? banner.title : state.currentBannerId}]!`);
-        } else {
-          alert('Lỗi lưu đáp án: ' + (data.message || 'Không xác định'));
+          const res = await fetch(`/api/banners/${state.currentBannerId}/answers`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ answers: parsed }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            state.bannerAnswers = parsed;
+            updateJsonAnswersStatus(parsed.length);
+            await loadBanners();
+            const banner = state.banners.find((b) => b.id === state.currentBannerId);
+            alert(`✔ Đã lưu thành công ${parsed.length} câu hỏi cho [${banner ? banner.title : state.currentBannerId}]!`);
+          } else {
+            alert('Lỗi lưu đáp án: ' + (data.message || 'Không xác định'));
+          }
+        } catch (err) {
+          alert('Lỗi: Cú pháp JSON chưa hợp lệ! ' + err.message);
         }
-      } catch (err) {
-        alert('Lỗi: Cú pháp JSON chưa hợp lệ! ' + err.message);
-      }
+      });
     });
   }
 
@@ -571,27 +649,28 @@
     if (!newTitle) {
       return alert('Vui lòng nhập tên phần thi!');
     }
-
-    try {
-      const res = await fetch(`/api/banners/${state.currentBannerId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: newTitle }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        const meta = state.banners.find((b) => b.id === state.currentBannerId);
-        if (meta) meta.title = newTitle;
-        renderBannerDropdown();
-        renderBannerSubtabs();
-        updateActiveBannerEditorHeader(meta);
-        closeRenameBanner();
-      } else {
-        alert('Lỗi: Không thể lưu tên phần thi mới!');
+    requireAuth(async () => {
+      try {
+        const res = await fetch(`/api/banners/${state.currentBannerId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title: newTitle }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          const meta = state.banners.find((b) => b.id === state.currentBannerId);
+          if (meta) meta.title = newTitle;
+          renderBannerDropdown();
+          renderBannerSubtabs();
+          updateActiveBannerEditorHeader(meta);
+          closeRenameBanner();
+        } else {
+          alert('Lỗi: Không thể lưu tên phần thi mới!');
+        }
+      } catch (err) {
+        alert('Lỗi cập nhật tên banner: ' + err.message);
       }
-    } catch (err) {
-      alert('Lỗi cập nhật tên banner: ' + err.message);
-    }
+    });
   }
 
   if (dom.btnOpenRename) {
@@ -624,15 +703,22 @@
   // Bật / tắt hiển thị khung nhập đáp án JSON
   if (dom.btnToggleJsonEditor && dom.jsonEditorContainer) {
     dom.btnToggleJsonEditor.addEventListener('click', () => {
-      const isHidden = dom.jsonEditorContainer.classList.toggle('hidden');
-      if (isHidden) {
-        dom.btnToggleJsonEditor.innerHTML = '👁️ Xem / Sửa Đáp Án JSON';
+      const isCurrentlyHidden = dom.jsonEditorContainer.classList.contains('hidden');
+      if (isCurrentlyHidden) {
+        // Đang đóng → muốn MỞ → yêu cầu xác thực
+        requireAuth(() => {
+          dom.jsonEditorContainer.classList.remove('hidden');
+          dom.btnToggleJsonEditor.innerHTML = '🙈 Thu Gọn Khung JSON';
+          dom.jsonEditorContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
       } else {
-        dom.btnToggleJsonEditor.innerHTML = '🙈 Thu Gọn Khung JSON';
-        dom.jsonEditorContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Đang mở → THU GỌN → không cần xác thực
+        dom.jsonEditorContainer.classList.add('hidden');
+        dom.btnToggleJsonEditor.innerHTML = '👁️ Xem / Sửa Đáp Án JSON';
       }
     });
   }
+
 
   // ============================================================
   // ACCOUNTS MANAGEMENT
@@ -723,12 +809,8 @@
       const durationStr = acc.durationMs ? `${(acc.durationMs / 1000).toFixed(1)}s` : '--';
 
       let noteHtml = '';
-      if (acc.screenshotPath) {
-        const fileName = acc.screenshotPath.split(/[/\\]/).pop();
-        noteHtml += `<button class="btn-icon-action btn-view-screenshot" data-img="/screenshots/${fileName}" title="Xem ảnh kết quả">📸 Xem ảnh</button>`;
-      }
       if (acc.error) {
-        noteHtml += `<span class="text-red" title="${escapeHtml(acc.error)}">⚠️ ${escapeHtml(acc.error.slice(0, 25))}...</span>`;
+        noteHtml += `<span class="text-red" title="${escapeHtml(acc.error)}">⚠️ ${escapeHtml(acc.error.slice(0, 40))}...</span>`;
       }
       if (!noteHtml) noteHtml = '<span class="text-muted">--</span>';
 
@@ -777,20 +859,14 @@
         startExecution({ usernames: [acc.username] });
       });
 
-      tr.querySelector('.btn-delete-acc').addEventListener('click', async () => {
-        if (confirm(`Bạn có chắc muốn xóa tài khoản ${acc.username}?`)) {
-          await fetch(`/api/accounts/${encodeURIComponent(acc.username)}`, { method: 'DELETE' });
-          loadAccounts();
-        }
-      });
-
-      const btnScreenshot = tr.querySelector('.btn-view-screenshot');
-      if (btnScreenshot) {
-        btnScreenshot.addEventListener('click', (e) => {
-          const imgUrl = e.currentTarget.getAttribute('data-img');
-          openScreenshotModal(imgUrl, acc.username);
+      tr.querySelector('.btn-delete-acc').addEventListener('click', () => {
+        requireAuth(async () => {
+          if (confirm(`Bạn có chắc muốn xóa tài khoản ${acc.username}?`)) {
+            await fetch(`/api/accounts/${encodeURIComponent(acc.username)}`, { method: 'DELETE' });
+            loadAccounts();
+          }
         });
-      }
+      });
 
       tbody.appendChild(tr);
     });
@@ -836,16 +912,20 @@
   });
 
   // Reset statuses
-  dom.btnResetAllStatuses.addEventListener('click', async () => {
-    await fetch('/api/accounts/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
-    loadAccounts();
+  dom.btnResetAllStatuses.addEventListener('click', () => {
+    requireAuth(async () => {
+      await fetch('/api/accounts/reset', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+      loadAccounts();
+    });
   });
 
   // Modal Add Single Account
   dom.btnOpenAddAccModal.addEventListener('click', () => {
-    dom.inputNewAccUsername.value = '';
-    dom.inputNewAccPassword.value = '';
-    dom.modalAddAccount.classList.remove('hidden');
+    requireAuth(() => {
+      dom.inputNewAccUsername.value = '';
+      dom.inputNewAccPassword.value = '';
+      dom.modalAddAccount.classList.remove('hidden');
+    });
   });
 
   dom.btnCloseAddAccModal.addEventListener('click', () => dom.modalAddAccount.classList.add('hidden'));
@@ -876,12 +956,14 @@
 
   // Modal Import / Edit JSON Accounts
   dom.btnOpenImportAccModal.addEventListener('click', () => {
-    const rawList = state.accounts.map((a) => ({
-      username: a.username,
-      password: a.password,
-    }));
-    dom.textareaJsonAccounts.value = JSON.stringify(rawList, null, 2);
-    dom.modalJsonAccounts.classList.remove('hidden');
+    requireAuth(() => {
+      const rawList = state.accounts.map((a) => ({
+        username: a.username,
+        password: a.password,
+      }));
+      dom.textareaJsonAccounts.value = JSON.stringify(rawList, null, 2);
+      dom.modalJsonAccounts.classList.remove('hidden');
+    });
   });
 
   dom.btnCloseJsonAccountsModal.addEventListener('click', () => dom.modalJsonAccounts.classList.add('hidden'));
@@ -910,18 +992,6 @@
     }
   });
 
-  // ============================================================
-  // SCREENSHOT PREVIEW MODAL
-  // ============================================================
-  function openScreenshotModal(imgUrl, username) {
-    dom.imgScreenshotFull.src = imgUrl;
-    dom.btnDownloadScreenshot.href = imgUrl;
-    document.getElementById('modal-screenshot-title').textContent = `Kết Quả Bài Thi - ${username}`;
-    dom.modalScreenshotPreview.classList.remove('hidden');
-  }
-
-  dom.btnCloseScreenshotModal.addEventListener('click', () => dom.modalScreenshotPreview.classList.add('hidden'));
-  dom.btnDismissScreenshotModal.addEventListener('click', () => dom.modalScreenshotPreview.classList.add('hidden'));
 
   // ============================================================
   // DEVICES
@@ -1010,9 +1080,7 @@
   dom.btnStartRun.addEventListener('click', () => startExecution());
 
   dom.btnStopRun.addEventListener('click', async () => {
-    if (confirm('Bạn có chắc chắn muốn DỪNG TIẾN TRÌNH THI?')) {
-      await fetch('/api/action/stop', { method: 'POST' });
-    }
+    await fetch('/api/action/stop', { method: 'POST' });
   });
 
   // Resume when paused at banner selection

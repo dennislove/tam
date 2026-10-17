@@ -705,6 +705,27 @@ select.form-control option {
   box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
 }
 
+.btn-emergency {
+  background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 50%, #ef4444 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6);
+  border: 2px solid rgba(255, 100, 100, 0.5);
+  animation: emergency-pulse 1.2s ease-in-out infinite;
+  letter-spacing: 0.03em;
+}
+
+.btn-emergency:hover {
+  background: linear-gradient(135deg, #991b1b 0%, #ef4444 50%, #f87171 100%);
+  box-shadow: 0 6px 30px rgba(220, 38, 38, 0.85);
+  filter: brightness(1.1);
+  animation: none;
+}
+
+@keyframes emergency-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6); }
+  50% { box-shadow: 0 4px 35px rgba(220, 38, 38, 0.95), 0 0 15px rgba(255, 80, 80, 0.4); }
+}
+
 .btn-secondary {
   background: rgba(255, 255, 255, 0.08);
   color: var(--text-main);
