@@ -8,11 +8,13 @@ export type RunnerStatus = 'idle' | 'running' | 'waiting_banner' | 'stopping';
 
 export interface StartRunOptions {
   bannerId?: string;
+  lotId?: string;
   startFromIndex?: number;
   usernames?: string[];
   deviceSerial?: string;
   concurrency?: number;
   fixedAnswer?: 'A' | 'B' | 'C' | 'D' | 'RANDOM';
+  speedMode?: 'fast' | 'normal' | 'safe';
 }
 
 export class TaskRunner {
@@ -47,7 +49,7 @@ export class TaskRunner {
   public getStatus() {
     return {
       status: this.status,
-      activeBannerId: this.activeBannerId,
+      activeBannerId: bannerManager.getActiveBannerId() || this.activeBannerId,
       currentAccount: this.currentAccountUsername,
       currentDevice: this.currentDeviceSerial,
       waitingDetails: this.waitingDetails,
@@ -57,6 +59,11 @@ export class TaskRunner {
         failed: this.failedCount,
       },
     };
+  }
+
+  public setActiveBannerId(bannerId: string): void {
+    this.activeBannerId = bannerId;
+    this.broadcastState();
   }
 
   private broadcastState(): void {
@@ -78,11 +85,11 @@ export class TaskRunner {
     // 1. Xác định Banner và nạp đáp án tương ứng
     const bannerId = options.bannerId || bannerManager.getActiveBannerId();
     this.activeBannerId = bannerId;
-    bannerManager.setActiveBannerId(bannerId);
+    await bannerManager.setActiveBannerId(bannerId);
 
-    const banners = bannerManager.getBanners();
+    const banners = await bannerManager.getBanners();
     const currentBanner = banners.find((b) => b.id === bannerId);
-    const bannerAnswers = bannerManager.getBannerAnswers(bannerId);
+    const bannerAnswers = await bannerManager.getBannerAnswers(bannerId);
     const bannerTitle = currentBanner ? currentBanner.title : bannerId;
 
     eventBus.broadcastLog({
@@ -115,18 +122,21 @@ export class TaskRunner {
     }
 
     // 3. Chuẩn bị danh sách tài khoản cần chạy
-    const allAccounts = accountManager.getAccounts();
+    const allAccounts = await accountManager.getAccounts(options.lotId);
+    if (options.lotId) {
+      eventBus.broadcastLog({
+        message: `📦 Đang chạy tài khoản thuộc lô [${options.lotId}] (${allAccounts.length} tài khoản)...`,
+        color: 'cyan',
+      });
+    }
     let accountsToRun: ManagedAccount[] = [];
 
     if (options.usernames && options.usernames.length > 0) {
-      // Chạy theo danh sách username được chỉ định (hoặc chạy lại acc lỗi)
       const usernameSet = new Set(options.usernames);
       accountsToRun = allAccounts.filter((a) => usernameSet.has(a.username));
     } else if (options.startFromIndex && options.startFromIndex > 1) {
-      // Chạy từ STT được chọn đến hết danh sách
       accountsToRun = allAccounts.slice(options.startFromIndex - 1);
     } else {
-      // Chạy tất cả
       accountsToRun = [...allAccounts];
     }
 
@@ -185,13 +195,13 @@ export class TaskRunner {
           answersData: bannerAnswers,
           bannerTitle,
           abortSignal: this.abortSignal,
+          speedMode: options.speedMode || 'fast',
         });
 
         if (result.success) {
           this.completedCount++;
           accountManager.updateStatus(account.username, 'success', {
             durationMs: result.durationMs,
-            screenshotPath: result.screenshotPath,
           });
         } else {
           this.failedCount++;

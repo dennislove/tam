@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import 'dotenv/config';
+import { supabase } from './supabaseClient.js';
 import { AnswerItem } from './examSolver.js';
 
 export interface BannerInfo {
@@ -7,215 +7,148 @@ export interface BannerInfo {
   key: number;
   title: string;
   description: string;
-  fileName: string;
+  isActive: boolean;
   totalQuestions: number;
 }
 
 export class BannerManager {
-  private dataDir: string;
-  private bannersMetaPath: string;
-  private activeBannerId: string = 'banner_1';
-
-  constructor() {
-    this.dataDir = path.resolve(process.cwd(), 'data');
-    this.bannersMetaPath = path.join(this.dataDir, 'banners.json');
-    this.ensureInitialized();
-  }
+  private activeBannerId: string = 'banner_4';
 
   /**
-   * Khởi tạo thư mục data và 5 file đáp án mẫu nếu chưa tồn tại
+   * Lấy danh sách tất cả banner từ Supabase
    */
-  public ensureInitialized(): void {
-    if (!fs.existsSync(this.dataDir)) {
-      fs.mkdirSync(this.dataDir, { recursive: true });
-    }
+  public async getBanners(): Promise<BannerInfo[]> {
+    const { data, error } = await supabase
+      .from('banners')
+      .select('*')
+      .order('key');
 
-    // Đọc đáp án gốc từ answers.json nếu có để làm dữ liệu khởi đầu
-    let rootAnswers: AnswerItem[] = [];
-    const rootAnswersPath = path.resolve(process.cwd(), 'answers.json');
-    if (fs.existsSync(rootAnswersPath)) {
-      try {
-        rootAnswers = JSON.parse(fs.readFileSync(rootAnswersPath, 'utf-8'));
-      } catch {
-        rootAnswers = [];
-      }
-    }
-
-    const defaultBanners: BannerInfo[] = [
-      {
-        id: 'banner_1',
-        key: 1,
-        title: 'Phần thi 1 (Banner 1)',
-        description: 'Ngân hàng đáp án phần thi 1',
-        fileName: 'answers_banner_1.json',
-        totalQuestions: 0,
-      },
-      {
-        id: 'banner_2',
-        key: 2,
-        title: 'Phần thi 2 (Banner 2)',
-        description: 'Ngân hàng đáp án phần thi 2',
-        fileName: 'answers_banner_2.json',
-        totalQuestions: 0,
-      },
-      {
-        id: 'banner_3',
-        key: 3,
-        title: 'Phần thi 3 (Banner 3)',
-        description: 'Ngân hàng đáp án phần thi 3',
-        fileName: 'answers_banner_3.json',
-        totalQuestions: 0,
-      },
-      {
-        id: 'banner_4',
-        key: 4,
-        title: 'Phần thi 4 - Huỳnh Thúc Kháng (Banner 4)',
-        description: 'Cuộc thi tìm hiểu về Cụ Huỳnh Thúc Kháng',
-        fileName: 'answers_banner_4.json',
-        totalQuestions: rootAnswers.length,
-      },
-      {
-        id: 'banner_5',
-        key: 5,
-        title: 'Phần thi 5 (Banner 5)',
-        description: 'Ngân hàng đáp án phần thi 5',
-        fileName: 'answers_banner_5.json',
-        totalQuestions: 0,
-      },
-    ];
-
-    // Tạo các file answers cho từng banner nếu chưa có
-    defaultBanners.forEach((b) => {
-      const filePath = path.join(this.dataDir, b.fileName);
-      if (!fs.existsSync(filePath)) {
-        if (b.id === 'banner_4' && rootAnswers.length > 0) {
-          fs.writeFileSync(filePath, JSON.stringify(rootAnswers, null, 2), 'utf-8');
-        } else {
-          fs.writeFileSync(filePath, JSON.stringify([], null, 2), 'utf-8');
-        }
-      }
-    });
-
-    if (!fs.existsSync(this.bannersMetaPath)) {
-      fs.writeFileSync(this.bannersMetaPath, JSON.stringify({ activeBannerId: 'banner_4', banners: defaultBanners }, null, 2), 'utf-8');
-      this.activeBannerId = 'banner_4';
-    } else {
-      try {
-        const meta = JSON.parse(fs.readFileSync(this.bannersMetaPath, 'utf-8'));
-        if (meta.activeBannerId) {
-          this.activeBannerId = meta.activeBannerId;
-        }
-      } catch {}
-    }
-  }
-
-  /**
-   * Lấy danh sách 5 banner và đếm số câu hỏi thực tế trong từng file
-   */
-  public getBanners(): BannerInfo[] {
-    this.ensureInitialized();
-    try {
-      const meta = JSON.parse(fs.readFileSync(this.bannersMetaPath, 'utf-8'));
-      const banners: BannerInfo[] = meta.banners || [];
-
-      // Cập nhật số lượng câu hỏi thực tế
-      banners.forEach((b) => {
-        const filePath = path.join(this.dataDir, b.fileName);
-        if (fs.existsSync(filePath)) {
-          try {
-            const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-            b.totalQuestions = Array.isArray(data) ? data.length : 0;
-          } catch {
-            b.totalQuestions = 0;
-          }
-        } else {
-          b.totalQuestions = 0;
-        }
-      });
-
-      return banners;
-    } catch {
+    if (error) {
+      console.error('[BannerManager] Lỗi lấy banners:', error.message);
       return [];
     }
+
+    // Cập nhật activeBannerId từ DB
+    const active = data?.find((b) => b.is_active);
+    if (active) this.activeBannerId = active.id;
+
+    return (data || []).map((b) => ({
+      id: b.id,
+      key: b.key,
+      title: b.title,
+      description: b.description,
+      isActive: b.is_active,
+      totalQuestions: b.total_questions,
+    }));
   }
 
-  /**
-   * Lấy banner đang kích hoạt
-   */
   public getActiveBannerId(): string {
     return this.activeBannerId;
   }
 
-  public setActiveBannerId(id: string): void {
-    const banners = this.getBanners();
-    if (banners.some((b) => b.id === id)) {
-      this.activeBannerId = id;
-      try {
-        const meta = JSON.parse(fs.readFileSync(this.bannersMetaPath, 'utf-8'));
-        meta.activeBannerId = id;
-        fs.writeFileSync(this.bannersMetaPath, JSON.stringify(meta, null, 2), 'utf-8');
-      } catch {}
+  /**
+   * Đặt banner active (trigger DB sẽ tự unset các banner khác)
+   */
+  public async setActiveBannerId(id: string): Promise<boolean> {
+    const { error } = await supabase
+      .from('banners')
+      .update({ is_active: true })
+      .eq('id', id);
+
+    if (error) {
+      console.error('[BannerManager] Lỗi setActive:', error.message);
+      return false;
     }
+    this.activeBannerId = id;
+    return true;
   }
 
   /**
-   * Đọc danh sách câu hỏi đáp án của 1 banner
+   * Lấy danh sách đáp án của 1 banner
    */
-  public getBannerAnswers(bannerId: string): AnswerItem[] {
-    const banners = this.getBanners();
-    const target = banners.find((b) => b.id === bannerId);
-    if (!target) return [];
+  public async getBannerAnswers(bannerId: string): Promise<AnswerItem[]> {
+    const { data, error } = await supabase
+      .from('banner_answers')
+      .select('question, options, answer')
+      .eq('banner_id', bannerId)
+      .order('sort_order');
 
-    const filePath = path.join(this.dataDir, target.fileName);
-    if (!fs.existsSync(filePath)) return [];
-
-    try {
-      const content = fs.readFileSync(filePath, 'utf-8');
-      return JSON.parse(content);
-    } catch {
+    if (error) {
+      console.error('[BannerManager] Lỗi lấy đáp án:', error.message);
       return [];
     }
+
+    return (data || []).map((row) => ({
+      question: row.question,
+      options: Array.isArray(row.options) ? row.options : JSON.parse(row.options),
+      answer: row.answer,
+    }));
   }
 
   /**
-   * Lưu danh sách câu hỏi đáp án cho 1 banner
+   * Lưu (replace hoàn toàn) đáp án cho 1 banner
    */
-  public saveBannerAnswers(bannerId: string, answers: AnswerItem[]): boolean {
-    const banners = this.getBanners();
-    const target = banners.find((b) => b.id === bannerId);
-    if (!target) return false;
+  public async saveBannerAnswers(bannerId: string, answers: AnswerItem[]): Promise<boolean> {
+    // Xóa hết câu cũ, insert lại toàn bộ
+    const { error: delError } = await supabase
+      .from('banner_answers')
+      .delete()
+      .eq('banner_id', bannerId);
 
-    const filePath = path.join(this.dataDir, target.fileName);
-    try {
-      fs.writeFileSync(filePath, JSON.stringify(answers, null, 2), 'utf-8');
-      
-      // Đồng thời nếu là banner đang active thì có thể đồng bộ sang answers.json root để CLI cũ vẫn chạy được
-      if (bannerId === this.activeBannerId) {
-        fs.writeFileSync(path.resolve(process.cwd(), 'answers.json'), JSON.stringify(answers, null, 2), 'utf-8');
-      }
-      return true;
-    } catch {
+    if (delError) {
+      console.error('[BannerManager] Lỗi xóa đáp án cũ:', delError.message);
       return false;
     }
+
+    if (answers.length === 0) return true;
+
+    const rows = answers.map((a, idx) => ({
+      banner_id: bannerId,
+      question: a.question,
+      options: a.options,
+      answer: a.answer,
+      sort_order: idx,
+    }));
+
+    const { error: insError } = await supabase.from('banner_answers').insert(rows);
+    if (insError) {
+      console.error('[BannerManager] Lỗi lưu đáp án:', insError.message);
+      return false;
+    }
+    return true;
   }
 
   /**
-   * Cập nhật thông tin tiêu đề / mô tả banner
+   * Cập nhật tiêu đề / mô tả banner
    */
-  public updateBannerMeta(bannerId: string, data: { title?: string; description?: string }): boolean {
-    try {
-      const meta = JSON.parse(fs.readFileSync(this.bannersMetaPath, 'utf-8'));
-      const banner = (meta.banners as BannerInfo[]).find((b) => b.id === bannerId);
-      if (!banner) return false;
+  public async updateBannerMeta(
+    bannerId: string,
+    data: { title?: string; description?: string }
+  ): Promise<boolean> {
+    const updates: Record<string, string> = {};
+    if (data.title) updates.title = data.title;
+    if (data.description) updates.description = data.description;
 
-      if (data.title) banner.title = data.title;
-      if (data.description) banner.description = data.description;
-
-      fs.writeFileSync(this.bannersMetaPath, JSON.stringify(meta, null, 2), 'utf-8');
-      return true;
-    } catch {
+    const { error } = await supabase.from('banners').update(updates).eq('id', bannerId);
+    if (error) {
+      console.error('[BannerManager] Lỗi updateMeta:', error.message);
       return false;
     }
+    return true;
+  }
+
+  /**
+   * Thêm banner mới (dùng khi muốn tạo banner 6, 7, 8...)
+   */
+  public async addBanner(id: string, key: number, title: string, description = ''): Promise<boolean> {
+    const { error } = await supabase
+      .from('banners')
+      .insert({ id, key, title, description, is_active: false });
+    if (error) {
+      console.error('[BannerManager] Lỗi addBanner:', error.message);
+      return false;
+    }
+    return true;
   }
 }
 

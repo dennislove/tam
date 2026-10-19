@@ -769,6 +769,7 @@ select.form-control option {
 
 .badge-idle { background: rgba(107, 114, 128, 0.2); color: #9ca3af; border-color: rgba(107, 114, 128, 0.3); }
 .badge-pending { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border-color: rgba(59, 130, 246, 0.3); }
+.badge-info { background: rgba(14, 165, 233, 0.15); color: #7dd3fc; border-color: rgba(14, 165, 233, 0.35); }
 .badge-running { 
   background: rgba(6, 182, 212, 0.2); 
   color: #67e8f9; 
@@ -905,6 +906,11 @@ select.form-control option {
 
 .data-table tbody tr.row-waiting {
   background: rgba(245, 158, 11, 0.1);
+}
+
+.data-table tbody tr.row-selected {
+  background: rgba(6, 182, 212, 0.12) !important;
+  border-left: 3px solid #06b6d4;
 }
 
 .btn-icon-action {

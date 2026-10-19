@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import 'dotenv/config';
+import { supabase } from './supabaseClient.js';
 
 export type AccountStatus = 'idle' | 'pending' | 'running' | 'waiting_banner' | 'success' | 'error';
 
@@ -7,150 +7,180 @@ export interface ManagedAccount {
   index: number;
   username: string;
   password: string;
+  lotId?: string;
+  lotName?: string;
   deviceSerial?: string;
   status: AccountStatus;
   durationMs?: number;
   error?: string;
-  screenshotPath?: string;
+  lastRunAt?: string;
+}
+
+interface RuntimeState {
+  status: AccountStatus;
+  durationMs?: number;
+  error?: string;
   lastRunAt?: string;
 }
 
 export class AccountManager {
-  private accountsFilePath: string;
-  private accountsState: Map<string, ManagedAccount> = new Map();
-
-  constructor() {
-    this.accountsFilePath = path.resolve(process.cwd(), 'accounts.json');
-    this.loadAccounts();
-  }
+  private accountsState: Map<string, RuntimeState> = new Map();
 
   /**
-   * Đọc danh sách tài khoản từ accounts.json
+   * Lấy toàn bộ tài khoản từ Supabase kèm tên lô
    */
-  public loadAccounts(): ManagedAccount[] {
-    let rawList: any[] = [];
-    if (fs.existsSync(this.accountsFilePath)) {
-      try {
-        const content = fs.readFileSync(this.accountsFilePath, 'utf-8');
-        rawList = JSON.parse(content);
-        if (!Array.isArray(rawList)) rawList = [];
-      } catch (err: any) {
-        console.error('[AccountManager] Lỗi đọc accounts.json:', err.message);
-        rawList = [];
-      }
+  public async getAccounts(lotId?: string): Promise<ManagedAccount[]> {
+    let query = supabase
+      .from('v_accounts_with_lot')
+      .select('*')
+      .order('lot_sort', { ascending: true, nullsFirst: false })
+      .order('sort_order')
+      .order('created_at');
+
+    if (lotId) {
+      query = query.eq('lot_id', lotId);
     }
 
-    // Đồng bộ vào memory state giữ lại status nếu có
-    const result: ManagedAccount[] = [];
-    rawList.forEach((acc, idx) => {
-      const existing = this.accountsState.get(acc.username);
-      const item: ManagedAccount = {
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('[AccountManager] Lỗi lấy accounts:', error.message);
+      return [];
+    }
+
+    return (data || []).map((acc, idx) => {
+      const state = this.accountsState.get(acc.username);
+      return {
         index: idx + 1,
         username: acc.username,
         password: acc.password,
-        deviceSerial: acc.deviceSerial,
-        status: existing?.status || 'idle',
-        durationMs: existing?.durationMs,
-        error: existing?.error,
-        screenshotPath: existing?.screenshotPath,
-        lastRunAt: existing?.lastRunAt,
+        lotId: acc.lot_id,
+        lotName: acc.lot_name,
+        deviceSerial: acc.device_serial || undefined,
+        status: state?.status || 'idle',
+        durationMs: state?.durationMs,
+        error: state?.error,
+        lastRunAt: state?.lastRunAt,
       };
-      this.accountsState.set(acc.username, item);
-      result.push(item);
     });
-
-    return result;
-  }
-
-  public getAccounts(): ManagedAccount[] {
-    return this.loadAccounts();
   }
 
   /**
-   * Lưu toàn bộ danh sách tài khoản vào file accounts.json
+   * Thêm 1 tài khoản
    */
-  public saveAccounts(list: { username: string; password: string; deviceSerial?: string }[]): boolean {
-    try {
-      const cleanList = list.map((a) => ({
-        username: a.username.trim(),
-        password: a.password.trim(),
-        ...(a.deviceSerial ? { deviceSerial: a.deviceSerial.trim() } : {}),
-      }));
-      fs.writeFileSync(this.accountsFilePath, JSON.stringify(cleanList, null, 2), 'utf-8');
-      this.loadAccounts();
-      return true;
-    } catch {
+  public async addAccount(
+    username: string,
+    password: string,
+    lotId?: string,
+    deviceSerial?: string
+  ): Promise<boolean> {
+    const { error } = await supabase.from('accounts').insert({
+      username: username.trim(),
+      password: password.trim(),
+      lot_id: lotId || null,
+      device_serial: deviceSerial || '',
+    });
+    if (error) {
+      console.error('[AccountManager] Lỗi addAccount:', error.message);
       return false;
     }
+    return true;
   }
 
   /**
-   * Thêm một tài khoản mới
+   * Xóa 1 tài khoản
    */
-  public addAccount(username: string, password: string, deviceSerial?: string): boolean {
-    const list = this.getAccounts().map((a) => ({
-      username: a.username,
-      password: a.password,
-      deviceSerial: a.deviceSerial,
-    }));
-    if (list.some((a) => a.username === username.trim())) {
-      return false; // Trùng tài khoản
+  public async deleteAccount(username: string): Promise<boolean> {
+    const { error } = await supabase.from('accounts').delete().eq('username', username);
+    if (error) {
+      console.error('[AccountManager] Lỗi deleteAccount:', error.message);
+      return false;
     }
-    list.push({ username: username.trim(), password: password.trim(), deviceSerial });
-    return this.saveAccounts(list);
-  }
-
-  /**
-   * Xóa một tài khoản
-   */
-  public deleteAccount(username: string): boolean {
-    const list = this.getAccounts().map((a) => ({
-      username: a.username,
-      password: a.password,
-      deviceSerial: a.deviceSerial,
-    }));
-    const filtered = list.filter((a) => a.username !== username);
-    if (filtered.length === list.length) return false;
     this.accountsState.delete(username);
-    return this.saveAccounts(filtered);
+    return true;
   }
 
   /**
-   * Cập nhật trạng thái chạy của tài khoản
+   * Lưu (replace) toàn bộ danh sách tài khoản (dùng cho import JSON)
+   * Chú ý: chỉ xóa & insert lại các tài khoản trong cùng lô hoặc toàn bộ nếu không có lô
+   */
+  public async saveAccounts(
+    list: { username: string; password: string; lotId?: string; deviceSerial?: string }[]
+  ): Promise<boolean> {
+    // Xóa hết rồi insert lại
+    const { error: delError } = await supabase.from('accounts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+    if (delError) {
+      console.error('[AccountManager] Lỗi xóa accounts:', delError.message);
+      return false;
+    }
+
+    if (list.length === 0) return true;
+
+    const rows = list.map((a, idx) => ({
+      username: a.username.trim(),
+      password: a.password.trim(),
+      lot_id: a.lotId || null,
+      device_serial: a.deviceSerial || '',
+      sort_order: idx,
+    }));
+
+    const { error } = await supabase.from('accounts').insert(rows);
+    if (error) {
+      console.error('[AccountManager] Lỗi insert accounts:', error.message);
+      return false;
+    }
+    this.accountsState.clear();
+    return true;
+  }
+
+  /**
+   * Cập nhật trạng thái runtime (chỉ trong memory, không ghi DB)
    */
   public updateStatus(
     username: string,
     status: AccountStatus,
-    meta?: { durationMs?: number; error?: string; screenshotPath?: string }
+    meta?: { durationMs?: number; error?: string }
   ): void {
-    const acc = this.accountsState.get(username);
-    if (acc) {
-      acc.status = status;
-      if (meta?.durationMs !== undefined) acc.durationMs = meta.durationMs;
-      if (meta?.error !== undefined) acc.error = meta.error;
-      if (meta?.screenshotPath !== undefined) acc.screenshotPath = meta.screenshotPath;
-      acc.lastRunAt = new Date().toLocaleTimeString('vi-VN', { hour12: false });
+    const current = this.accountsState.get(username);
+    this.accountsState.set(username, {
+      status,
+      durationMs: meta?.durationMs ?? current?.durationMs,
+      error: meta?.error ?? current?.error,
+      lastRunAt: new Date().toLocaleTimeString('vi-VN', { hour12: false }),
+    });
+  }
+
+  /**
+   * Reset tất cả trạng thái runtime
+   */
+  public resetStatuses(usernames?: string[]): void {
+    if (usernames?.length) {
+      usernames.forEach((u) => this.accountsState.delete(u));
+    } else {
+      this.accountsState.clear();
     }
   }
 
   /**
-   * Đặt lại trạng thái (reset) cho tất cả hoặc 1 danh sách tài khoản
+   * Lấy danh sách lô
    */
-  public resetStatuses(usernames?: string[]): void {
-    if (usernames && usernames.length > 0) {
-      usernames.forEach((u) => {
-        const acc = this.accountsState.get(u);
-        if (acc) {
-          acc.status = 'idle';
-          acc.error = undefined;
-        }
-      });
-    } else {
-      this.accountsState.forEach((acc) => {
-        acc.status = 'idle';
-        acc.error = undefined;
-      });
+  public async getLots(): Promise<{ id: string; name: string; description: string; sortOrder: number }[]> {
+    const { data, error } = await supabase
+      .from('account_lots')
+      .select('*')
+      .order('sort_order');
+
+    if (error) {
+      console.error('[AccountManager] Lỗi lấy lots:', error.message);
+      return [];
     }
+
+    return (data || []).map((l) => ({
+      id: l.id,
+      name: l.name,
+      description: l.description,
+      sortOrder: l.sort_order,
+    }));
   }
 }
 

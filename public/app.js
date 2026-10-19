@@ -25,6 +25,8 @@
     accountSearchQuery: '',
     questionSearchQuery: '',
     autoscroll: true,
+    lots: [],
+    selectedLotFilter: '',
   };
 
   // --- AUDIO SYNTHESIS NOTIFICATION (No external files needed) ---
@@ -82,8 +84,11 @@
 
     // Dashboard controls
     selectBanner: document.getElementById('select-banner'),
+    linkQuickEditBanner: document.getElementById('link-quick-edit-banner'),
     selectDevice: document.getElementById('select-device'),
     selectStartAccount: document.getElementById('select-start-account'),
+    selectLot: document.getElementById('select-lot'),
+    selectSpeedMode: document.getElementById('select-speed-mode'),
     btnStartRun: document.getElementById('btn-start-run'),
     btnStopRun: document.getElementById('btn-stop-run'),
     btnRunFailedOnly: document.getElementById('btn-run-failed-only'),
@@ -102,6 +107,7 @@
     // Accounts
     tbodyAccounts: document.getElementById('tbody-accounts'),
     inputSearchAccount: document.getElementById('input-search-account'),
+    selectTableLotFilter: document.getElementById('select-table-lot-filter'),
     filterChips: document.querySelectorAll('.filter-chip'),
     chkSelectAllAccs: document.getElementById('chk-select-all-accs'),
     btnRunSelectedAccounts: document.getElementById('btn-run-selected-accounts'),
@@ -115,21 +121,22 @@
     btnResetAllStatuses: document.getElementById('btn-reset-all-statuses'),
 
     // Banners manager
-    bannerSubtabsList: document.getElementById('banner-subtabs-list'),
+    tableBanners: document.getElementById('table-banners'),
+    tbodyBanners: document.getElementById('tbody-banners'),
+    bannerEditorSection: document.getElementById('banner-editor-section'),
+    btnOpenAddBannerModal: document.getElementById('btn-open-add-banner-modal'),
     inputBannerTitle: document.getElementById('input-banner-title'),
     btnUpdateBannerMeta: document.getElementById('btn-update-banner-meta'),
     btnSetAsActiveBanner: document.getElementById('btn-set-as-active-banner'),
+    btnInsertSampleAnswers: document.getElementById('btn-insert-sample-answers'),
     btnOpenRename: document.getElementById('btn-open-rename'),
     btnCancelRename: document.getElementById('btn-cancel-rename'),
     titleDisplayBox: document.getElementById('title-display-box'),
     titleRenameBox: document.getElementById('title-rename-box'),
-    btnToggleJsonEditor: document.getElementById('btn-toggle-json-editor'),
     jsonEditorContainer: document.getElementById('json-editor-container'),
     lblActiveEditorBannerName: document.getElementById('lbl-active-editor-banner-name'),
     textareaJsonAnswers: document.getElementById('textarea-json-answers'),
     jsonAnswersStatus: document.getElementById('json-answers-status'),
-    btnFormatJsonAnswers: document.getElementById('btn-format-json-answers'),
-    btnSampleJsonAnswers: document.getElementById('btn-sample-json-answers'),
     btnSaveCurrentBannerAnswers: document.getElementById('btn-save-current-banner-answers'),
 
     // Modals
@@ -142,9 +149,23 @@
     modalAddAccount: document.getElementById('modal-add-account'),
     inputNewAccUsername: document.getElementById('input-new-acc-username'),
     inputNewAccPassword: document.getElementById('input-new-acc-password'),
+    selectNewAccLot: document.getElementById('select-new-acc-lot'),
     btnCancelAddAcc: document.getElementById('btn-cancel-add-acc'),
     btnConfirmAddAcc: document.getElementById('btn-confirm-add-acc'),
     btnCloseAddAccModal: document.getElementById('btn-close-add-acc-modal'),
+
+    modalAddBanner: document.getElementById('modal-add-banner'),
+    inputNewBannerTitle: document.getElementById('input-new-banner-title'),
+    inputNewBannerDesc: document.getElementById('input-new-banner-desc'),
+    btnCancelAddBanner: document.getElementById('btn-cancel-add-banner'),
+    btnConfirmAddBanner: document.getElementById('btn-confirm-add-banner'),
+    btnCloseAddBannerModal: document.getElementById('btn-close-add-banner-modal'),
+
+    modalRenameBanner: document.getElementById('modal-rename-banner'),
+    inputModalBannerTitle: document.getElementById('input-modal-banner-title'),
+    btnCancelRenameModal: document.getElementById('btn-cancel-rename-modal'),
+    btnConfirmRenameModal: document.getElementById('btn-confirm-rename-modal'),
+    btnCloseRenameBannerModal: document.getElementById('btn-close-rename-banner-modal'),
 
     // Settings
     btnTriggerLdplayerConnect: document.getElementById('btn-trigger-ldplayer-connect'),
@@ -343,10 +364,11 @@
     }
 
     // Active Banner Pill
-    const activeBanner = state.banners.find((b) => b.id === state.runner.activeBannerId);
+    const selectedBannerId = dom.selectBanner?.value || state.runner.activeBannerId;
+    const activeBanner = state.banners.find((b) => b.id === selectedBannerId);
     if (activeBanner) {
-      dom.pillBannerName.textContent = activeBanner.title;
-      dom.infoCurrentBanner.textContent = activeBanner.title;
+      if (dom.pillBannerName) dom.pillBannerName.textContent = activeBanner.title;
+      if (dom.infoCurrentBanner) dom.infoCurrentBanner.textContent = activeBanner.title;
     }
 
     // Running info card
@@ -418,15 +440,27 @@
     try {
       const res = await fetch('/api/banners');
       const data = await res.json();
-      if (!data.success) return;
+      if (!data.success || !Array.isArray(data.banners)) return;
 
       state.banners = data.banners;
-      state.currentBannerId = data.activeId || 'banner_1';
-      state.runner.activeBannerId = state.currentBannerId;
+      const countEl = document.getElementById('badge-total-banners');
+      if (countEl) countEl.textContent = state.banners.length;
+
+      // Nếu currentBannerId chưa có hoặc không nằm trong danh sách → chọn activeId hoặc banner đầu tiên
+      const exists = state.banners.some((b) => b.id === state.currentBannerId);
+      if (!exists && state.banners.length > 0) {
+        state.currentBannerId = data.activeId || state.banners[0].id;
+      }
+      state.runner.activeBannerId = data.activeId || state.currentBannerId;
 
       renderBannerDropdown();
-      renderBannerSubtabs();
-      loadBannerAnswers(state.currentBannerId);
+      renderBannersTable();
+
+      const cur = state.banners.find((b) => b.id === state.currentBannerId);
+      if (cur) {
+        updateActiveBannerEditorHeader(cur);
+        loadBannerAnswers(state.currentBannerId);
+      }
     } catch (err) {
       console.error('Lỗi nạp banners:', err);
     }
@@ -435,7 +469,7 @@
   function updateActiveBannerEditorHeader(bannerMeta) {
     if (!bannerMeta) return;
     if (dom.lblActiveEditorBannerName) {
-      dom.lblActiveEditorBannerName.textContent = bannerMeta.title;
+      dom.lblActiveEditorBannerName.textContent = `${bannerMeta.title} (${bannerMeta.id})`;
     }
     if (dom.inputBannerTitle) {
       dom.inputBannerTitle.value = bannerMeta.title;
@@ -452,7 +486,7 @@
         dom.btnSetAsActiveBanner.classList.remove('btn-outline-cyan');
         dom.btnSetAsActiveBanner.disabled = true;
       } else {
-        dom.btnSetAsActiveBanner.textContent = '🎯 Chọn Thi Phần Này';
+        dom.btnSetAsActiveBanner.textContent = '🎯 Đặt Làm Banner Thi';
         dom.btnSetAsActiveBanner.classList.remove('btn-primary');
         dom.btnSetAsActiveBanner.classList.add('btn-outline-cyan');
         dom.btnSetAsActiveBanner.disabled = false;
@@ -472,7 +506,7 @@
       if (data.success) {
         state.runner.activeBannerId = bannerId;
         renderBannerDropdown();
-        renderBannerSubtabs();
+        renderBannersTable();
         const curMeta = state.banners.find((b) => b.id === state.currentBannerId);
         updateActiveBannerEditorHeader(curMeta);
       }
@@ -482,41 +516,111 @@
   }
 
   function renderBannerDropdown() {
+    if (!dom.selectBanner) return;
+    const previousSelected = dom.selectBanner.value || state.runner.activeBannerId;
     dom.selectBanner.innerHTML = '';
     state.banners.forEach((b) => {
       const opt = document.createElement('option');
       opt.value = b.id;
       opt.textContent = `${b.title} (${b.totalQuestions} câu hỏi)`;
-      if (b.id === state.runner.activeBannerId) opt.selected = true;
+      if (b.id === previousSelected) opt.selected = true;
       dom.selectBanner.appendChild(opt);
     });
 
-    const active = state.banners.find((b) => b.id === state.runner.activeBannerId);
+    const selectedBannerId = dom.selectBanner.value || state.runner.activeBannerId;
+    const active = state.banners.find((b) => b.id === selectedBannerId);
     if (active) {
-      dom.pillBannerName.textContent = active.title;
-      dom.infoCurrentBanner.textContent = active.title;
+      if (dom.pillBannerName) dom.pillBannerName.textContent = active.title;
+      if (dom.infoCurrentBanner) dom.infoCurrentBanner.textContent = active.title;
     }
   }
 
-  function renderBannerSubtabs() {
-    dom.bannerSubtabsList.innerHTML = '';
+  // Hiển thị DẠNG LIST BANNER
+  function renderBannersTable() {
+    if (!dom.tbodyBanners) return;
+    dom.tbodyBanners.innerHTML = '';
+
+    if (!Array.isArray(state.banners) || state.banners.length === 0) {
+      dom.tbodyBanners.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">Chưa có banner nào! Bấm nút "+ Thêm Banner Mới" ở trên để tạo.</td></tr>`;
+      return;
+    }
+
     state.banners.forEach((b) => {
-      const tabCard = document.createElement('div');
-      tabCard.className = `banner-subtab-card ${b.id === state.currentBannerId ? 'active' : ''}`;
-      tabCard.innerHTML = `
-        <span class="subtab-key">PHẦN THI #${b.key}</span>
-        <div class="subtab-title" title="${escapeHtml(b.title)}">${escapeHtml(b.title)}</div>
-        <div class="subtab-count">📚 ${b.totalQuestions} câu hỏi</div>
+      const isSelected = b.id === state.currentBannerId;
+      const isActiveExam = b.id === state.runner.activeBannerId;
+
+      const tr = document.createElement('tr');
+      if (isSelected) tr.className = 'row-selected';
+
+      tr.innerHTML = `
+        <td><b>#${b.key}</b></td>
+        <td>
+          <div style="font-weight: 600; color: #fff; font-size: 0.95rem;">${escapeHtml(b.title)}</div>
+          <div style="font-size: 0.76rem; color: var(--text-muted); font-family: monospace;">Mã: ${b.id}</div>
+        </td>
+        <td style="text-align: center;">
+          <span class="badge ${b.totalQuestions > 0 ? 'badge-success' : 'badge-idle'}" style="font-size: 0.78rem;">
+            ${b.totalQuestions} câu hỏi
+          </span>
+        </td>
+        <td style="text-align: center;">
+          ${isActiveExam 
+            ? '<span class="badge badge-running" style="font-size: 0.75rem;">🎯 Đang Chọn Thi</span>' 
+            : '<span class="text-muted" style="font-size: 0.8rem;">--</span>'}
+        </td>
+        <td style="text-align: right;">
+          <button class="btn btn-primary btn-xs btn-edit-banner-answers" data-id="${b.id}" title="Soạn thảo câu hỏi & đáp án cho banner này">
+            📝 Sửa Đáp Án
+          </button>
+          <button class="btn ${isActiveExam ? 'btn-ghost' : 'btn-outline-cyan'} btn-xs btn-set-active-banner-row" data-id="${b.id}" ${isActiveExam ? 'disabled' : ''} title="Đặt làm banner thi chính">
+            ${isActiveExam ? '✔ Đang Thi' : '🎯 Chọn Thi'}
+          </button>
+          <button class="btn btn-ghost btn-xs text-cyan btn-rename-banner-row" data-id="${b.id}" data-title="${escapeHtml(b.title)}" title="Đổi tên banner này">
+            ✏️
+          </button>
+          <button class="btn btn-ghost btn-xs text-red btn-delete-banner-row" data-id="${b.id}" data-title="${escapeHtml(b.title)}" title="Xóa banner này">
+            🗑️
+          </button>
+        </td>
       `;
-      tabCard.addEventListener('click', () => {
-        state.currentBannerId = b.id;
-        renderBannerSubtabs();
-        // Cập nhật ngay lập tức tiêu đề banner và số câu hỏi bên dưới
-        updateActiveBannerEditorHeader(b);
-        loadBannerAnswers(b.id);
+
+      tr.querySelector('.btn-edit-banner-answers')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectAndEditBanner(b.id);
       });
-      dom.bannerSubtabsList.appendChild(tabCard);
+
+      tr.querySelector('.btn-set-active-banner-row')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setActiveBanner(b.id);
+      });
+
+      tr.querySelector('.btn-rename-banner-row')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openRenameModal(b.id, b.title);
+      });
+
+      tr.querySelector('.btn-delete-banner-row')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteBanner(b.id, b.title);
+      });
+
+      tr.addEventListener('click', () => {
+        selectAndEditBanner(b.id);
+      });
+
+      dom.tbodyBanners.appendChild(tr);
     });
+  }
+
+  function selectAndEditBanner(bannerId) {
+    state.currentBannerId = bannerId;
+    renderBannersTable();
+    const meta = state.banners.find((b) => b.id === bannerId);
+    if (meta) {
+      updateActiveBannerEditorHeader(meta);
+    }
+    loadBannerAnswers(bannerId);
+    dom.bannerEditorSection?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   async function loadBannerAnswers(bannerId) {
@@ -570,7 +674,7 @@
     });
   }
 
-  // Lưu ngân hàng đáp án hiện tại
+  // Lưu ngân hàng đáp án vào Supabase
   if (dom.btnSaveCurrentBannerAnswers) {
     dom.btnSaveCurrentBannerAnswers.addEventListener('click', () => {
       requireAuth(async () => {
@@ -591,7 +695,7 @@
             updateJsonAnswersStatus(parsed.length);
             await loadBanners();
             const banner = state.banners.find((b) => b.id === state.currentBannerId);
-            alert(`✔ Đã lưu thành công ${parsed.length} câu hỏi cho [${banner ? banner.title : state.currentBannerId}]!`);
+            alert(`✔ Đã lưu thành công ${parsed.length} câu hỏi vào Supabase cho [${banner ? banner.title : state.currentBannerId}]!`);
           } else {
             alert('Lỗi lưu đáp án: ' + (data.message || 'Không xác định'));
           }
@@ -614,125 +718,199 @@
     dom.selectBanner.addEventListener('change', async (e) => {
       const bannerId = e.target.value;
       if (bannerId) {
+        state.runner.activeBannerId = bannerId;
+        const b = state.banners.find((item) => item.id === bannerId);
+        if (b) {
+          if (dom.pillBannerName) dom.pillBannerName.textContent = b.title;
+          if (dom.infoCurrentBanner) dom.infoCurrentBanner.textContent = b.title;
+        }
         await setActiveBanner(bannerId);
       }
     });
   }
 
-  // Chỉnh sửa tên hiển thị của Banner
-  function openRenameBanner() {
-    const currentMeta = state.banners.find((b) => b.id === state.currentBannerId);
-    if (!currentMeta) return;
-    if (dom.inputBannerTitle) {
-      dom.inputBannerTitle.value = currentMeta.title;
+  // ==================== ĐỔI TÊN BANNER ====================
+  let renamingBannerId = null;
+
+  function openRenameModal(bannerId, currentTitle) {
+    renamingBannerId = bannerId;
+    if (dom.inputModalBannerTitle) {
+      dom.inputModalBannerTitle.value = currentTitle || '';
     }
-    if (dom.titleDisplayBox && dom.titleRenameBox) {
-      dom.titleDisplayBox.classList.add('hidden');
-      dom.titleRenameBox.classList.remove('hidden');
-      if (dom.inputBannerTitle) {
-        dom.inputBannerTitle.focus();
-        dom.inputBannerTitle.select();
-      }
-    }
+    dom.modalRenameBanner?.classList.remove('hidden');
+    setTimeout(() => dom.inputModalBannerTitle?.focus(), 100);
   }
 
-  function closeRenameBanner() {
-    if (dom.titleDisplayBox && dom.titleRenameBox) {
-      dom.titleRenameBox.classList.add('hidden');
-      dom.titleDisplayBox.classList.remove('hidden');
-    }
+  function closeRenameModal() {
+    renamingBannerId = null;
+    dom.modalRenameBanner?.classList.add('hidden');
   }
 
-  async function saveBannerTitle() {
-    if (!dom.inputBannerTitle) return;
-    const newTitle = dom.inputBannerTitle.value.trim();
-    if (!newTitle) {
-      return alert('Vui lòng nhập tên phần thi!');
-    }
-    requireAuth(async () => {
-      try {
-        const res = await fetch(`/api/banners/${state.currentBannerId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title: newTitle }),
-        });
-        const data = await res.json();
-        if (data.success) {
-          const meta = state.banners.find((b) => b.id === state.currentBannerId);
-          if (meta) meta.title = newTitle;
-          renderBannerDropdown();
-          renderBannerSubtabs();
+  async function saveBannerTitleFromModal() {
+    if (!renamingBannerId) return;
+    const newTitle = dom.inputModalBannerTitle?.value.trim();
+    if (!newTitle) return alert('Vui lòng nhập tên phần thi!');
+
+    try {
+      const res = await fetch(`/api/banners/${renamingBannerId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: newTitle }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        const meta = state.banners.find((b) => b.id === renamingBannerId);
+        if (meta) meta.title = newTitle;
+        renderBannerDropdown();
+        renderBannersTable();
+        if (state.currentBannerId === renamingBannerId && meta) {
           updateActiveBannerEditorHeader(meta);
-          closeRenameBanner();
-        } else {
-          alert('Lỗi: Không thể lưu tên phần thi mới!');
         }
-      } catch (err) {
-        alert('Lỗi cập nhật tên banner: ' + err.message);
-      }
-    });
-  }
-
-  if (dom.btnOpenRename) {
-    dom.btnOpenRename.addEventListener('click', openRenameBanner);
-  }
-
-  if (dom.lblActiveEditorBannerName) {
-    dom.lblActiveEditorBannerName.addEventListener('dblclick', openRenameBanner);
-  }
-
-  if (dom.btnCancelRename) {
-    dom.btnCancelRename.addEventListener('click', closeRenameBanner);
-  }
-
-  if (dom.btnUpdateBannerMeta) {
-    dom.btnUpdateBannerMeta.addEventListener('click', saveBannerTitle);
-  }
-
-  if (dom.inputBannerTitle) {
-    dom.inputBannerTitle.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        saveBannerTitle();
-      } else if (e.key === 'Escape') {
-        closeRenameBanner();
-      }
-    });
-  }
-
-  // Bật / tắt hiển thị khung nhập đáp án JSON
-  if (dom.btnToggleJsonEditor && dom.jsonEditorContainer) {
-    dom.btnToggleJsonEditor.addEventListener('click', () => {
-      const isCurrentlyHidden = dom.jsonEditorContainer.classList.contains('hidden');
-      if (isCurrentlyHidden) {
-        // Đang đóng → muốn MỞ → yêu cầu xác thực
-        requireAuth(() => {
-          dom.jsonEditorContainer.classList.remove('hidden');
-          dom.btnToggleJsonEditor.innerHTML = '🙈 Thu Gọn Khung JSON';
-          dom.jsonEditorContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        });
+        closeRenameModal();
       } else {
-        // Đang mở → THU GỌN → không cần xác thực
-        dom.jsonEditorContainer.classList.add('hidden');
-        dom.btnToggleJsonEditor.innerHTML = '👁️ Xem / Sửa Đáp Án JSON';
+        alert('Lỗi: Không thể lưu tên phần thi mới!');
       }
+    } catch (err) {
+      alert('Lỗi: ' + err.message);
+    }
+  }
+
+  dom.btnCloseRenameBannerModal?.addEventListener('click', closeRenameModal);
+  dom.btnCancelRenameModal?.addEventListener('click', closeRenameModal);
+  dom.btnConfirmRenameModal?.addEventListener('click', saveBannerTitleFromModal);
+  dom.inputModalBannerTitle?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') saveBannerTitleFromModal();
+    if (e.key === 'Escape') closeRenameModal();
+  });
+
+  // Nút ✏️ Đổi Tên trong Header của Editor
+  if (dom.btnOpenRename) {
+    dom.btnOpenRename.addEventListener('click', () => {
+      const cur = state.banners.find((b) => b.id === state.currentBannerId);
+      openRenameModal(state.currentBannerId, cur?.title || '');
+    });
+  }
+  if (dom.lblActiveEditorBannerName) {
+    dom.lblActiveEditorBannerName.addEventListener('dblclick', () => {
+      const cur = state.banners.find((b) => b.id === state.currentBannerId);
+      openRenameModal(state.currentBannerId, cur?.title || '');
     });
   }
 
+  // ==================== THÊM BANNER MỚI ====================
+  function openAddBannerModal() {
+    if (dom.inputNewBannerTitle) dom.inputNewBannerTitle.value = '';
+    if (dom.inputNewBannerDesc) dom.inputNewBannerDesc.value = '';
+    dom.modalAddBanner?.classList.remove('hidden');
+    setTimeout(() => dom.inputNewBannerTitle?.focus(), 100);
+  }
+
+  function closeAddBannerModal() {
+    dom.modalAddBanner?.classList.add('hidden');
+  }
+
+  async function createNewBanner() {
+    const title = dom.inputNewBannerTitle?.value.trim();
+    const description = dom.inputNewBannerDesc?.value.trim() || '';
+    if (!title) return alert('Vui lòng nhập tên phần thi / banner mới!');
+
+    try {
+      const res = await fetch('/api/banners', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        closeAddBannerModal();
+        await loadBanners();
+        if (data.bannerId) {
+          selectAndEditBanner(data.bannerId);
+        }
+      } else {
+        alert('Lỗi: ' + (data.message || 'Không thể tạo banner!'));
+      }
+    } catch (err) {
+      alert('Lỗi: ' + err.message);
+    }
+  }
+
+  dom.btnOpenAddBannerModal?.addEventListener('click', openAddBannerModal);
+  dom.btnCloseAddBannerModal?.addEventListener('click', closeAddBannerModal);
+  dom.btnCancelAddBanner?.addEventListener('click', closeAddBannerModal);
+  dom.btnConfirmAddBanner?.addEventListener('click', createNewBanner);
+  dom.inputNewBannerTitle?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') createNewBanner();
+    if (e.key === 'Escape') closeAddBannerModal();
+  });
+
+  // ==================== XÓA BANNER ====================
+  async function deleteBanner(bannerId, bannerTitle) {
+    if (!confirm(`Bạn có chắc chắn muốn xóa phần thi [${bannerTitle}] (${bannerId}) và toàn bộ câu hỏi liên quan không?`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/banners/${bannerId}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        await loadBanners();
+      } else {
+        alert('Lỗi: ' + (data.message || 'Không thể xóa banner!'));
+      }
+    } catch (err) {
+      alert('Lỗi xóa banner: ' + err.message);
+    }
+  }
+
+  // 📋 Chèn mẫu 20 câu hỏi vào ô nhập
+  if (dom.btnInsertSampleAnswers) {
+    dom.btnInsertSampleAnswers.addEventListener('click', () => {
+      if (dom.textareaJsonAnswers.value.trim() && dom.textareaJsonAnswers.value !== '[]') {
+        if (!confirm('Khung đáp án đã có dữ liệu. Bạn có muốn ghi đè bằng mẫu 20 câu hỏi chuẩn không?')) {
+          return;
+        }
+      }
+      const sample = Array.from({ length: 20 }, (_, i) => ({
+        question: `Câu hỏi số ${i + 1}: Nội dung câu hỏi ở đây?`,
+        options: [
+          `Lựa chọn A của câu ${i + 1}`,
+          `Lựa chọn B của câu ${i + 1}`,
+          `Lựa chọn C của câu ${i + 1}`,
+          `Lựa chọn D của câu ${i + 1}`,
+        ],
+        answer: `Lựa chọn A của câu ${i + 1}`,
+      }));
+      dom.textareaJsonAnswers.value = JSON.stringify(sample, null, 2);
+      updateJsonAnswersStatus(sample.length);
+    });
+  }
+
+  // 📝 Bấm nút "Sửa Đáp Án" ở trang Dashboard chính
+  if (dom.linkQuickEditBanner) {
+    dom.linkQuickEditBanner.addEventListener('click', () => {
+      const bannerId = dom.selectBanner.value || state.runner.activeBannerId;
+      if (bannerId) {
+        state.currentBannerId = bannerId;
+      }
+      document.getElementById('tab-nav-banners')?.click();
+      selectAndEditBanner(state.currentBannerId);
+    });
+  }
 
   // ============================================================
   // ACCOUNTS MANAGEMENT
   // ============================================================
   async function loadAccounts(renderTable = true) {
     try {
-      const res = await fetch('/api/accounts');
+      const lotId = dom.selectLot?.value || '';
+      const url = lotId ? `/api/accounts?lotId=${encodeURIComponent(lotId)}` : '/api/accounts';
+      const res = await fetch(url);
       const data = await res.json();
       if (!data.success) return;
 
       state.accounts = data.accounts;
       dom.badgeTotalAccounts.textContent = state.accounts.length;
 
-      // Update start account selector on dashboard
       renderStartAccountDropdown();
 
       if (renderTable) {
@@ -741,6 +919,57 @@
       updateAccountCounts();
     } catch (err) {
       console.error('Lỗi nạp accounts:', err);
+    }
+  }
+
+  async function loadLots() {
+    try {
+      const res = await fetch('/api/lots');
+      const data = await res.json();
+      if (!data.success) return;
+
+      state.lots = data.lots || [];
+
+      // 1. Cập nhật dropdown ở trang Dashboard
+      if (dom.selectLot) {
+        const curVal = dom.selectLot.value;
+        dom.selectLot.innerHTML = '<option value="">Tất cả tài khoản</option>';
+        state.lots.forEach((lot) => {
+          const opt = document.createElement('option');
+          opt.value = lot.id;
+          opt.textContent = `${lot.name}${lot.accountCount ? ' (' + lot.accountCount + ' acc)' : ''}`;
+          dom.selectLot.appendChild(opt);
+        });
+        if (curVal) dom.selectLot.value = curVal;
+      }
+
+      // 2. Cập nhật dropdown lọc ở bảng Danh Sách Tài Khoản
+      if (dom.selectTableLotFilter) {
+        const curVal = dom.selectTableLotFilter.value;
+        dom.selectTableLotFilter.innerHTML = '<option value="">Tất cả các lô</option>';
+        state.lots.forEach((lot) => {
+          const opt = document.createElement('option');
+          opt.value = lot.id;
+          opt.textContent = `${lot.name}${lot.accountCount ? ' (' + lot.accountCount + ' acc)' : ''}`;
+          dom.selectTableLotFilter.appendChild(opt);
+        });
+        if (curVal) dom.selectTableLotFilter.value = curVal;
+      }
+
+      // 3. Cập nhật dropdown chọn lô khi thêm mới tài khoản
+      if (dom.selectNewAccLot) {
+        const curVal = dom.selectNewAccLot.value;
+        dom.selectNewAccLot.innerHTML = '<option value="">Không gán lô</option>';
+        state.lots.forEach((lot) => {
+          const opt = document.createElement('option');
+          opt.value = lot.id;
+          opt.textContent = `${lot.name}`;
+          dom.selectNewAccLot.appendChild(opt);
+        });
+        if (curVal) dom.selectNewAccLot.value = curVal;
+      }
+    } catch (err) {
+      console.error('Lỗi nạp lots:', err);
     }
   }
 
@@ -776,6 +1005,9 @@
 
     const query = state.accountSearchQuery.toLowerCase().trim();
     const filtered = state.accounts.filter((acc) => {
+      // Filter lot
+      if (state.selectedLotFilter && acc.lotId !== state.selectedLotFilter) return false;
+
       // Filter status
       if (state.accountFilter === 'pending' && acc.status !== 'idle' && acc.status !== 'pending') return false;
       if (state.accountFilter === 'success' && acc.status !== 'success') return false;
@@ -788,7 +1020,7 @@
     });
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4">Không tìm thấy tài khoản nào phù hợp!</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted py-4">Không tìm thấy tài khoản nào phù hợp!</td></tr>`;
       return;
     }
 
@@ -822,6 +1054,7 @@
         </td>
         <td><b>#${acc.index}</b></td>
         <td><span class="text-cyan font-semibold">${escapeHtml(acc.username)}</span></td>
+        <td><span class="badge badge-info" style="font-size: 0.72rem;">${escapeHtml(acc.lotName || 'Chưa gán')}</span></td>
         <td><code>••••••••</code></td>
         <td>${statusHtml}</td>
         <td>${durationStr}</td>
@@ -934,18 +1167,20 @@
   dom.btnConfirmAddAcc.addEventListener('click', async () => {
     const username = dom.inputNewAccUsername.value.trim();
     const password = dom.inputNewAccPassword.value.trim();
+    const lotId = dom.selectNewAccLot?.value || undefined;
     if (!username || !password) return alert('Vui lòng điền đủ tài khoản và mật khẩu!');
 
     try {
       const res = await fetch('/api/accounts/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, lotId }),
       });
       const data = await res.json();
       if (data.success) {
         dom.modalAddAccount.classList.add('hidden');
-        loadAccounts();
+        await loadLots();
+        await loadAccounts();
       } else {
         alert(data.message || 'Lỗi thêm tài khoản!');
       }
@@ -1043,23 +1278,27 @@
   // EXECUTION CONTROLLER (START / STOP / RESUME)
   // ============================================================
   async function startExecution(customOptions = {}) {
-    const bannerId = dom.selectBanner.value || state.currentBannerId;
-    const startFromIndex = customOptions.startFromIndex || parseInt(dom.selectStartAccount.value, 10) || 1;
-    const usernames = customOptions.usernames || undefined;
-    const deviceSerial = dom.selectDevice.value || undefined;
-    const concurrency = 1;
-    const fixedAnswer = 'RANDOM';
-
-    const payload = {
-      bannerId,
-      startFromIndex,
-      usernames,
-      deviceSerial,
-      concurrency,
-      fixedAnswer,
-    };
-
     try {
+      const bannerId = dom.selectBanner?.value || state.currentBannerId;
+      const lotId = dom.selectLot?.value || undefined;
+      const startFromIndex = customOptions.startFromIndex || parseInt(dom.selectStartAccount?.value, 10) || 1;
+      const usernames = customOptions.usernames || undefined;
+      const deviceSerial = dom.selectDevice?.value || undefined;
+      const speedMode = dom.selectSpeedMode ? dom.selectSpeedMode.value : 'fast';
+      const concurrency = 1;
+      const fixedAnswer = 'RANDOM';
+
+      const payload = {
+        bannerId,
+        lotId,
+        startFromIndex,
+        usernames,
+        deviceSerial,
+        concurrency,
+        fixedAnswer,
+        speedMode,
+      };
+
       const res = await fetch('/api/action/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1070,7 +1309,7 @@
         alert('Không thể bắt đầu: ' + data.message);
       } else {
         // Switch to dashboard tab to see live execution
-        document.getElementById('tab-nav-dashboard').click();
+        document.getElementById('tab-nav-dashboard')?.click();
       }
     } catch (err) {
       alert('Lỗi gửi lệnh bắt đầu: ' + err.message);
@@ -1131,10 +1370,29 @@
   // ============================================================
   async function init() {
     await loadBanners();
+    // Tự động kết nối các port LDPlayer khi tải trang (giống bấm nút Quét Máy Ảo)
+    try {
+      await fetch('/api/devices/scan', { method: 'POST' });
+    } catch {}
     await loadDevices();
+    await loadLots();
     await loadAccounts();
     connectSse();
+
+    // Khi đổi lô ở Dashboard → load lại danh sách tài khoản theo lô
+    if (dom.selectLot) {
+      dom.selectLot.addEventListener('change', () => loadAccounts());
+    }
+
+    // Khi đổi lô ở bảng Tài khoản → lọc trực tiếp
+    if (dom.selectTableLotFilter) {
+      dom.selectTableLotFilter.addEventListener('change', (e) => {
+        state.selectedLotFilter = e.target.value;
+        renderAccountsTable();
+      });
+    }
   }
+
 
   init();
 })();

@@ -4,3 +4,6 @@ dist/
 logs/
 *.xml
 *.traineddata
+.env
+.env.local
+.env.*

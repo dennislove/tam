@@ -1,202 +1,202 @@
 [
   {
-    "question": "Sau khi ra tù năm 1936, đồng chí Phạm Hữu Lầu hoạt động trong nhóm Dân chúng ở những địa bàn nào?",
+    "question": "Năm 1985, trường chính trị tỉnh được đặt tên theo đồng chí Phạm Hữu Lầu là gì?",
     "options": [
-      "Rạch Giá, Hải Phòng và Cà Mau",
-      "Cao Lãnh, Cần Thơ và Hà Nội",
-      "Sài Gòn, Cao Lãnh và Rạch Giá",
-      "Sài Gòn, Huế và Hà Nội"
+      "Trường Chính trị Tư Lộ",
+      "Trường Chính trị Cao Lãnh",
+      "Trường Nguyễn Văn Cừ",
+      "Trường Phạm Hữu Lầu"
     ],
-    "answer": "Sài Gòn, Cao Lãnh và Rạch Giá"
+    "answer": "Trường Phạm Hữu Lầu"
   },
   {
-    "question": "Từ tháng 6/1957, đồng chí Phạm Hữu Lầu giữ chức vụ gì?",
+    "question": "Cuối năm 1929, đồng chí Phạm Hữu Lầu tham gia “vô sản hóa” nhằm mục đích gì?",
     "options": [
-      "Khu ủy viên Khu 8",
-      "Phó Bí thư Xứ ủy Nam Bộ",
-      "Quyền Bí thư Xứ ủy Nam Bộ",
-      "Bí thư Tỉnh ủy Sa Đéc"
+      "Xây dựng phong trào công nhân ở đề-pô xe lửa Dĩ An, tuyên truyền và giác ngộ lý tưởng cộng sản",
+      "Tổ chức cứu tế tù nhân Côn Đảo",
+      "Chuẩn bị giành chính quyền năm 1945",
+      "Phụ trách thương binh và cựu binh"
     ],
-    "answer": "Quyền Bí thư Xứ ủy Nam Bộ"
+    "answer": "Xây dựng phong trào công nhân ở đề-pô xe lửa Dĩ An, tuyên truyền và giác ngộ lý tưởng cộng sản"
   },
   {
-    "question": "Năm 1945, đồng chí Phạm Hữu Lầu tham gia sự kiện nào tại Côn Đảo?",
+    "question": "Vì hoạt động trong phong trào dân sinh, dân chủ, đồng chí Phạm Hữu Lầu bị thực dân Pháp coi là gì?",
     "options": [
-      "Tổ chức bầu cử",
-      "Giành chính quyền",
-      "Mở trường học",
-      "Thành lập Xứ ủy"
+      "Tù nhân đặc biệt",
+      "Đối tượng cải tạo",
+      "Phần tử nguy hiểm",
+      "Cán bộ hợp tác"
     ],
-    "answer": "Giành chính quyền"
+    "answer": "Phần tử nguy hiểm"
   },
   {
-    "question": "Trong thời kỳ kháng chiến chống Pháp, đồng chí Phạm Hữu Lầu từng giữ trọng trách nào tại Khu 8?",
+    "question": "Tháng 10/1929, đồng chí Phạm Hữu Lầu trở thành gì?",
+    "options": [
+      "Chủ tịch UBKC-HC tỉnh Sa Đéc",
+      "Một trong những đảng viên An Nam Cộng sản Đảng đầu tiên ở Nam Kỳ",
+      "Bí thư Xứ ủy Nam Bộ",
+      "Giám đốc Sở Công an Nam Bộ"
+    ],
+    "answer": "Một trong những đảng viên An Nam Cộng sản Đảng đầu tiên ở Nam Kỳ"
+  },
+  {
+    "question": "Tại nhà tù Côn Đảo, đồng chí Phạm Hữu Lầu cùng các đồng chí đã biến nhà tù thành gì?",
+    "options": [
+      "Trường học cách mạng",
+      "Trụ sở chính quyền",
+      "Cơ quan ngoại giao",
+      "Xưởng sản xuất"
+    ],
+    "answer": "Trường học cách mạng"
+  },
+  {
+    "question": "Ngày 24/7/1930, đồng chí Phạm Hữu Lầu bị bắt tại đâu khi chuẩn bị sang Hồng Kông dự Hội nghị Trung ương?",
+    "options": [
+      "Sơn La",
+      "Hải Phòng",
+      "Nha Trang",
+      "Quy Nhơn"
+    ],
+    "answer": "Hải Phòng"
+  },
+  {
+    "question": "Hiện nay Trường Phạm Hữu Lầu có tên là gì?",
+    "options": [
+      "Trường Chính trị tỉnh Đồng Tháp",
+      "Trường Chính trị Cao Lãnh",
+      "Trường Chính trị Nam Bộ",
+      "Trường Chính trị Sa Đéc"
+    ],
+    "answer": "Trường Chính trị tỉnh Đồng Tháp"
+  },
+  {
+    "question": "Sau khi bị trục xuất khỏi Sài Gòn, đồng chí Phạm Hữu Lầu bị quản thúc ở đâu?",
+    "options": [
+      "Rạch Giá",
+      "Cao Lãnh",
+      "Cà Mau",
+      "Hà Nội"
+    ],
+    "answer": "Cao Lãnh"
+  },
+  {
+    "question": "Trong giai đoạn 02/1930 – 07/1930, đồng chí Phạm Hữu Lầu có đóng góp gì ở Nam Kỳ?",
+    "options": [
+      "Phụ trách khu tập kết 200 ngày",
+      "Chỉ đạo thành lập các Đảng bộ Đảng Cộng sản Việt Nam và phong trào đấu tranh cách mạng",
+      "Chỉ đạo cứu tế tù nhân ở Côn Đảo",
+      "Tổ chức trao trả tù binh"
+    ],
+    "answer": "Chỉ đạo thành lập các Đảng bộ Đảng Cộng sản Việt Nam và phong trào đấu tranh cách mạng"
+  },
+  {
+    "question": "Mùa thu năm 1928, việc đồng chí Phạm Hữu Lầu được kết nạp vào Hội Việt Nam Cách mạng Thanh niên đánh dấu điều gì?",
+    "options": [
+      "Việc tham gia kháng chiến chống Mỹ",
+      "Sự chuyển biến từ một thanh niên yêu nước trở thành người cách mạng",
+      "Việc được cử đi học ở nước ngoài",
+      "Việc trở thành Bí thư Xứ ủy"
+    ],
+    "answer": "Sự chuyển biến từ một thanh niên yêu nước trở thành người cách mạng"
+  },
+  {
+    "question": "Với cương vị Chi hội trưởng Hội Việt Nam Cách mạng Thanh niên ở Cao Lãnh, đồng chí Phạm Hữu Lầu đã làm gì?",
+    "options": [
+      "Phụ trách Công an Nam Bộ",
+      "Lãnh đạo Xứ ủy Nam Bộ",
+      "Tổ chức đoàn tàu về đất liền",
+      "Lãnh đạo nhân dân đấu tranh chống cường quyền bóc lột"
+    ],
+    "answer": "Lãnh đạo nhân dân đấu tranh chống cường quyền bóc lột"
+  },
+  {
+    "question": "Khi bị địch bắt năm 1930, đồng chí Phạm Hữu Lầu thể hiện phẩm chất nào?",
+    "options": [
+      "Kiên trung, bất khuất, không khuất phục trước mua chuộc, dụ dỗ và tra tấn",
+      "Thận trọng và tránh hoạt động",
+      "Chuyển sang hoạt động hợp pháp",
+      "Chỉ tập trung học tập"
+    ],
+    "answer": "Kiên trung, bất khuất, không khuất phục trước mua chuộc, dụ dỗ và tra tấn"
+  },
+  {
+    "question": "Sau khi ra tù năm 1936, đồng chí Phạm Hữu Lầu tích cực hoạt động trong tờ báo nào?",
+    "options": [
+      "Báo Đồng Tháp",
+      "Báo Ấp Bắc",
+      "Báo Tuổi trẻ",
+      "Báo Dân chúng"
+    ],
+    "answer": "Báo Dân chúng"
+  },
+  {
+    "question": "Ngày 10/5/2024, đồng chí Phạm Hữu Lầu được công nhận là gì?",
+    "options": [
+      "Lãnh đạo tiền bối tiêu biểu của Đảng và cách mạng Việt Nam",
+      "Cán bộ lão thành cách mạng",
+      "Anh hùng Lực lượng vũ trang nhân dân",
+      "Nhà giáo ưu tú"
+    ],
+    "answer": "Lãnh đạo tiền bối tiêu biểu của Đảng và cách mạng Việt Nam"
+  },
+  {
+    "question": "Tháng 11/1929, đồng chí Phạm Hữu Lầu được bầu giữ chức vụ lãnh đạo gì tại Chi bộ An Nam Cộng sản Đảng?",
+    "options": [
+      "Bí thư Chi bộ",
+      "Ủy viên Ban Chấp hành Trung ương Đảng",
+      "Bí thư Xứ ủy Nam Bộ",
+      "Bí thư Khu ủy Khu 8"
+    ],
+    "answer": "Bí thư Chi bộ"
+  },
+  {
+    "question": "Tại Côn Đảo, đồng chí Phạm Hữu Lầu tham gia lãnh đạo tù nhân đấu tranh vì những mục tiêu nào?",
+    "options": [
+      "Đòi mở rộng giao thương",
+      "Đòi tăng lương và giảm thuế",
+      "Cải thiện đời sống, bảo vệ sinh mạng và tổ chức học tập văn hóa, lý luận",
+      "Đòi thành lập chính quyền địa phương"
+    ],
+    "answer": "Cải thiện đời sống, bảo vệ sinh mạng và tổ chức học tập văn hóa, lý luận"
+  },
+  {
+    "question": "Tháng 11/1929, đồng chí Phạm Hữu Lầu được bầu làm gì?",
+    "options": [
+      "Bí thư Tỉnh ủy Sa Đéc",
+      "Chi hội trưởng Hội Việt Nam Cách mạng Thanh niên toàn Nam Kỳ",
+      "Bí thư Chi bộ An Nam Cộng sản Đảng đầu tiên tại ấp Hòa Lợi, làng Hòa An",
+      "Bí thư Xứ ủy Nam Bộ"
+    ],
+    "answer": "Bí thư Chi bộ An Nam Cộng sản Đảng đầu tiên tại ấp Hòa Lợi, làng Hòa An"
+  },
+  {
+    "question": "Hoạt động “vô sản hóa” của đồng chí Phạm Hữu Lầu tại Dĩ An góp phần đưa đến sự ra đời của những tổ chức nào?",
+    "options": [
+      "Chi bộ Đảng và Công hội đỏ của xí nghiệp xe lửa Dĩ An",
+      "Mặt trận Bình dân và Công hội đỏ",
+      "Xứ ủy Nam Bộ và Việt Minh",
+      "Chi bộ Đảng và Xứ ủy Nam Kỳ"
+    ],
+    "answer": "Chi bộ Đảng và Công hội đỏ của xí nghiệp xe lửa Dĩ An"
+  },
+  {
+    "question": "Từ tháng 02/1930 đến tháng 7/1930, đồng chí Phạm Hữu Lầu giữ cương vị gì?",
     "options": [
       "Giám đốc Sở Công an Nam Bộ",
       "Bí thư Xứ ủy Nam Bộ",
-      "Bí thư Tỉnh ủy Sa Đéc",
-      "Khu ủy viên, Phó Bí thư Khu ủy Khu 8 phụ trách Ban Kiểm tra Khu 8"
-    ],
-    "answer": "Khu ủy viên, Phó Bí thư Khu ủy Khu 8 phụ trách Ban Kiểm tra Khu 8"
-  },
-  {
-    "question": "Từ tháng 02/1930 đến tháng 7/1930, đồng chí Phạm Hữu Lầu thực hiện nhiệm vụ gì?",
-    "options": [
-      "Bí thư Xứ ủy Nam Bộ",
-      "Bí thư Xứ ủy Nam Bộ",
       "Ủy viên Ban Chấp hành Trung ương lâm thời của Đảng",
-      "Bí thư Tỉnh ủy Cao Lãnh"
+      "Chủ tịch tỉnh Sa Đéc"
     ],
     "answer": "Ủy viên Ban Chấp hành Trung ương lâm thời của Đảng"
   },
   {
-    "question": "Bến Đại Ngãi, nơi đoàn tàu do đồng chí Phạm Hữu Lầu cập bến an toàn, thuộc địa phương nào?",
+    "question": "Đồng chí Phạm Hữu Lầu hy sinh tại đâu?",
     "options": [
-      "Cà Mau",
-      "Bạc Liêu",
-      "Sóc Trăng",
-      "Đồng Tháp"
-    ],
-    "answer": "Sóc Trăng"
-  },
-  {
-    "question": "Trong kháng chiến chống Pháp, đồng chí Phạm Hữu Lầu từng giữ chức Bí thư Tỉnh ủy nào?",
-    "options": [
-      "Cà Mau",
-      "Bến Tre",
-      "Mỹ Tho",
-      "Tây Ninh"
-    ],
-    "answer": "Mỹ Tho"
-  },
-  {
-    "question": "Từ năm 1945 đến năm 1949, đồng chí Phạm Hữu Lầu giữ những trọng trách nào?",
-    "options": [
-      "Bí thư Xứ ủy; Giám đốc Công an Nam Bộ",
-      "Bí thư Tỉnh ủy Sa Đéc; Chủ tịch UBKC-HC tỉnh Sa Đéc",
-      "Bí thư Tỉnh ủy Mỹ Tho; Trưởng phái đoàn trao trả tù binh",
-      "Bí thư Khu 8; Chủ tịch tỉnh Mỹ Tân Gò"
-    ],
-    "answer": "Bí thư Tỉnh ủy Sa Đéc; Chủ tịch UBKC-HC tỉnh Sa Đéc"
-  },
-  {
-    "question": "Cuối năm 1940, đồng chí Phạm Hữu Lầu bị đày ra đâu lần thứ hai?",
-    "options": [
-      "Phú Quốc",
+      "Phnôm Pênh (Vương quốc Campuchia)",
       "Côn Đảo",
-      "Cà Mau",
-      "Hỏa Lò"
-    ],
-    "answer": "Côn Đảo"
-  },
-  {
-    "question": "Đoàn tàu do đồng chí Phạm Hữu Lầu làm Trưởng đoàn cập bến Đại Ngãi vào ngày, tháng, năm nào?",
-    "options": [
-      "02/9/1945",
-      "23/9/1945",
-      "27/11/1945",
-      "16/12/1945"
-    ],
-    "answer": "23/9/1945"
-  },
-  {
-    "question": "Từ tháng 12/1952 đến tháng 9/1954, đồng chí Phạm Hữu Lầu làm nhiệm vụ gì?",
-    "options": [
-      "Ủy viên UBKC-HC Nam Bộ kiêm Giám đốc Sở Công an Nam Bộ và phụ trách Thương binh, Cựu binh",
-      "Ủy viên Khu ủy Khu 8",
-      "Bí thư Tỉnh ủy Mỹ Tho",
-      "Bí thư Tỉnh ủy Sa Đéc"
-    ],
-    "answer": "Ủy viên UBKC-HC Nam Bộ kiêm Giám đốc Sở Công an Nam Bộ và phụ trách Thương binh, Cựu binh"
-  },
-  {
-    "question": "Trong tù sau Nam Kỳ khởi nghĩa, đồng chí Phạm Hữu Lầu góp phần quan trọng vào việc gì?",
-    "options": [
-      "Đấu tranh, bảo vệ sinh mạng tù nhân",
-      "Đào tạo công nhân kỹ thuật",
-      "Xây dựng chính quyền địa phương",
-      "Tổ chức sản xuất nông nghiệp"
-    ],
-    "answer": "Đấu tranh, bảo vệ sinh mạng tù nhân"
-  },
-  {
-    "question": "Đồng chí Phạm Hữu Lầu hy sinh vào ngày, tháng, năm nào?",
-    "options": [
-      "23/9/1945",
-      "16/12/1959",
-      "27/11/1940",
-      "10/5/2024"
-    ],
-    "answer": "16/12/1959"
-  },
-  {
-    "question": "Cuối năm 1957, đồng chí Phạm Hữu Lầu thôi đảm nhiệm chức Quyền Bí thư Xứ ủy Nam Bộ vì lý do gì?",
-    "options": [
-      "Bệnh lao phổi nặng",
-      "Thay đổi tổ chức",
-      "Tuổi cao",
-      "Được điều động ra Bắc"
-    ],
-    "answer": "Bệnh lao phổi nặng"
-  },
-  {
-    "question": "Cuối năm 1939, đồng chí Phạm Hữu Lầu bị thực dân Pháp bắt lần nữa và bị kết án thế nào?",
-    "options": [
-      "Tù chung thân và 10 năm cấm lưu trú",
-      "10 năm tù giam và 5 năm cấm lưu trú",
-      "5 năm tù giam và 5 năm cấm lưu trú",
-      "5 năm tù giam và 10 năm cấm lưu trú"
-    ],
-    "answer": "5 năm tù giam và 10 năm cấm lưu trú"
-  },
-  {
-    "question": "Tháng 10/1945, đồng chí Phạm Hữu Lầu được cử làm chức vụ gì?",
-    "options": [
-      "Bí thư Xứ ủy Nam Bộ",
-      "Chủ tịch Khu ủy Khu 8",
-      "Bí thư Tỉnh ủy Sa Đéc",
-      "Giám đốc Sở Công an Nam Bộ"
-    ],
-    "answer": "Bí thư Tỉnh ủy Sa Đéc"
-  },
-  {
-    "question": "Năm 1985, lãnh đạo tỉnh Đồng Tháp đưa hài cốt đồng chí Phạm Hữu Lầu về đâu?",
-    "options": [
-      "Nghĩa trang Liệt sĩ tỉnh",
-      "Côn Đảo",
-      "Nghĩa trang Mai Dịch",
-      "Khu di tích Xẻo Quýt"
-    ],
-    "answer": "Nghĩa trang Liệt sĩ tỉnh"
-  },
-  {
-    "question": "Đồng chí Phạm Hữu Lầu là Trưởng đoàn tàu nào chở hơn 400 tù chính trị về đất liền?",
-    "options": [
-      "Tàu Đồng Tháp",
-      "Tàu Nam Bộ",
-      "Tàu Côn Đảo",
-      "Tàu Phú Quốc"
-    ],
-    "answer": "Tàu Phú Quốc"
-  },
-  {
-    "question": "Tháng 9/1945, đồng chí Phạm Hữu Lầu được Xứ ủy Nam Bộ đón về đâu?",
-    "options": [
-      "Phnom Penh",
-      "Hà Nội",
-      "Đất liền",
+      "Cao Lãnh, Đồng Tháp",
       "Sài Gòn"
     ],
-    "answer": "Đất liền"
-  },
-  {
-    "question": "Tháng 10/1954, đồng chí Phạm Hữu Lầu được bầu làm gì?",
-    "options": [
-      "Bí thư Xứ ủy Nam Bộ",
-      "Chủ tịch UBKC-HC Nam Bộ",
-      "Phó Bí thư Xứ ủy Nam Bộ",
-      "Giám đốc Sở Công an Nam Bộ"
-    ],
-    "answer": "Phó Bí thư Xứ ủy Nam Bộ"
+    "answer": "Phnôm Pênh (Vương quốc Campuchia)"
   }
 ]

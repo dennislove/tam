@@ -26,10 +26,13 @@ export interface TaskResult {
   durationMs: number;
 }
 
+export type SpeedMode = 'fast' | 'normal' | 'safe';
+
 export interface ExamExecuteOptions {
   answersData?: AnswerItem[];
   bannerTitle?: string;
   abortSignal?: { aborted: boolean };
+  speedMode?: SpeedMode;
 }
 
 export class ExamTask {
@@ -436,8 +439,69 @@ export class ExamTask {
     const startTime = Date.now();
     const username = account.username;
     const totalQuestions = account.totalQuestions || 20;
+    const speedMode: SpeedMode = options?.speedMode || 'fast';
 
-    this.log(serial, username, '>>> Bắt đầu tiến trình thi tự động...', 'blue');
+    this.log(serial, username, `>>> Bắt đầu tiến trình thi tự động [Tốc độ: ${speedMode.toUpperCase()}]...`, 'blue');
+
+    const delays = {
+      fast: {
+        appLaunchWait: 3500,
+        inputTapSleep: [500, 750] as [number, number],
+        inputClearSleep: [300, 450] as [number, number],
+        inputTextSleep: [500, 750] as [number, number],
+        loginWait: 2500,
+        navTabSleep: [800, 1200] as [number, number],
+        navHocVaThiWait: 1500,
+        navCuocThiSleep: [1000, 1400] as [number, number],
+        examPollSleep: [400, 600] as [number, number],
+        examQuestionPreSleep: [250, 400] as [number, number],
+        examAnswerTapSleep: [350, 500] as [number, number],
+        examNextQuestionSleep: [650, 850] as [number, number],
+        examFinishPreSleep: [800, 1200] as [number, number],
+        submitConfirmWait: 1200,
+        submitResultWait: 1800,
+        resultClickWait: 1000,
+        endReviewWait: 2000,
+      },
+      normal: {
+        appLaunchWait: 3800,
+        inputTapSleep: [600, 850] as [number, number],
+        inputClearSleep: [350, 500] as [number, number],
+        inputTextSleep: [600, 850] as [number, number],
+        loginWait: 2800,
+        navTabSleep: [1200, 1600] as [number, number],
+        navHocVaThiWait: 2500,
+        navCuocThiSleep: [1500, 2000] as [number, number],
+        examPollSleep: [700, 900] as [number, number],
+        examQuestionPreSleep: [600, 800] as [number, number],
+        examAnswerTapSleep: [700, 900] as [number, number],
+        examNextQuestionSleep: [1200, 1500] as [number, number],
+        examFinishPreSleep: [1200, 1600] as [number, number],
+        submitConfirmWait: 1800,
+        submitResultWait: 2500,
+        resultClickWait: 1500,
+        endReviewWait: 4000,
+      },
+      safe: {
+        appLaunchWait: 4500,
+        inputTapSleep: [700, 1100] as [number, number],
+        inputClearSleep: [400, 650] as [number, number],
+        inputTextSleep: [700, 1200] as [number, number],
+        loginWait: 3500,
+        navTabSleep: [1500, 2200] as [number, number],
+        navHocVaThiWait: 5000,
+        navCuocThiSleep: [2000, 3000] as [number, number],
+        examPollSleep: [1000, 1200] as [number, number],
+        examQuestionPreSleep: [1000, 1400] as [number, number],
+        examAnswerTapSleep: [1200, 1500] as [number, number],
+        examNextQuestionSleep: [2200, 2600] as [number, number],
+        examFinishPreSleep: [1800, 2200] as [number, number],
+        submitConfirmWait: 2500,
+        submitResultWait: 3500,
+        resultClickWait: 2000,
+        endReviewWait: 10000,
+      },
+    }[speedMode];
 
     if (options?.abortSignal?.aborted) {
       return {
@@ -474,36 +538,40 @@ export class ExamTask {
       const targetPkg = await this.adb.getTargetPackage(serial);
       this.log(serial, username, `[Bước 1/4] Làm mới dữ liệu và mở app (${targetPkg})...`);
       await this.adb.clearApp(serial, targetPkg);
-      await this.adb.sleep(1000, 1500);
+      await this.adb.sleep(1000, 1400);
       await this.adb.launchApp(serial, targetPkg);
-      this.log(serial, username, '[Bước 1/4] Chờ 3.5 giây để app tải giao diện...');
-      await new Promise((resolve) => setTimeout(resolve, 3500));
+      this.log(serial, username, `[Bước 1/4] Chờ ${(delays.appLaunchWait / 1000).toFixed(1)} giây để app tải giao diện...`);
+      await new Promise((resolve) => setTimeout(resolve, delays.appLaunchWait));
 
       this.log(serial, username, '[Bước 1/4] Click vào ô nhập Email/Số điện thoại/CCCD...');
       await this.adb.tap(serial, COORDINATES.LOGIN.USERNAME_INPUT);
-      await this.adb.sleep(600, 1000);
+      await this.adb.sleep(200, 300);
+      await this.adb.tap(serial, COORDINATES.LOGIN.USERNAME_INPUT);
+      await this.adb.sleep(...delays.inputTapSleep);
       await this.adb.clearInput(serial, 40);
-      await this.adb.sleep(300, 600);
+      await this.adb.sleep(...delays.inputClearSleep);
 
       this.log(serial, username, `[Bước 1/4] Nhập tài khoản: ${username}`);
       await this.adb.inputText(serial, username);
-      await this.adb.sleep(600, 1200);
+      await this.adb.sleep(...delays.inputTextSleep);
 
       this.log(serial, username, '[Bước 1/4] Click vào ô nhập Mật khẩu...');
       await this.adb.tap(serial, COORDINATES.LOGIN.PASSWORD_INPUT);
-      await this.adb.sleep(600, 1000);
+      await this.adb.sleep(200, 300);
+      await this.adb.tap(serial, COORDINATES.LOGIN.PASSWORD_INPUT);
+      await this.adb.sleep(...delays.inputTapSleep);
       await this.adb.clearInput(serial, 40);
-      await this.adb.sleep(300, 600);
+      await this.adb.sleep(...delays.inputClearSleep);
 
       this.log(serial, username, '[Bước 1/4] Nhập mật khẩu...');
       await this.adb.inputText(serial, account.password);
-      await this.adb.sleep(600, 1200);
+      await this.adb.sleep(...delays.inputTextSleep);
 
       this.log(serial, username, '[Bước 1/4] Click nút cam "ĐĂNG NHẬP"...');
       await this.adb.tap(serial, COORDINATES.LOGIN.LOGIN_BUTTON);
 
-      this.log(serial, username, '[Bước 1/4] Đang đăng nhập, chờ 3.5 giây...', 'yellow');
-      await new Promise((resolve) => setTimeout(resolve, 3500));
+      this.log(serial, username, `[Bước 1/4] Đang đăng nhập, chờ ${(delays.loginWait / 1000).toFixed(1)} giây...`, 'yellow');
+      await new Promise((resolve) => setTimeout(resolve, delays.loginWait));
 
       // Kiểm tra và xử lý kết quả đăng nhập (Thành công hay Thất bại)
       let loginSuccess = false;
@@ -552,31 +620,44 @@ export class ExamTask {
       // -------------------------------------------------------------
       this.log(serial, username, '[Bước 2/4] Click icon thứ 2 "Công tác đoàn" ở thanh điều hướng đáy...');
       await this.adb.tap(serial, COORDINATES.NAVIGATION.BOTTOM_CONG_TAC_DOAN);
-      await this.adb.sleep(1500, 2200);
+      await this.adb.sleep(...delays.navTabSleep);
 
       this.log(serial, username, '[Bước 2/4] Click vào ô mục "Học và thi" (icon tập tài liệu có bút đỏ)...');
       await this.adb.tap(serial, COORDINATES.NAVIGATION.HOC_VA_THI);
-      this.log(serial, username, '[Bước 2/4] Đang chờ 5 giây theo yêu cầu...');
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      this.log(serial, username, `[Bước 2/4] Chờ ${(delays.navHocVaThiWait / 1000).toFixed(1)} giây tải danh mục...`);
+      await new Promise((resolve) => setTimeout(resolve, delays.navHocVaThiWait));
 
       this.log(serial, username, '[Bước 2/4] Click vào mục đầu tiên "Cuộc thi trực tuyến"...');
       await this.adb.tap(serial, COORDINATES.NAVIGATION.CUOC_THI_TRUC_TUYEN_CARD);
-      await this.adb.sleep(2000, 3000);
+      await this.adb.sleep(...delays.navCuocThiSleep);
 
       // Tạm dừng 100% chờ người dùng chọn cuộc thi và bấm ENTER
       await this.waitForUserToReachExam(serial, username);
 
       // Sau khi người dùng bấm ENTER (đã ở màn hình chi tiết bài thi):
-      this.log(serial, username, '[Bước 2/4] 👉 Click nút màu xanh "BẮT ĐẦU BÀI THI" tại (360, 868)...', 'green');
-      await this.adb.exec(serial, 'input tap 360 868');
-      await this.adb.sleep(1000, 1500);
+      let startBtnCoord = { x: 360, y: 868 };
+      try {
+        const dev = this.adb.getDevice(serial);
+        const stream = await dev.screencap();
+        const chunks: Buffer[] = [];
+        for await (const chunk of stream) chunks.push(chunk);
+        const screenPng = PNG.sync.read(Buffer.concat(chunks));
+        const detected = this.findStartExamButton(screenPng);
+        if (detected && detected.y) {
+          startBtnCoord = { x: detected.x, y: detected.y };
+        }
+      } catch {}
+
+      this.log(serial, username, `[Bước 2/4] 👉 Click nút màu xanh "BẮT ĐẦU BÀI THI" tại (${startBtnCoord.x}, ${startBtnCoord.y})...`, 'green');
+      await this.adb.exec(serial, `input tap ${startBtnCoord.x} ${startBtnCoord.y}`);
+      await this.adb.sleep(800, 1200);
 
       this.log(serial, username, '[Bước 2/4] Đang chờ WebView bài thi tải xong hoàn toàn Câu 1...');
 
       // Polling thông minh: Chờ cho đến khi phát hiện được đủ 4 hình tròn đáp án của Câu 1
       let examLoaded = false;
       for (let wait = 1; wait <= 18; wait++) {
-        await this.adb.sleep(1000, 1200);
+        await this.adb.sleep(...delays.examPollSleep);
         const circles = await this.getOptionCircles(serial);
         if (circles.length === 4) {
           this.log(serial, username, `[Bước 2/4] ✔ WebView đã tải xong Câu 1! 4 đáp án tại Y: [${circles.join(', ')}]`, 'green');
@@ -585,9 +666,9 @@ export class ExamTask {
         }
         // Nếu sau mỗi 4 lần check chưa tải xong, thử click lại nút Bắt đầu
         if (wait % 4 === 0) {
-          this.log(serial, username, `[Bước 2/4] Chưa thấy bài thi mở ra (lần ${wait}/18), thử click lại nút Bắt đầu tại (360, 868)...`, 'yellow');
+          this.log(serial, username, `[Bước 2/4] Chưa thấy bài thi mở ra (lần ${wait}/18), thử click lại nút Bắt đầu tại (${startBtnCoord.x}, ${startBtnCoord.y})...`, 'yellow');
           try {
-            await this.adb.exec(serial, 'input tap 360 868');
+            await this.adb.exec(serial, `input tap ${startBtnCoord.x} ${startBtnCoord.y}`);
           } catch {}
         }
       }
@@ -611,7 +692,7 @@ export class ExamTask {
           throw new Error('Tiến trình đã bị dừng bởi người dùng (Stop action).');
         }
         // Cho WebView ổn định giao diện và hoàn tất hiệu ứng chuyển câu
-        await this.adb.sleep(1000, 1400);
+        await this.adb.sleep(...delays.examQuestionPreSleep);
 
         let targetCoord: { x: number; y: number } | null = null;
         let chosenLabel = '';
@@ -694,8 +775,8 @@ export class ExamTask {
 
         // Click ĐÚNG 1 LẦN DUY NHẤT vào đáp án đã chọn (tránh multi-click/double-tap làm hủy chọn hoặc lỗi WebView)
         await this.adb.exec(serial, `input tap ${targetCoord.x} ${targetCoord.y}`);
-        // Nghỉ 1.2s - 1.5s để WebView ghi nhận câu trả lời lên hệ thống
-        await this.adb.sleep(1200, 1500);
+        // Chờ WebView ghi nhận câu trả lời
+        await this.adb.sleep(...delays.examAnswerTapSleep);
 
         // Chuyển sang câu tiếp theo bằng icon mũi tên sang phải (>) nếu chưa đến câu cuối (q < 20)
         if (q < maxLoops) {
@@ -707,9 +788,9 @@ export class ExamTask {
             'blue'
           );
 
-          // Click Next và chờ 2.2 - 2.6s cho WebView trượt màn hình hoàn tất
+          // Click Next và chờ cho WebView trượt màn hình hoàn tất
           await this.adb.tap(serial, COORDINATES.EXAM.BTN_NEXT_QUESTION, false);
-          await this.adb.sleep(2200, 2600);
+          await this.adb.sleep(...delays.examNextQuestionSleep);
         }
       }
 
@@ -723,8 +804,8 @@ export class ExamTask {
       // -------------------------------------------------------------
       // BƯỚC 4: Nộp bài & Xem kết quả
       // -------------------------------------------------------------
-      // Đợi 2 giây sau khi hoàn thành câu 20 để WebView ghi nhận đáp án
-      await this.adb.sleep(1800, 2200);
+      // Đợi sau khi hoàn thành câu 20 để WebView ghi nhận đáp án
+      await this.adb.sleep(...delays.examFinishPreSleep);
       this.log(serial, username, '[Bước 4/4] Bắt đầu quy trình nộp bài...', 'blue');
 
       // 1. Click nút "NỘP BÀI" ở góc trên bên phải màn hình làm bài
@@ -741,8 +822,8 @@ export class ExamTask {
       }
       this.log(serial, username, `[Bước 4/4] Click nút "NỘP BÀI" ở góc trên bên phải tại (${topBtn.x}, ${topBtn.y})...`);
       await this.adb.exec(serial, `input tap ${topBtn.x} ${topBtn.y}`);
-      this.log(serial, username, '[Bước 4/4] Chờ 2.5 giây để hộp thoại xác nhận nộp bài mở ra...');
-      await new Promise((resolve) => setTimeout(resolve, 2500));
+      this.log(serial, username, `[Bước 4/4] Chờ ${(delays.submitConfirmWait / 1000).toFixed(1)} giây để hộp thoại xác nhận nộp bài mở ra...`);
+      await new Promise((resolve) => setTimeout(resolve, delays.submitConfirmWait));
 
       // 2. Click nút xác nhận "NỘP BÀI" trên popup
       let confirmBtn = { x: 476, y: 815 };
@@ -760,8 +841,8 @@ export class ExamTask {
       await this.adb.exec(serial, `input tap ${confirmBtn.x} ${confirmBtn.y}`);
       // Đồng thời click tọa độ (562, 187) theo cấu hình người dùng
       await this.adb.exec(serial, 'input tap 562 187');
-      this.log(serial, username, '[Bước 4/4] Chờ 3.5 giây để hệ thống xử lý nộp bài và tải popup kết quả...');
-      await new Promise((resolve) => setTimeout(resolve, 3500));
+      this.log(serial, username, `[Bước 4/4] Chờ ${(delays.submitResultWait / 1000).toFixed(1)} giây để hệ thống xử lý nộp bài và tải popup kết quả...`);
+      await new Promise((resolve) => setTimeout(resolve, delays.submitResultWait));
 
       // 3. Click nút "XEM KẾT QUẢ"
       let resultBtn = { x: 361, y: 939 };
@@ -778,7 +859,7 @@ export class ExamTask {
       this.log(serial, username, `[Bước 4/4] Click nút "XEM KẾT QUẢ" tại (${resultBtn.x}, ${resultBtn.y})...`);
       await this.adb.exec(serial, `input tap ${resultBtn.x} ${resultBtn.y}`);
       await this.adb.exec(serial, 'input tap 362 735');
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, delays.resultClickWait));
 
       // 4. Chụp ảnh màn hình kết quả lưu lại làm bằng chứng
       let resultScreenshotPath = '';
@@ -796,14 +877,14 @@ export class ExamTask {
         this.log(serial, username, `[Bước 4/4] Không thể chụp ảnh kết quả: ${err.message}`, 'yellow');
       }
 
-      // 5. Dừng 10 giây để người dùng xem kết quả theo yêu cầu
+      // 5. Dừng để người dùng xem kết quả theo cấu hình tốc độ
       this.log(
         serial,
         username,
-        '[Bước 4/4] 🎯 Đang hiển thị kết quả bài thi. Dừng 10 giây để bạn xem kết quả trước khi chuyển tài khoản tiếp theo...',
+        `[Bước 4/4] 🎯 Đang hiển thị kết quả bài thi. Chờ ${(delays.endReviewWait / 1000).toFixed(1)}s trước khi chuyển tài khoản tiếp theo...`,
         'yellow'
       );
-      await new Promise((resolve) => setTimeout(resolve, 10000));
+      await new Promise((resolve) => setTimeout(resolve, delays.endReviewWait));
 
       const durationMs = Date.now() - startTime;
       const durationSec = (durationMs / 1000).toFixed(1);

@@ -79,7 +79,7 @@
         </button>
         <button class="tab-btn" data-tab="tab-banners" id="tab-nav-banners">
           <span class="tab-icon">📚</span>
-          <span class="tab-label">Ngân Hàng 5 Banner</span>
+          <span class="tab-label">Ngân Hàng Banner</span>
           <span class="tab-counter info-counter" id="badge-total-banners">5</span>
         </button>
       </div>
@@ -118,15 +118,26 @@
           <div class="control-row">
             <!-- 1. Chọn Banner -->
             <div class="form-group flex-1">
-              <label for="select-banner">
-                <span class="label-icon">🎯</span> Mục Thi / Banner:
+              <label for="select-banner" style="display: flex; justify-content: space-between; align-items: center;">
+                <span><span class="label-icon">🎯</span> Mục Thi / Banner:</span>
+                <a href="javascript:void(0)" id="link-quick-edit-banner" style="font-size: 0.8rem; color: #06b6d4; text-decoration: none;" title="Chuyển sang màn hình sửa đáp án cho banner này">📝 Sửa Đáp Án</a>
               </label>
               <select class="form-control" id="select-banner">
-                <option value="">Đang tải danh sách 5 banner...</option>
+                <option value="">Đang tải danh sách banner...</option>
               </select>
             </div>
 
-            <!-- 2. Chọn Máy ảo LDPlayer -->
+            <!-- 2. Chọn Lô Tài Khoản -->
+            <div class="form-group flex-1">
+              <label for="select-lot">
+                <span class="label-icon">📦</span> Lô Tài Khoản:
+              </label>
+              <select class="form-control" id="select-lot">
+                <option value="">Tất cả tài khoản</option>
+              </select>
+            </div>
+
+            <!-- 3. Chọn Máy ảo LDPlayer -->
             <div class="form-group flex-1">
               <label for="select-device">
                 <span class="label-icon">📱</span> Máy Ảo LDPlayer:
@@ -136,13 +147,26 @@
               </select>
             </div>
 
-            <!-- 3. Lựa chọn Bắt đầu từ tài khoản -->
+
+            <!-- 4. Lựa chọn Bắt đầu từ tài khoản -->
             <div class="form-group flex-1">
               <label for="select-start-account">
-                <span class="label-icon">▶️</span> Bắt Đầu Từ Tài Khoản:
+                <span class="label-icon">▶️</span> Bắt Đầu Từ:
               </label>
               <select class="form-control" id="select-start-account">
                 <option value="1">#1 - Đầu danh sách</option>
+              </select>
+            </div>
+
+            <!-- 5. Tốc độ xử lý (Speed Mode) -->
+            <div class="form-group flex-1">
+              <label for="select-speed-mode">
+                <span class="label-icon">⚡</span> Tốc Độ Xử Lý:
+              </label>
+              <select class="form-control" id="select-speed-mode" style="border-color: #06b6d4; font-weight: 600; color: #38bdf8;">
+                <option value="fast" selected>🚀 Siêu Tốc (~45s/bài)</option>
+                <option value="normal">⚡ Tiêu Chuẩn (~1p20s)</option>
+                <option value="safe">🛡️ An Toàn (~2p30s)</option>
               </select>
             </div>
 
@@ -230,10 +254,15 @@
         </section>
 
         <!-- Filters & Search Toolbar -->
-        <div class="toolbar">
-          <div class="search-box">
+        <div class="toolbar" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <div class="search-box" style="flex: 1; min-width: 200px;">
             <span class="search-icon">🔍</span>
             <input type="text" id="input-search-account" placeholder="Tìm kiếm theo email, số điện thoại...">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <select class="form-control form-control-sm" id="select-table-lot-filter" style="width: 170px;">
+              <option value="">Tất cả các lô</option>
+            </select>
           </div>
           <div class="filter-group">
             <button class="filter-chip active" data-filter="all">Tất cả (<span id="count-filter-all">0</span>)</button>
@@ -258,6 +287,7 @@
                 </th>
                 <th style="width: 50px;">STT</th>
                 <th>Tài Khoản (Username)</th>
+                <th style="width: 90px;">Lô</th>
                 <th>Mật Khẩu</th>
                 <th>Trạng Thái</th>
                 <th>Thời Gian</th>
@@ -267,7 +297,7 @@
             </thead>
             <tbody id="tbody-accounts">
               <tr>
-                <td colspan="8" class="text-center text-muted py-4">Đang tải danh sách tài khoản...</td>
+                <td colspan="9" class="text-center text-muted py-4">Đang tải danh sách tài khoản...</td>
               </tr>
             </tbody>
           </table>
@@ -275,55 +305,80 @@
       </div>
 
       <!-- ========================================== -->
-      <!-- TAB 3: NGÂN HÀNG 5 BANNER -->
+      <!-- TAB 3: DANH SÁCH BANNER & ĐÁP ÁN -->
       <!-- ========================================== -->
       <div class="tab-pane" id="tab-banners">
-        <section class="panel-header">
+        <section class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
           <div class="panel-title-group">
-            <h2 class="panel-title">ĐÁP ÁN 5 BANNER</h2>
-            <p class="panel-desc">Chọn banner để xem hoặc nạp đáp án JSON.</p>
+            <h2 class="panel-title">DANH SÁCH BANNER & ĐÁP ÁN</h2>
+            <p class="panel-desc">Danh sách tất cả các phần thi (banner) trên Supabase. Bấm "Sửa Đáp Án" để nạp câu hỏi vào khung bên dưới.</p>
+          </div>
+          <div class="panel-actions">
+            <button class="btn btn-primary btn-sm" id="btn-open-add-banner-modal">
+              ➕ Thêm Banner Mới
+            </button>
           </div>
         </section>
 
-        <!-- 5 Banner Tabs Selector -->
-        <div class="banner-subtabs" id="banner-subtabs-list">
-          <!-- Populated by JS -->
+        <!-- LIST BANNER TABLE -->
+        <div class="table-responsive mb-4" style="border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; background: var(--bg-card); margin-bottom: 24px;">
+          <table class="data-table" id="table-banners">
+            <thead>
+              <tr>
+                <th style="width: 60px;">Mã</th>
+                <th>Tên Banner / Cuộc Thi</th>
+                <th style="width: 130px; text-align: center;">Số Câu Hỏi</th>
+                <th style="width: 150px; text-align: center;">Trạng Thái Thi</th>
+                <th style="width: 290px; text-align: right;">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-banners">
+              <tr>
+                <td colspan="5" class="text-center text-muted py-4">Đang tải danh sách banner...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <!-- Streamlined JSON Card -->
-        <div class="json-editor-card">
+        <!-- SOẠN THẢO ĐÁP ÁN CỦA BANNER ĐANG CHỌN -->
+        <div class="json-editor-card" id="banner-editor-section">
           <div class="editor-header">
             <div class="editor-title-group">
+              <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">Đang Soạn Thảo:</span>
               <div class="title-with-rename" id="title-display-box">
-                <span class="editor-heading" id="lbl-active-editor-banner-name" title="Nhấp đúp hoặc bấm nút ✏️ để đổi tên">Phần thi 4 - Huỳnh Thúc Kháng (Banner 4)</span>
+                <span class="editor-heading" id="lbl-active-editor-banner-name" title="Bấm ✏️ Đổi Tên để chỉnh sửa">--</span>
                 <button class="btn btn-ghost btn-xs text-cyan" id="btn-open-rename" title="Chỉnh sửa tên phần thi này">
                   ✏️ Đổi Tên
                 </button>
               </div>
               <div class="title-rename-form hidden" id="title-rename-box">
-                <input type="text" id="input-banner-title" class="form-control form-control-sm" placeholder="Nhập tên mới..." style="width: 250px;">
+                <input type="text" id="input-banner-title" class="form-control form-control-sm" placeholder="Nhập tên mới..." style="width: 260px;">
                 <button class="btn btn-primary btn-sm" id="btn-update-banner-meta">Lưu</button>
                 <button class="btn btn-secondary btn-sm" id="btn-cancel-rename">Hủy</button>
               </div>
-              <span class="badge badge-success" id="json-answers-status">✔ 20 câu hỏi</span>
+              <span class="badge badge-success" id="json-answers-status">0 câu hỏi</span>
             </div>
             <div class="editor-actions">
               <button class="btn btn-outline-cyan btn-sm" id="btn-set-as-active-banner" title="Chọn phần thi này để chạy làm bài tự động">
-                🎯 Chọn Thi Phần Này
+                🎯 Đặt Làm Banner Thi
               </button>
-              <button class="btn btn-secondary btn-sm" id="btn-toggle-json-editor">
-                👁️ Xem / Sửa Đáp Án JSON
+              <button class="btn btn-secondary btn-sm" id="btn-insert-sample-answers" title="Chèn mẫu 20 câu hỏi">
+                📋 Mẫu Chuẩn
               </button>
               <button class="btn btn-emerald btn-sm" id="btn-save-current-banner-answers">
-                💾 Lưu Đáp Án
+                💾 Lưu Vào CSDL
               </button>
             </div>
           </div>
 
-          <div class="editor-body hidden" id="json-editor-container">
-            <textarea id="textarea-json-answers" class="code-editor-main" spellcheck="false" placeholder='[
+          <div class="editor-body" id="json-editor-container">
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span>💡 Dán hoặc chỉnh sửa mảng JSON câu hỏi & đáp án cho banner này. Bấm <b>Lưu Vào CSDL</b> để áp dụng ngay.</span>
+              <span style="color: #10b981; font-weight: 600;">⚡ Đồng bộ dữ liệu</span>
+            </div>
+            <textarea id="textarea-json-answers" class="code-editor-main" spellcheck="false" style="min-height: 380px;" placeholder='[
   {
-    "question": "Nội dung câu hỏi?",
+    "question": "Nội dung câu hỏi 1?",
     "options": ["Đáp án A", "Đáp án B", "Đáp án C", "Đáp án D"],
     "answer": "Đáp án đúng chính xác"
   }
@@ -380,10 +435,66 @@
           <label for="input-new-acc-password">Mật khẩu:</label>
           <input type="text" id="input-new-acc-password" class="form-control" placeholder="Mật khẩu tài khoản...">
         </div>
+        <div class="form-group mb-3">
+          <label for="select-new-acc-lot">Lô Tài Khoản:</label>
+          <select id="select-new-acc-lot" class="form-control">
+            <option value="">Không gán lô</option>
+          </select>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary btn-sm" id="btn-cancel-add-acc">Hủy</button>
         <button class="btn btn-emerald btn-sm" id="btn-confirm-add-acc">Thêm Tài Khoản</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: THÊM BANNER MỚI -->
+  <!-- ========================================== -->
+  <div class="modal hidden" id="modal-add-banner">
+    <div class="modal-backdrop" id="modal-add-banner-backdrop"></div>
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h3 class="modal-title">➕ Thêm Banner / Cuộc Thi Mới</h3>
+        <button class="modal-close" id="btn-close-add-banner-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label for="input-new-banner-title">Tên Phần Thi / Banner Mới:</label>
+          <input type="text" id="input-new-banner-title" class="form-control" placeholder="ví dụ: Cuộc thi Tuần 5 - Khối 12 hoặc Phạm Hữu Lầu">
+        </div>
+        <div class="form-group mb-3">
+          <label for="input-new-banner-desc">Mô tả (tùy chọn):</label>
+          <input type="text" id="input-new-banner-desc" class="form-control" placeholder="Mô tả nội dung hoặc ghi chú...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="btn-cancel-add-banner">Hủy Bỏ</button>
+        <button class="btn btn-primary btn-sm" id="btn-confirm-add-banner">Tạo Banner</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ĐỔI TÊN BANNER -->
+  <!-- ========================================== -->
+  <div class="modal hidden" id="modal-rename-banner">
+    <div class="modal-backdrop" id="modal-rename-banner-backdrop"></div>
+    <div class="modal-content modal-sm" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">✏️ Đổi Tên Banner</h3>
+        <button class="modal-close" id="btn-close-rename-banner-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group mb-3">
+          <label for="input-modal-banner-title">Tên mới cho phần thi:</label>
+          <input type="text" id="input-modal-banner-title" class="form-control" placeholder="Nhập tên mới...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="btn-cancel-rename-modal">Hủy</button>
+        <button class="btn btn-primary btn-sm" id="btn-confirm-rename-modal">Lưu Tên Mới</button>
       </div>
     </div>
   </div>
@@ -421,6 +532,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=2.2.0"></script>
+  <script src="app.js?v=2.5.0"></script>
 </body>
 </html>

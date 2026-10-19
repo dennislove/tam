@@ -12,9 +12,17 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Disable cache for local frontend files
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 // Serve static frontend files
 const publicDir = path.resolve(process.cwd(), 'public');
-app.use(express.static(publicDir));
+app.use(express.static(publicDir, { etag: false, maxAge: 0 }));
 
 // Serve screenshots directory
 const screenshotsDir = path.resolve(process.cwd(), 'logs', 'screenshots');
@@ -110,81 +118,127 @@ app.post('/api/devices/scan', async (req: Request, res: Response) => {
 // -------------------------------------------------------------
 // BANNERS & ANSWERS APIS
 // -------------------------------------------------------------
-app.get('/api/banners', (req: Request, res: Response) => {
-  const banners = bannerManager.getBanners();
+app.get('/api/banners', async (req: Request, res: Response) => {
+  const banners = await bannerManager.getBanners();
   const activeId = bannerManager.getActiveBannerId();
   res.json({ success: true, activeId, banners });
 });
 
-app.post('/api/banners/active', (req: Request, res: Response) => {
+app.post('/api/banners/active', async (req: Request, res: Response) => {
   const { bannerId } = req.body;
   if (!bannerId) {
     return res.status(400).json({ success: false, message: 'Thiếu bannerId' });
   }
-  bannerManager.setActiveBannerId(bannerId);
+  await bannerManager.setActiveBannerId(bannerId);
+  taskRunner.setActiveBannerId(bannerId);
   res.json({ success: true, activeId: bannerManager.getActiveBannerId() });
 });
 
-app.get('/api/banners/:id/answers', (req: Request, res: Response) => {
+
+app.get('/api/banners/:id/answers', async (req: Request, res: Response) => {
   const id = String(req.params.id);
-  const answers = bannerManager.getBannerAnswers(id);
+  const answers = await bannerManager.getBannerAnswers(id);
   res.json({ success: true, bannerId: id, total: answers.length, answers });
 });
 
-app.post('/api/banners/:id/answers', (req: Request, res: Response) => {
+app.post('/api/banners/:id/answers', async (req: Request, res: Response) => {
   const id = String(req.params.id);
   const { answers } = req.body;
   if (!Array.isArray(answers)) {
     return res.status(400).json({ success: false, message: 'Dữ liệu answers phải là mảng danh sách câu hỏi!' });
   }
-  const ok = bannerManager.saveBannerAnswers(id, answers);
+  const ok = await bannerManager.saveBannerAnswers(id, answers);
   if (ok) {
     res.json({ success: true, message: `Đã lưu thành công ${answers.length} câu hỏi cho ${id}!` });
   } else {
-    res.status(500).json({ success: false, message: 'Lỗi khi ghi file đáp án!' });
+    res.status(500).json({ success: false, message: 'Lỗi khi ghi đáp án!' });
   }
 });
 
-app.put('/api/banners/:id', (req: Request, res: Response) => {
+app.put('/api/banners/:id', async (req: Request, res: Response) => {
   const id = String(req.params.id);
   const { title, description } = req.body;
-  const ok = bannerManager.updateBannerMeta(id, { title, description });
+  const ok = await bannerManager.updateBannerMeta(id, { title, description });
   res.json({ success: ok });
 });
 
+app.post('/api/banners', async (req: Request, res: Response) => {
+  const { title, description } = req.body;
+  if (!title) {
+    return res.status(400).json({ success: false, message: 'Vui lòng nhập tên phần thi (banner)!' });
+  }
+  const banners = await bannerManager.getBanners();
+  const nextKey = banners.length > 0 ? Math.max(...banners.map(b => b.key)) + 1 : 1;
+  const nextId = `banner_${nextKey}`;
+  const ok = await bannerManager.addBanner(nextId, nextKey, title, description || '');
+  if (ok) {
+    res.json({ success: true, bannerId: nextId, key: nextKey, title });
+  } else {
+    res.status(500).json({ success: false, message: 'Lỗi khi tạo banner mới!' });
+  }
+});
+
+app.delete('/api/banners/:id', async (req: Request, res: Response) => {
+  const id = String(req.params.id);
+  const { supabase } = await import('./services/supabaseClient.js');
+  const { error } = await supabase.from('banners').delete().eq('id', id);
+  if (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+  res.json({ success: true, message: `Đã xóa banner ${id}!` });
+});
 // -------------------------------------------------------------
 // ACCOUNTS APIS
 // -------------------------------------------------------------
-app.get('/api/accounts', (req: Request, res: Response) => {
-  const accounts = accountManager.getAccounts();
+app.get('/api/lots', async (req: Request, res: Response) => {
+  const lots = await accountManager.getLots();
+  // Đếm số tài khoản trong mỗi lô
+  const { data: counts } = await (await import('./services/supabaseClient.js')).supabase
+    .from('accounts')
+    .select('lot_id');
+
+  const countMap: Record<string, number> = {};
+  (counts || []).forEach((r: any) => {
+    if (r.lot_id) countMap[r.lot_id] = (countMap[r.lot_id] || 0) + 1;
+  });
+
+  res.json({
+    success: true,
+    lots: lots.map(l => ({ ...l, accountCount: countMap[l.id] || 0 })),
+  });
+});
+
+app.get('/api/accounts', async (req: Request, res: Response) => {
+  const lotId = req.query.lotId as string | undefined;
+  const accounts = await accountManager.getAccounts(lotId || undefined);
   res.json({ success: true, total: accounts.length, accounts });
 });
 
-app.post('/api/accounts', (req: Request, res: Response) => {
+app.post('/api/accounts', async (req: Request, res: Response) => {
   const { accounts } = req.body;
   if (!Array.isArray(accounts)) {
     return res.status(400).json({ success: false, message: 'Dữ liệu accounts phải là mảng!' });
   }
-  const ok = accountManager.saveAccounts(accounts);
+  const ok = await accountManager.saveAccounts(accounts);
   res.json({ success: ok, message: ok ? 'Đã lưu danh sách tài khoản!' : 'Lỗi khi lưu tài khoản' });
 });
 
-app.post('/api/accounts/add', (req: Request, res: Response) => {
-  const { username, password, deviceSerial } = req.body;
+app.post('/api/accounts/add', async (req: Request, res: Response) => {
+  const { username, password, lotId, deviceSerial } = req.body;
   if (!username || !password) {
     return res.status(400).json({ success: false, message: 'Vui lòng nhập tài khoản và mật khẩu!' });
   }
-  const ok = accountManager.addAccount(username, password, deviceSerial);
+  const ok = await accountManager.addAccount(username, password, lotId || undefined, deviceSerial);
   if (ok) {
     res.json({ success: true, message: 'Đã thêm tài khoản thành công!' });
   } else {
-    res.status(400).json({ success: false, message: 'Tài khoản đã tồn tại!' });
+    res.status(400).json({ success: false, message: 'Tài khoản đã tồn tại hoặc lỗi!' });
   }
 });
 
-app.delete('/api/accounts/:username', (req: Request, res: Response) => {
+app.delete('/api/accounts/:username', async (req: Request, res: Response) => {
   const username = String(req.params.username);
-  const ok = accountManager.deleteAccount(username);
+  const ok = await accountManager.deleteAccount(username);
   res.json({ success: ok, message: ok ? 'Đã xóa tài khoản!' : 'Không tìm thấy tài khoản!' });
 });
 
@@ -198,14 +252,16 @@ app.post('/api/accounts/reset', (req: Request, res: Response) => {
 // ACTION CONTROLLERS (START / STOP / RESUME)
 // -------------------------------------------------------------
 app.post('/api/action/start', async (req: Request, res: Response) => {
-  const { bannerId, startFromIndex, usernames, deviceSerial, concurrency, fixedAnswer } = req.body;
+  const { bannerId, lotId, startFromIndex, usernames, deviceSerial, concurrency, fixedAnswer, speedMode } = req.body;
   const result = await taskRunner.start({
     bannerId,
+    lotId,
     startFromIndex,
     usernames,
     deviceSerial,
     concurrency,
     fixedAnswer,
+    speedMode,
   });
   res.json(result);
 });

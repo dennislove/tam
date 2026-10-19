@@ -131,12 +131,23 @@ export class OcrSolver {
       );
     }
 
-    // 3. Nhận diện 4 dòng phương án theo vị trí 4 nút tròn Y (mở rộng vùng crop để lấy hết đáp án nhiều dòng)
+    // 3. Nhận diện các dòng phương án theo vị trí 4 nút tròn Y (mở rộng vùng crop)
+    // TỐI ƯU SIÊU TỐC: Nếu có bankOptionIndex thì kiểm tra vị trí đó trước. Khi độ khớp >= 0.88 thì dừng ngay!
     const optionTexts: string[] = [];
     let bestOptionScore = -1;
     let bestOptionIndex = bankOptionIndex >= 0 ? bankOptionIndex : 0;
 
-    for (let i = 0; i < 4; i++) {
+    const indicesToCheck: number[] = [];
+    if (bankOptionIndex >= 0 && bankOptionIndex < 4) {
+      indicesToCheck.push(bankOptionIndex);
+      for (let i = 0; i < 4; i++) {
+        if (i !== bankOptionIndex) indicesToCheck.push(i);
+      }
+    } else {
+      indicesToCheck.push(0, 1, 2, 3);
+    }
+
+    for (const i of indicesToCheck) {
       const centerY = circles[i];
       const optTop = Math.max(0, centerY - 28);
       // Mở rộng xuống tận nút tiếp theo để lấy trọn vẹn đáp án 2-3 dòng chữ
@@ -169,6 +180,11 @@ export class OcrSolver {
       if (score > bestOptionScore) {
         bestOptionScore = score;
         bestOptionIndex = i;
+      }
+
+      // Nếu đã khớp rất cao (>= 0.88), dừng ngay để tiết kiệm 75% thời gian OCR!
+      if (score >= 0.88) {
+        break;
       }
     }
 
