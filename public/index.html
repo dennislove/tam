@@ -240,7 +240,9 @@
             <h2 class="panel-title">DANH SÁCH TÀI KHOẢN DÙNG CHUNG</h2>
             <p class="panel-desc">Tất cả tài khoản lưu tại <code>accounts.json</code> dùng chung cho 5 banner. Bạn có thể chọn tiếp tục chạy từ bất kỳ tài khoản nào.</p>
           </div>
-          <div class="panel-actions">
+            <button class="btn btn-emerald btn-sm" id="btn-auto-partition" title="Tự động cắt, đếm và chia 20 tài khoản vào mỗi lô">
+              <span class="icon">⚡</span> Tự Động Phân Lô (20 acc)
+            </button>
             <button class="btn btn-primary btn-sm" id="btn-open-add-acc-modal">
               <span class="icon">➕</span> Thêm Tài Khoản
             </button>
@@ -389,9 +391,13 @@
     </div>
   </main>
 
-
-
-
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <span class="footer-icon">⚡</span>
+      <span class="footer-text">Tool Auto Exam Pro by TranVanTinh 2026</span>
+    </div>
+  </footer>
   <!-- ========================================== -->
   <!-- MODAL: NHẬP / SỬA JSON DANH SÁCH TÀI KHOẢN -->
   <!-- ========================================== -->
@@ -438,7 +444,7 @@
         <div class="form-group mb-3">
           <label for="select-new-acc-lot">Lô Tài Khoản:</label>
           <select id="select-new-acc-lot" class="form-control">
-            <option value="">Không gán lô</option>
+            <option value="">⚡ Tự động gán vào lô (tối đa 20 acc/lô)</option>
           </select>
         </div>
       </div>
@@ -532,6 +538,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=2.5.0"></script>
+  <script src="app.js?v=2.6.0"></script>
 </body>
 </html>

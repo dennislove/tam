@@ -1,10 +1,17 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
 import express, { Request, Response } from 'express';
 import { deviceManager } from './services/deviceManager.js';
 import { accountManager } from './services/accountManager.js';
 import { bannerManager } from './services/bannerManager.js';
 import { taskRunner } from './services/taskRunner.js';
 import { eventBus, LogEntry } from './services/eventBus.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const ROOT_DIR = process.env.APP_ROOT || path.resolve(__dirname, '..');
+const DATA_DIR = process.env.APP_DATA_DIR || process.cwd();
 
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -20,12 +27,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static frontend files
-const publicDir = path.resolve(process.cwd(), 'public');
+// Serve static frontend files (đọc từ app.asar/public hoặc thư mục public)
+const publicDir = path.resolve(ROOT_DIR, 'public');
 app.use(express.static(publicDir, { etag: false, maxAge: 0 }));
 
-// Serve screenshots directory
-const screenshotsDir = path.resolve(process.cwd(), 'logs', 'screenshots');
+// Serve screenshots directory (ghi và đọc từ thư mục dữ liệu thật trên máy)
+const screenshotsDir = path.resolve(DATA_DIR, 'logs', 'screenshots');
+try {
+  if (!fs.existsSync(screenshotsDir)) {
+    fs.mkdirSync(screenshotsDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('[Server] Khong the tao screenshotsDir:', err);
+}
 app.use('/screenshots', express.static(screenshotsDir));
 
 // SSE Clients pool
@@ -202,9 +216,34 @@ app.get('/api/lots', async (req: Request, res: Response) => {
     if (r.lot_id) countMap[r.lot_id] = (countMap[r.lot_id] || 0) + 1;
   });
 
+  // Kiểm tra nếu có lô nào xuất hiện trong danh sách tài khoản mà chưa có trong bảng account_lots
+  const existingLotIds = new Set(lots.map(l => l.id));
+  const dynamicLots: typeof lots = [];
+  for (const lotId of Object.keys(countMap)) {
+    if (lotId && !existingLotIds.has(lotId)) {
+      const match = lotId.match(/\d+/);
+      const num = match ? parseInt(match[0], 10) : 999;
+      dynamicLots.push({
+        id: lotId,
+        name: match ? `Lô ${num}` : lotId,
+        description: `Lô tự động ${num}`,
+        sortOrder: num,
+      });
+    }
+  }
+
+  // Kết hợp và sắp xếp theo số thứ tự lô
+  const mergedLots = [...lots, ...dynamicLots].sort((a, b) => a.sortOrder - b.sortOrder);
+
+  // Hiển thị tất cả các lô kèm số lượng tài khoản (có bao nhiêu hiển thị bấy nhiêu)
+  const allLots = mergedLots.map(l => ({
+    ...l,
+    accountCount: countMap[l.id] || 0,
+  }));
+
   res.json({
     success: true,
-    lots: lots.map(l => ({ ...l, accountCount: countMap[l.id] || 0 })),
+    lots: allLots,
   });
 });
 
@@ -215,12 +254,18 @@ app.get('/api/accounts', async (req: Request, res: Response) => {
 });
 
 app.post('/api/accounts', async (req: Request, res: Response) => {
-  const { accounts } = req.body;
+  const { accounts, autoPartition = true, lotSize = 20 } = req.body;
   if (!Array.isArray(accounts)) {
     return res.status(400).json({ success: false, message: 'Dữ liệu accounts phải là mảng!' });
   }
-  const ok = await accountManager.saveAccounts(accounts);
+  const ok = await accountManager.saveAccounts(accounts, autoPartition, Number(lotSize) || 20);
   res.json({ success: ok, message: ok ? 'Đã lưu danh sách tài khoản!' : 'Lỗi khi lưu tài khoản' });
+});
+
+app.post('/api/accounts/auto-partition', async (req: Request, res: Response) => {
+  const lotSize = Number(req.body.lotSize) || 20;
+  const result = await accountManager.autoPartitionExistingAccounts(lotSize);
+  res.json(result);
 });
 
 app.post('/api/accounts/add', async (req: Request, res: Response) => {

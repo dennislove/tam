@@ -116,6 +116,7 @@
     countFilterPending: document.getElementById('count-filter-pending'),
     countFilterSuccess: document.getElementById('count-filter-success'),
     countFilterError: document.getElementById('count-filter-error'),
+    btnAutoPartition: document.getElementById('btn-auto-partition'),
     btnOpenAddAccModal: document.getElementById('btn-open-add-acc-modal'),
     btnOpenImportAccModal: document.getElementById('btn-open-import-acc-modal'),
     btnResetAllStatuses: document.getElementById('btn-reset-all-statuses'),
@@ -174,15 +175,30 @@
   // ============================================================
   // TAB NAVIGATION
   // ============================================================
+  function switchTab(btn, targetId) {
+    dom.tabBtns.forEach((b) => b.classList.remove('active'));
+    dom.tabPanes.forEach((p) => p.classList.remove('active'));
+
+    btn.classList.add('active');
+    const targetPane = document.getElementById(targetId);
+    if (targetPane) targetPane.classList.add('active');
+  }
+
   dom.tabBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       const targetId = btn.getAttribute('data-tab');
-      dom.tabBtns.forEach((b) => b.classList.remove('active'));
-      dom.tabPanes.forEach((p) => p.classList.remove('active'));
 
-      btn.classList.add('active');
-      const targetPane = document.getElementById(targetId);
-      if (targetPane) targetPane.classList.add('active');
+      // Khóa 2 Tab quản trị: "Danh Sách Tài Khoản" và "Ngân Hàng Banner"
+      if (targetId === 'tab-accounts' || targetId === 'tab-banners') {
+        if (!isAuthed()) {
+          requireAuth(() => {
+            switchTab(btn, targetId);
+          });
+          return;
+        }
+      }
+
+      switchTab(btn, targetId);
     });
   });
 
@@ -190,14 +206,20 @@
   // AUTH GATE — XÁC THỰC MẬT KHẨU QUẢN TRỊ
   // ============================================================
   const AUTH_KEY = 'tnvn_admin_authed';
-  const CORRECT_HASH = btoa('Dennis0923#'); // base64 cơ bản, đủ để ngăn người dùng thường
+  const CORRECT_HASH = btoa('Dennis0923#'); // Mật khẩu quản trị: Dennis0923#
+
+  // Dọn sạch localStorage cũ để phiên mới khi mở app luôn đòi hỏi nhập pass
+  try {
+    localStorage.removeItem(AUTH_KEY);
+  } catch {}
 
   function isAuthed() {
-    return localStorage.getItem(AUTH_KEY) === CORRECT_HASH;
+    return sessionStorage.getItem(AUTH_KEY) === CORRECT_HASH;
   }
 
   function goToDashboard() {
-    document.getElementById('tab-nav-dashboard').click();
+    const dashBtn = document.getElementById('tab-nav-dashboard');
+    if (dashBtn) switchTab(dashBtn, 'tab-dashboard');
   }
 
   /**
@@ -244,7 +266,7 @@
     function onConfirm() {
       const val = input.value;
       if (btoa(val) === CORRECT_HASH) {
-        localStorage.setItem(AUTH_KEY, CORRECT_HASH);
+        sessionStorage.setItem(AUTH_KEY, CORRECT_HASH);
         closeModal(true);
       } else {
         errorMsg.style.display = 'block';
@@ -733,12 +755,14 @@
   let renamingBannerId = null;
 
   function openRenameModal(bannerId, currentTitle) {
-    renamingBannerId = bannerId;
-    if (dom.inputModalBannerTitle) {
-      dom.inputModalBannerTitle.value = currentTitle || '';
-    }
-    dom.modalRenameBanner?.classList.remove('hidden');
-    setTimeout(() => dom.inputModalBannerTitle?.focus(), 100);
+    requireAuth(() => {
+      renamingBannerId = bannerId;
+      if (dom.inputModalBannerTitle) {
+        dom.inputModalBannerTitle.value = currentTitle || '';
+      }
+      dom.modalRenameBanner?.classList.remove('hidden');
+      setTimeout(() => dom.inputModalBannerTitle?.focus(), 100);
+    });
   }
 
   function closeRenameModal() {
@@ -799,10 +823,12 @@
 
   // ==================== THÊM BANNER MỚI ====================
   function openAddBannerModal() {
-    if (dom.inputNewBannerTitle) dom.inputNewBannerTitle.value = '';
-    if (dom.inputNewBannerDesc) dom.inputNewBannerDesc.value = '';
-    dom.modalAddBanner?.classList.remove('hidden');
-    setTimeout(() => dom.inputNewBannerTitle?.focus(), 100);
+    requireAuth(() => {
+      if (dom.inputNewBannerTitle) dom.inputNewBannerTitle.value = '';
+      if (dom.inputNewBannerDesc) dom.inputNewBannerDesc.value = '';
+      dom.modalAddBanner?.classList.remove('hidden');
+      setTimeout(() => dom.inputNewBannerTitle?.focus(), 100);
+    });
   }
 
   function closeAddBannerModal() {
@@ -846,42 +872,46 @@
 
   // ==================== XÓA BANNER ====================
   async function deleteBanner(bannerId, bannerTitle) {
-    if (!confirm(`Bạn có chắc chắn muốn xóa phần thi [${bannerTitle}] (${bannerId}) và toàn bộ câu hỏi liên quan không?`)) {
-      return;
-    }
-    try {
-      const res = await fetch(`/api/banners/${bannerId}`, { method: 'DELETE' });
-      const data = await res.json();
-      if (data.success) {
-        await loadBanners();
-      } else {
-        alert('Lỗi: ' + (data.message || 'Không thể xóa banner!'));
+    requireAuth(async () => {
+      if (!confirm(`Bạn có chắc chắn muốn xóa phần thi [${bannerTitle}] (${bannerId}) và toàn bộ câu hỏi liên quan không?`)) {
+        return;
       }
-    } catch (err) {
-      alert('Lỗi xóa banner: ' + err.message);
-    }
+      try {
+        const res = await fetch(`/api/banners/${bannerId}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          await loadBanners();
+        } else {
+          alert('Lỗi: ' + (data.message || 'Không thể xóa banner!'));
+        }
+      } catch (err) {
+        alert('Lỗi xóa banner: ' + err.message);
+      }
+    });
   }
 
   // 📋 Chèn mẫu 20 câu hỏi vào ô nhập
   if (dom.btnInsertSampleAnswers) {
     dom.btnInsertSampleAnswers.addEventListener('click', () => {
-      if (dom.textareaJsonAnswers.value.trim() && dom.textareaJsonAnswers.value !== '[]') {
-        if (!confirm('Khung đáp án đã có dữ liệu. Bạn có muốn ghi đè bằng mẫu 20 câu hỏi chuẩn không?')) {
-          return;
+      requireAuth(() => {
+        if (dom.textareaJsonAnswers.value.trim() && dom.textareaJsonAnswers.value !== '[]') {
+          if (!confirm('Khung đáp án đã có dữ liệu. Bạn có muốn ghi đè bằng mẫu 20 câu hỏi chuẩn không?')) {
+            return;
+          }
         }
-      }
-      const sample = Array.from({ length: 20 }, (_, i) => ({
-        question: `Câu hỏi số ${i + 1}: Nội dung câu hỏi ở đây?`,
-        options: [
-          `Lựa chọn A của câu ${i + 1}`,
-          `Lựa chọn B của câu ${i + 1}`,
-          `Lựa chọn C của câu ${i + 1}`,
-          `Lựa chọn D của câu ${i + 1}`,
-        ],
-        answer: `Lựa chọn A của câu ${i + 1}`,
-      }));
-      dom.textareaJsonAnswers.value = JSON.stringify(sample, null, 2);
-      updateJsonAnswersStatus(sample.length);
+        const sample = Array.from({ length: 20 }, (_, i) => ({
+          question: `Câu hỏi số ${i + 1}: Nội dung câu hỏi ở đây?`,
+          options: [
+            `Lựa chọn A của câu ${i + 1}`,
+            `Lựa chọn B của câu ${i + 1}`,
+            `Lựa chọn C của câu ${i + 1}`,
+            `Lựa chọn D của câu ${i + 1}`,
+          ],
+          answer: `Lựa chọn A của câu ${i + 1}`,
+        }));
+        dom.textareaJsonAnswers.value = JSON.stringify(sample, null, 2);
+        updateJsonAnswersStatus(sample.length);
+      });
     });
   }
 
@@ -959,7 +989,7 @@
       // 3. Cập nhật dropdown chọn lô khi thêm mới tài khoản
       if (dom.selectNewAccLot) {
         const curVal = dom.selectNewAccLot.value;
-        dom.selectNewAccLot.innerHTML = '<option value="">Không gán lô</option>';
+        dom.selectNewAccLot.innerHTML = '<option value="">⚡ Tự động gán vào lô (tối đa 20 acc/lô)</option>';
         state.lots.forEach((lot) => {
           const opt = document.createElement('option');
           opt.value = lot.id;
@@ -1096,6 +1126,7 @@
         requireAuth(async () => {
           if (confirm(`Bạn có chắc muốn xóa tài khoản ${acc.username}?`)) {
             await fetch(`/api/accounts/${encodeURIComponent(acc.username)}`, { method: 'DELETE' });
+            await loadLots();
             loadAccounts();
           }
         });
@@ -1143,6 +1174,39 @@
     if (usernames.length === 0) return;
     startExecution({ usernames });
   });
+
+  // Tự động phân lô 20 tài khoản / lô
+  if (dom.btnAutoPartition) {
+    dom.btnAutoPartition.addEventListener('click', () => {
+      requireAuth(async () => {
+        if (!confirm('Hệ thống sẽ tự động cắt, đếm và chia toàn bộ tài khoản thành các lô (mỗi lô 20 tài khoản). Bạn có muốn tiếp tục?')) {
+          return;
+        }
+        dom.btnAutoPartition.disabled = true;
+        dom.btnAutoPartition.innerHTML = '<span class="icon">⏳</span> Đang phân lô...';
+        try {
+          const res = await fetch('/api/accounts/auto-partition', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lotSize: 20 }),
+          });
+          const data = await res.json();
+          if (data.success) {
+            alert(`✔ ${data.message || 'Phân lô thành công!'}`);
+            await loadLots();
+            await loadAccounts();
+          } else {
+            alert('Lỗi phân lô: ' + (data.message || 'Không xác định'));
+          }
+        } catch (err) {
+          alert('Lỗi kết nối: ' + err.message);
+        } finally {
+          dom.btnAutoPartition.disabled = false;
+          dom.btnAutoPartition.innerHTML = '<span class="icon">⚡</span> Tự Động Phân Lô (20 acc)';
+        }
+      });
+    });
+  }
 
   // Reset statuses
   dom.btnResetAllStatuses.addEventListener('click', () => {
@@ -1217,6 +1281,7 @@
       const data = await res.json();
       if (data.success) {
         dom.modalJsonAccounts.classList.add('hidden');
+        await loadLots();
         loadAccounts();
         alert('Đã cập nhật danh sách tài khoản thành công!');
       } else {

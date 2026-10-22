@@ -1,5 +1,9 @@
 node_modules/
 dist/
+release/
+bin/
+*.exe
+*.zip
 *.log
 logs/
 *.xml
@@ -7,3 +11,4 @@ logs/
 .env
 .env.local
 .env.*
+

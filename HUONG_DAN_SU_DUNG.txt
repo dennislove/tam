@@ -1,0 +1,49 @@
+================================================================================
+          HƯỚNG DẪN CÀI ĐẶT & SỬ DỤNG TOOL TỰ ĐỘNG THI THANH NIÊN VIỆT NAM
+                             (TNVN AUTO EXAM PRO)
+================================================================================
+
+📌 BƯỚC 1: CẤU HÌNH GIẢ LẬP LDPLAYER (CHỈ LÀM 1 LẦN DUY NHẤT)
+--------------------------------------------------------------------------------
+1. Khởi động LDPlayer (LDPlayer 9 hoặc LDPlayer 14).
+2. Vào CH Play hoặc kéo file APK cài ứng dụng "Thanh niên Việt Nam".
+3. Vào "Cài đặt" (Biểu tượng bánh răng ở thanh công cụ bên phải LDPlayer):
+   - Tab "Nâng cao" (Advanced):
+     + Chọn màn hình "Điện thoại (Mobile)" -> Độ phân giải: 720 x 1280 (khuyên dùng).
+   - Tab "Khác" (Other):
+     + Mục "Gỡ lỗi ADB" (ADB Debug): Chọn "Mở kết nối cục bộ" (Open local connection).
+4. Nhấn "Lưu" và khởi động lại LDPlayer.
+
+📌 BƯỚC 2: KHỞI ĐỘNG TOOL TỰ ĐỘNG
+--------------------------------------------------------------------------------
+1. Trong thư mục tool, nhấp đúp chuột vào file:
+   👉 CHAY_TOOL.bat
+2. Cửa sổ đen xuất hiện và trình duyệt web sẽ tự động mở lên địa chỉ:
+   👉 http://localhost:3000
+   (Không được đóng cửa sổ đen, chỉ cần thu nhỏ xuống taskbar).
+
+📌 BƯỚC 3: KẾT NỐI VÀ CHẠY THI
+--------------------------------------------------------------------------------
+1. Trên giao diện web, nhấn nút "🔄 Quét Máy Ảo" ở góc trên bên phải.
+   Hệ thống sẽ báo: "Đã phát hiện 1 máy ảo LDPlayer..."
+2. Chọn "Mục thi": Chọn tuần/cuộc thi bạn muốn thi (Ví dụ: Cuộc thi Cụ Huỳnh Thúc Kháng).
+3. Nhập danh sách tài khoản:
+   - Vào tab "Danh Sách Tài Khoản" bên trái.
+   - Nhập mật khẩu quản trị: Dennis0923# (nếu có yêu cầu).
+   - Nhấn "Thêm Tài Khoản" hoặc "Nhập / Sửa JSON" để dán danh sách tài khoản của bạn.
+4. Trở về tab "Điều Khiển & Tiến Trình" -> Nhấn "🚀 BẮT ĐẦU CHẠY".
+   Hệ thống sẽ tự động điều khiển LDPlayer đăng nhập, giải đề và nộp bài!
+
+--------------------------------------------------------------------------------
+⚠️ XỬ LÝ LỖI THƯỜNG GẶP:
+--------------------------------------------------------------------------------
+❌ Lỗi: "Không tìm thấy thiết bị Android / LDPlayer nào đang kết nối":
+   -> Hãy kiểm tra bạn đã mở LDPlayer lên chưa.
+   -> Vào Cài đặt LDPlayer -> Mục "Khác" -> Đã bật "Gỡ lỗi ADB: Mở kết nối cục bộ" chưa?
+   -> Nhấn lại nút "Quét Máy Ảo" trên thanh điều khiển web.
+
+❌ Không mở được trang web localhost:3000:
+   -> Hãy chắc chắn cửa sổ đen `CHAY_TOOL.bat` vẫn đang mở.
+   -> Thử mở trình duyệt (Chrome/Cốc Cốc/Edge) và tự gõ: http://localhost:3000
+
+================================================================================

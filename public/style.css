@@ -1308,3 +1308,41 @@ select.form-control option {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* ========================================= */
+/* APP FOOTER */
+/* ========================================= */
+.app-footer {
+  margin-top: auto;
+  padding: 12px 28px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.footer-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  letter-spacing: 0.4px;
+}
+
+.footer-icon {
+  font-size: 0.95rem;
+  color: var(--accent-cyan);
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+}
+
+.footer-text {
+  background: linear-gradient(135deg, #94a3b8 0%, #cbd5e1 50%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}

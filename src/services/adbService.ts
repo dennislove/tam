@@ -13,17 +13,31 @@ export function detectAdbPath(): string | undefined {
     return process.env.ADB_PATH;
   }
 
+  const resPath = (process as any).resourcesPath;
   const candidatePaths = [
+    ...(process.env.APP_ROOT ? [path.join(process.env.APP_ROOT, 'bin', 'adb.exe')] : []),
+    ...(resPath ? [path.join(resPath, 'app.asar.unpacked', 'bin', 'adb.exe')] : []),
+    path.join(process.cwd(), 'bin', 'adb.exe'),
+    path.join(process.cwd(), 'adb.exe'),
     'C:\\LDPlayer\\LDPlayer14\\adb.exe',
+    'D:\\LDPlayer\\LDPlayer14\\adb.exe',
     'E:\\LDPlayer\\LDPlayer14\\adb.exe',
-    'E:\\LDPlayer\\LDPlayer9\\adb.exe',
     'C:\\LDPlayer\\LDPlayer9\\adb.exe',
     'D:\\LDPlayer\\LDPlayer9\\adb.exe',
+    'E:\\LDPlayer\\LDPlayer9\\adb.exe',
     'C:\\leidian\\LDPlayer9\\adb.exe',
     'D:\\leidian\\LDPlayer9\\adb.exe',
     'E:\\leidian\\LDPlayer9\\adb.exe',
+    'C:\\leidian\\LDPlayer14\\adb.exe',
+    'D:\\leidian\\LDPlayer14\\adb.exe',
+    'E:\\leidian\\LDPlayer14\\adb.exe',
     'C:\\Program Files\\LDPlayer\\LDPlayer9\\adb.exe',
-    'C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe',
+    'D:\\Program Files\\LDPlayer\\LDPlayer9\\adb.exe',
+    'E:\\Program Files\\LDPlayer\\LDPlayer9\\adb.exe',
+    'C:\\Program Files\\LDPlayer\\LDPlayer14\\adb.exe',
+    'D:\\Program Files\\LDPlayer\\LDPlayer14\\adb.exe',
+    'E:\\Program Files\\LDPlayer\\LDPlayer14\\adb.exe',
+    path.join(process.env.USERPROFILE || 'C:\\Users\\Admin', 'AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe'),
   ];
 
   for (const candidate of candidatePaths) {

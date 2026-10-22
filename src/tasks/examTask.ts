@@ -864,7 +864,8 @@ export class ExamTask {
       // 4. Chụp ảnh màn hình kết quả lưu lại làm bằng chứng
       let resultScreenshotPath = '';
       try {
-        const screenshotDir = path.resolve(process.cwd(), 'logs', 'screenshots');
+        const dataDir = process.env.APP_DATA_DIR || process.cwd();
+        const screenshotDir = path.resolve(dataDir, 'logs', 'screenshots');
         if (!fs.existsSync(screenshotDir)) fs.mkdirSync(screenshotDir, { recursive: true });
         resultScreenshotPath = path.join(screenshotDir, `${username}_result_${Date.now()}.png`);
         const dev = this.adb.getDevice(serial);

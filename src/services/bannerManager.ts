@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { supabase } from './supabaseClient.js';
 import { AnswerItem } from './examSolver.js';
 
