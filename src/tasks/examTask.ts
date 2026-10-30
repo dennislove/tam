@@ -439,69 +439,30 @@ export class ExamTask {
     const startTime = Date.now();
     const username = account.username;
     const totalQuestions = account.totalQuestions || 20;
-    const speedMode: SpeedMode = options?.speedMode || 'fast';
+    const speedMode: SpeedMode = 'safe';
 
-    this.log(serial, username, `>>> Bắt đầu tiến trình thi tự động [Tốc độ: ${speedMode.toUpperCase()}]...`, 'blue');
+    this.log(serial, username, `>>> Bắt đầu tiến trình thi tự động [Tốc độ: AN TOÀN]...`, 'blue');
 
+    // Cấu hình độ trễ chuẩn: Mức An Toàn (làm chậm và ổn định tại bước nhập email, mật khẩu)
     const delays = {
-      fast: {
-        appLaunchWait: 3500,
-        inputTapSleep: [500, 750] as [number, number],
-        inputClearSleep: [300, 450] as [number, number],
-        inputTextSleep: [500, 750] as [number, number],
-        loginWait: 2500,
-        navTabSleep: [800, 1200] as [number, number],
-        navHocVaThiWait: 1500,
-        navCuocThiSleep: [1000, 1400] as [number, number],
-        examPollSleep: [400, 600] as [number, number],
-        examQuestionPreSleep: [250, 400] as [number, number],
-        examAnswerTapSleep: [350, 500] as [number, number],
-        examNextQuestionSleep: [650, 850] as [number, number],
-        examFinishPreSleep: [800, 1200] as [number, number],
-        submitConfirmWait: 1200,
-        submitResultWait: 1800,
-        resultClickWait: 1000,
-        endReviewWait: 2000,
-      },
-      normal: {
-        appLaunchWait: 3800,
-        inputTapSleep: [600, 850] as [number, number],
-        inputClearSleep: [350, 500] as [number, number],
-        inputTextSleep: [600, 850] as [number, number],
-        loginWait: 2800,
-        navTabSleep: [1200, 1600] as [number, number],
-        navHocVaThiWait: 2500,
-        navCuocThiSleep: [1500, 2000] as [number, number],
-        examPollSleep: [700, 900] as [number, number],
-        examQuestionPreSleep: [600, 800] as [number, number],
-        examAnswerTapSleep: [700, 900] as [number, number],
-        examNextQuestionSleep: [1200, 1500] as [number, number],
-        examFinishPreSleep: [1200, 1600] as [number, number],
-        submitConfirmWait: 1800,
-        submitResultWait: 2500,
-        resultClickWait: 1500,
-        endReviewWait: 4000,
-      },
-      safe: {
-        appLaunchWait: 4500,
-        inputTapSleep: [700, 1100] as [number, number],
-        inputClearSleep: [400, 650] as [number, number],
-        inputTextSleep: [700, 1200] as [number, number],
-        loginWait: 3500,
-        navTabSleep: [1500, 2200] as [number, number],
-        navHocVaThiWait: 5000,
-        navCuocThiSleep: [2000, 3000] as [number, number],
-        examPollSleep: [1000, 1200] as [number, number],
-        examQuestionPreSleep: [1000, 1400] as [number, number],
-        examAnswerTapSleep: [1200, 1500] as [number, number],
-        examNextQuestionSleep: [2200, 2600] as [number, number],
-        examFinishPreSleep: [1800, 2200] as [number, number],
-        submitConfirmWait: 2500,
-        submitResultWait: 3500,
-        resultClickWait: 2000,
-        endReviewWait: 10000,
-      },
-    }[speedMode];
+      appLaunchWait: 5000,
+      inputTapSleep: [1200, 1800] as [number, number],
+      inputClearSleep: [600, 900] as [number, number],
+      inputTextSleep: [1200, 1800] as [number, number],
+      loginWait: 4500,
+      navTabSleep: [1500, 2200] as [number, number],
+      navHocVaThiWait: 5000,
+      navCuocThiSleep: [2000, 3000] as [number, number],
+      examPollSleep: [1000, 1200] as [number, number],
+      examQuestionPreSleep: [1000, 1400] as [number, number],
+      examAnswerTapSleep: [1200, 1500] as [number, number],
+      examNextQuestionSleep: [2200, 2600] as [number, number],
+      examFinishPreSleep: [1800, 2200] as [number, number],
+      submitConfirmWait: 2500,
+      submitResultWait: 3500,
+      resultClickWait: 2000,
+      endReviewWait: 10000,
+    };
 
     if (options?.abortSignal?.aborted) {
       return {
@@ -538,14 +499,14 @@ export class ExamTask {
       const targetPkg = await this.adb.getTargetPackage(serial);
       this.log(serial, username, `[Bước 1/4] Làm mới dữ liệu và mở app (${targetPkg})...`);
       await this.adb.clearApp(serial, targetPkg);
-      await this.adb.sleep(1000, 1400);
+      await this.adb.sleep(1200, 1600);
       await this.adb.launchApp(serial, targetPkg);
       this.log(serial, username, `[Bước 1/4] Chờ ${(delays.appLaunchWait / 1000).toFixed(1)} giây để app tải giao diện...`);
       await new Promise((resolve) => setTimeout(resolve, delays.appLaunchWait));
 
       this.log(serial, username, '[Bước 1/4] Click vào ô nhập Email/Số điện thoại/CCCD...');
       await this.adb.tap(serial, COORDINATES.LOGIN.USERNAME_INPUT);
-      await this.adb.sleep(200, 300);
+      await this.adb.sleep(350, 500);
       await this.adb.tap(serial, COORDINATES.LOGIN.USERNAME_INPUT);
       await this.adb.sleep(...delays.inputTapSleep);
       await this.adb.clearInput(serial, 40);
@@ -555,9 +516,12 @@ export class ExamTask {
       await this.adb.inputText(serial, username);
       await this.adb.sleep(...delays.inputTextSleep);
 
+      this.log(serial, username, '[Bước 1/4] Chờ chuyển sang ô nhập Mật khẩu...');
+      await this.adb.sleep(800, 1200);
+
       this.log(serial, username, '[Bước 1/4] Click vào ô nhập Mật khẩu...');
       await this.adb.tap(serial, COORDINATES.LOGIN.PASSWORD_INPUT);
-      await this.adb.sleep(200, 300);
+      await this.adb.sleep(350, 500);
       await this.adb.tap(serial, COORDINATES.LOGIN.PASSWORD_INPUT);
       await this.adb.sleep(...delays.inputTapSleep);
       await this.adb.clearInput(serial, 40);
@@ -566,6 +530,9 @@ export class ExamTask {
       this.log(serial, username, '[Bước 1/4] Nhập mật khẩu...');
       await this.adb.inputText(serial, account.password);
       await this.adb.sleep(...delays.inputTextSleep);
+
+      this.log(serial, username, '[Bước 1/4] Chờ ổn định form trước khi đăng nhập...');
+      await this.adb.sleep(1000, 1500);
 
       this.log(serial, username, '[Bước 1/4] Click nút cam "ĐĂNG NHẬP"...');
       await this.adb.tap(serial, COORDINATES.LOGIN.LOGIN_BUTTON);

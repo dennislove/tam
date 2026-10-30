@@ -1,1 +1,412 @@
-[]
+[
+  {
+    "question": "Trong chuyên đề, đổi mới sáng tạo của thanh niên bắt đầu từ điều gì?",
+    "options": [
+      "Chỉ làm theo mô hình cũ đã quen thuộc.",
+      "Chờ hướng dẫn đầy đủ mới thực hiện.",
+      "Tập trung vào hình thức truyền thông thay vì kết quả.",
+      "Dám đặt câu hỏi, dám thử nghiệm cái mới và biến tri thức thành năng suất."
+    ],
+    "answer": "Dám đặt câu hỏi, dám thử nghiệm cái mới và biến tri thức thành năng suất."
+  },
+  {
+    "question": "Trong chuyên đề, yêu cầu đầu tiên với thanh niên khi hội nhập là gì?",
+    "options": [
+      "Chỉ quan tâm đến cơ hội việc làm quốc tế.",
+      "Thấm nhuần bản lĩnh chính trị, hiểu đúng quan hệ giữa hội nhập và độc lập, tự chủ.",
+      "Tập trung học ngoại ngữ trước, chưa cần bản lĩnh chính trị.",
+      "Tiếp nhận mọi giá trị bên ngoài để thích nghi nhanh."
+    ],
+    "answer": "Thấm nhuần bản lĩnh chính trị, hiểu đúng quan hệ giữa hội nhập và độc lập, tự chủ."
+  },
+  {
+    "question": "Trong chuyên đề, Hội Liên hiệp các dân tộc bị áp bức ở Á Đông được nhắc đến nhằm làm rõ nội dung nào?",
+    "options": [
+      "Hoạt động văn hóa giữa thanh niên các nước Đông Dương.",
+      "Hoạt động liên kết các dân tộc thuộc địa trong đấu tranh chống thực dân, đế quốc.",
+      "Hoạt động ngoại giao nhà nước sau khi Việt Nam giành độc lập.",
+      "Hoạt động hợp tác kinh tế giữa các nước châu Á."
+    ],
+    "answer": "Hoạt động liên kết các dân tộc thuộc địa trong đấu tranh chống thực dân, đế quốc."
+  },
+  {
+    "question": "Trong chuyên đề, vũ lực được Hồ Chí Minh xem là biện pháp như thế nào?",
+    "options": [
+      "Biện pháp ưu tiên trong mọi quan hệ quốc tế.",
+      "Biện pháp cuối cùng khi kẻ thù ngoan cố xâm lược.",
+      "Biện pháp chỉ để gây áp lực ngoại giao.",
+      "Biện pháp thay thế hoàn toàn đối thoại."
+    ],
+    "answer": "Biện pháp cuối cùng khi kẻ thù ngoan cố xâm lược."
+  },
+  {
+    "question": "Trong chuyên đề, vai trò “sứ giả văn hóa” của thanh niên thể hiện ở điểm nào?",
+    "options": [
+      "Tiếp nhận văn hóa nước ngoài mà không cần chọn lọc.",
+      "Hạn chế giao lưu để tránh khác biệt văn hóa.",
+      "Chỉ quảng bá hình ảnh cá nhân trên mạng xã hội.",
+      "Sống văn minh, tôn trọng khác biệt và lan tỏa hình ảnh Việt Nam hòa bình, hiếu khách."
+    ],
+    "answer": "Sống văn minh, tôn trọng khác biệt và lan tỏa hình ảnh Việt Nam hòa bình, hiếu khách."
+  },
+  {
+    "question": "Trong chuyên đề, vì sao Hồ Chí Minh coi trọng đoàn kết quốc tế?",
+    "options": [
+      "Vì đoàn kết quốc tế thay thế được tinh thần tự lực của dân tộc.",
+      "Vì chỉ có sức mạnh quốc tế mới quyết định thắng lợi cách mạng.",
+      "Vì cần kết hợp sức mạnh dân tộc với sức mạnh thời đại.",
+      "Vì đoàn kết quốc tế chỉ nhằm mở rộng quan hệ ngoại giao hình thức."
+    ],
+    "answer": "Vì cần kết hợp sức mạnh dân tộc với sức mạnh thời đại."
+  },
+  {
+    "question": "Trong chuyên đề, thanh niên thể hiện trách nhiệm quốc tế bằng cách nào?",
+    "options": [
+      "Chỉ tham gia hoạt động trong phạm vi địa phương.",
+      "Tham gia phát triển bền vững, bảo vệ môi trường, chuyển đổi năng lượng và hoạt động gìn giữ hòa bình.",
+      "Tránh các vấn đề toàn cầu vì không thuộc trách nhiệm cá nhân.",
+      "Chỉ quan tâm đến phát triển bản thân."
+    ],
+    "answer": "Tham gia phát triển bền vững, bảo vệ môi trường, chuyển đổi năng lượng và hoạt động gìn giữ hòa bình."
+  },
+  {
+    "question": "Trong chuyên đề, bình đẳng trong quan hệ quốc tế được hiểu như thế nào?",
+    "options": [
+      "Không phân biệt quốc gia lớn hay quốc gia nhỏ.",
+      "Quốc gia lớn có trách nhiệm quyết định thay quốc gia nhỏ.",
+      "Bình đẳng chỉ áp dụng trong quan hệ văn hóa.",
+      "Quốc gia nhỏ phải chấp nhận điều kiện của quốc gia lớn."
+    ],
+    "answer": "Không phân biệt quốc gia lớn hay quốc gia nhỏ."
+  },
+  {
+    "question": "Trong chuyên đề, Đoàn cần làm gì để hỗ trợ thanh niên hội nhập?",
+    "options": [
+      "Chuyển từ quản lý truyền thống sang kiến tạo môi trường cho thanh niên phát triển.",
+      "Hạn chế hoạt động quốc tế để tránh rủi ro.",
+      "Tập trung chủ yếu vào kiểm tra hành chính.",
+      "Chỉ tổ chức phong trào ngắn hạn."
+    ],
+    "answer": "Chuyển từ quản lý truyền thống sang kiến tạo môi trường cho thanh niên phát triển."
+  },
+  {
+    "question": "Trong chuyên đề, hòa bình thật sự theo Hồ Chí Minh không thể tách khỏi điều gì?",
+    "options": [
+      "Sự im lặng trước bất công quốc tế.",
+      "Sự nhượng bộ để tránh xung đột.",
+      "Độc lập, tự do thật sự của dân tộc.",
+      "Việc dựa hoàn toàn vào nước lớn."
+    ],
+    "answer": "Độc lập, tự do thật sự của dân tộc."
+  },
+  {
+    "question": "Trong chuyên đề, Hồ Chí Minh mong muốn khôi phục đoàn kết giữa các đảng anh em trên nền tảng nào?",
+    "options": [
+      "Việc hạn chế tranh luận để giữ hòa khí bề ngoài.",
+      "Chủ nghĩa Mác - Lênin và chủ nghĩa quốc tế vô sản, có lý, có tình.",
+      "Sự tương đồng về văn hóa và phong tục giữa các nước.",
+      "Quan hệ ngoại giao linh hoạt và lợi ích kinh tế trước mắt."
+    ],
+    "answer": "Chủ nghĩa Mác - Lênin và chủ nghĩa quốc tế vô sản, có lý, có tình."
+  },
+  {
+    "question": "Trong chuyên đề, kết nối trí thức trẻ Việt Nam toàn cầu nhằm mục tiêu gì?",
+    "options": [
+      "Tạo mạng lưới giao lưu cá nhân không gắn với phát triển đất nước.",
+      "Thay thế vai trò của thanh niên trong nước.",
+      "Huy động nguồn lực chất xám phục vụ kỷ nguyên vươn mình của dân tộc.",
+      "Chỉ hỗ trợ thanh niên du học ở nước ngoài."
+    ],
+    "answer": "Huy động nguồn lực chất xám phục vụ kỷ nguyên vươn mình của dân tộc."
+  },
+  {
+    "question": "Trong chuyên đề, thanh niên bảo vệ lợi ích dân tộc trong hội nhập bằng cách nào?",
+    "options": [
+      "Dựa vào các nước lớn để bảo vệ lợi ích dân tộc.",
+      "Tránh tham gia các vấn đề quốc tế nhạy cảm.",
+      "Giữ độc lập, tự chủ, lên tiếng bảo vệ chính nghĩa và chủ quyền quốc gia trên các diễn đàn phù hợp.",
+      "Chỉ quan tâm hợp tác kinh tế, không bàn đến chủ quyền."
+    ],
+    "answer": "Giữ độc lập, tự chủ, lên tiếng bảo vệ chính nghĩa và chủ quyền quốc gia trên các diễn đàn phù hợp."
+  },
+  {
+    "question": "Trong chuyên đề, nguy cơ nào có thể làm thanh niên tụt hậu trong hội nhập số?",
+    "options": [
+      "Quá quan tâm đến học tập và nghiên cứu khoa học.",
+      "Thiếu năng lực số, ngoại ngữ, tư duy đổi mới sáng tạo và khả năng làm chủ công nghệ.",
+      "Tham gia các mạng lưới hợp tác xuyên quốc gia.",
+      "Có nhiều cơ hội tiếp cận tri thức nhân loại."
+    ],
+    "answer": "Thiếu năng lực số, ngoại ngữ, tư duy đổi mới sáng tạo và khả năng làm chủ công nghệ."
+  },
+  {
+    "question": "Trong chuyên đề, Hồ Chí Minh tin rằng các nước có chế độ khác nhau vẫn có thể làm gì?",
+    "options": [
+      "Tránh mọi quan hệ hợp tác.",
+      "Chung sống hòa bình.",
+      "Chỉ đối thoại khi có cùng lợi ích kinh tế.",
+      "Dùng vũ lực để giải quyết khác biệt."
+    ],
+    "answer": "Chung sống hòa bình."
+  },
+  {
+    "question": "Trong chuyên đề, câu “Tất cả các dân tộc trên thế giới đều sinh ra bình đẳng…” khẳng định điều gì?",
+    "options": [
+      "Quyền ưu tiên phát triển của một số dân tộc lớn.",
+      "Quyền lựa chọn hòa bình hay chiến tranh tùy lợi ích riêng.",
+      "Quyền bình đẳng, quyền sống, quyền sung sướng và quyền tự do của các dân tộc.",
+      "Quyền can thiệp của nước mạnh vào nước yếu."
+    ],
+    "answer": "Quyền bình đẳng, quyền sống, quyền sung sướng và quyền tự do của các dân tộc."
+  },
+  {
+    "question": "Trong chuyên đề, phương châm “giúp bạn là tự giúp mình” được Hồ Chí Minh vận dụng trong quan hệ với nước nào?",
+    "options": [
+      "Pháp và Mỹ.",
+      "Lào và Campuchia.",
+      "Các nước Mỹ La-tinh.",
+      "Các nước châu Âu."
+    ],
+    "answer": "Lào và Campuchia."
+  },
+  {
+    "question": "Trong chuyên đề, Hồ Chí Minh nhận thức cách mạng Việt Nam có quan hệ thế nào với cách mạng thế giới?",
+    "options": [
+      "Cách mạng Việt Nam chỉ liên hệ với một số nước láng giềng.",
+      "Cách mạng Việt Nam hoàn toàn tách biệt với phong trào thế giới.",
+      "Cách mạng Việt Nam chỉ cần dựa vào sự giúp đỡ bên ngoài.",
+      "Cách mạng Việt Nam là một bộ phận của cách mạng thế giới."
+    ],
+    "answer": "Cách mạng Việt Nam là một bộ phận của cách mạng thế giới."
+  },
+  {
+    "question": "Trong chuyên đề, môi trường hội nhập và không gian mạng đặt ra yêu cầu gì?",
+    "options": [
+      "Phân biệt đúng giữa hội nhập với lệ thuộc, tiếp thu tinh hoa với tiếp nhận yếu tố độc hại.",
+      "Chỉ quan tâm giao lưu văn hóa, không cần bản lĩnh chính trị.",
+      "Tránh sử dụng mạng xã hội trong mọi hoạt động đối ngoại.",
+      "Tiếp nhận nhanh mọi giá trị mới từ bên ngoài."
+    ],
+    "answer": "Phân biệt đúng giữa hội nhập với lệ thuộc, tiếp thu tinh hoa với tiếp nhận yếu tố độc hại."
+  },
+  {
+    "question": "Trong chuyên đề, độc lập theo Hồ Chí Minh được hiểu như thế nào?",
+    "options": [
+      "Dân tộc nhận sự bảo hộ để đổi lấy ổn định.",
+      "Dân tộc tự điều khiển công việc của mình, không có sự can thiệp từ bên ngoài.",
+      "Dân tộc chỉ cần độc lập về hình thức ngoại giao.",
+      "Dân tộc có thể nhượng bộ chủ quyền để phát triển kinh tế."
+    ],
+    "answer": "Dân tộc tự điều khiển công việc của mình, không có sự can thiệp từ bên ngoài."
+  },
+  {
+    "question": "Trong chuyên đề, thái độ nhân đạo của Hồ Chí Minh với tù binh Pháp thể hiện điều gì?",
+    "options": [
+      "Tinh thần nhân văn, yêu chuộng hòa bình và công lý.",
+      "Chủ trương không cần phân biệt chính nghĩa và phi nghĩa.",
+      "Sự nhượng bộ vô nguyên tắc trong đấu tranh cách mạng.",
+      "Quan điểm chỉ chú trọng quan hệ với nước Pháp."
+    ],
+    "answer": "Tinh thần nhân văn, yêu chuộng hòa bình và công lý."
+  },
+  {
+    "question": "Trong chuyên đề, vì sao cần xây dựng đội ngũ cán bộ Đoàn có bản lĩnh, đạo đức và năng lực?",
+    "options": [
+      "Để hạn chế thanh niên tham gia giao lưu quốc tế.",
+      "Để thay thế vai trò tự học của thanh niên.",
+      "Để bảo đảm hội nhập của thanh niên trên nền tảng vững chắc về tư tưởng, đạo đức và lợi ích quốc gia.",
+      "Để tập trung chủ yếu vào quản lý hành chính."
+    ],
+    "answer": "Để bảo đảm hội nhập của thanh niên trên nền tảng vững chắc về tư tưởng, đạo đức và lợi ích quốc gia."
+  },
+  {
+    "question": "Trong chuyên đề, việc ký Hiệp định Sơ bộ 6/3/1946 và Tạm ước 14/9/1946 thể hiện điều gì?",
+    "options": [
+      "Nỗ lực cứu vãn hòa bình và giải quyết mâu thuẫn bằng thương lượng.",
+      "Sự phụ thuộc vào Chính phủ Pháp.",
+      "Sự từ bỏ nguyên tắc độc lập dân tộc.",
+      "Việc chỉ dựa vào ngoại giao mà không chuẩn bị đấu tranh."
+    ],
+    "answer": "Nỗ lực cứu vãn hòa bình và giải quyết mâu thuẫn bằng thương lượng."
+  },
+  {
+    "question": "Trong chuyên đề, vị thế mới của đất nước tạo điều kiện cho thanh niên phát huy vai trò gì?",
+    "options": [
+      "Tiên phong trong ngoại giao nhân dân và quảng bá hình ảnh Việt Nam.",
+      "Thu hẹp quan hệ quốc tế để giữ an toàn.",
+      "Chỉ tập trung vào các hoạt động trong nước.",
+      "Đại diện cho cá nhân hơn là hình ảnh quốc gia."
+    ],
+    "answer": "Tiên phong trong ngoại giao nhân dân và quảng bá hình ảnh Việt Nam."
+  },
+  {
+    "question": "Trong chuyên đề, thanh niên được xác định là lực lượng như thế nào trong hội nhập quốc tế?",
+    "options": [
+      "Lực lượng tiên phong trong hội nhập quốc tế toàn diện, sâu rộng.",
+      "Lực lượng đứng ngoài các quan hệ quốc tế.",
+      "Lực lượng chỉ tham gia hoạt động giao lưu văn nghệ.",
+      "Lực lượng chỉ thụ hưởng thành quả hội nhập."
+    ],
+    "answer": "Lực lượng tiên phong trong hội nhập quốc tế toàn diện, sâu rộng."
+  },
+  {
+    "question": "Trong chuyên đề, thanh niên cần tránh những biểu hiện nào khi hội nhập?",
+    "options": [
+      "Chủ động tham gia diễn đàn quốc tế.",
+      "Sùng ngoại thái quá, tự ti dân tộc hoặc dân tộc cực đoan.",
+      "Tự học ngoại ngữ và công nghệ.",
+      "Tôn trọng khác biệt văn hóa."
+    ],
+    "answer": "Sùng ngoại thái quá, tự ti dân tộc hoặc dân tộc cực đoan."
+  },
+  {
+    "question": "Trong chuyên đề, bối cảnh thế giới đa cực, đa trung tâm đặt ra yêu cầu gì với thanh niên?",
+    "options": [
+      "Giữ bản lĩnh chính trị, độc lập tự chủ và lợi ích quốc gia - dân tộc khi hội nhập.",
+      "Chỉ quan tâm đến cơ hội học tập ở nước ngoài.",
+      "Tiếp nhận mọi xu hướng quốc tế mà không cần chọn lọc.",
+      "Hạn chế giao lưu quốc tế để tránh tác động bên ngoài."
+    ],
+    "answer": "Giữ bản lĩnh chính trị, độc lập tự chủ và lợi ích quốc gia - dân tộc khi hội nhập."
+  },
+  {
+    "question": "Trong chuyên đề, yêu cầu về nguồn nhân lực trong hội nhập đòi hỏi thanh niên cần gì?",
+    "options": [
+      "Chỉ cần hiểu biết văn hóa truyền thống.",
+      "Không cần kỹ năng quốc tế nếu làm việc trong nước.",
+      "Nâng cao chuyên môn, ngoại ngữ, năng lực công nghệ, kỷ luật lao động và tác phong chuyên nghiệp.",
+      "Chỉ cần nhiệt tình trong phong trào thanh niên."
+    ],
+    "answer": "Nâng cao chuyên môn, ngoại ngữ, năng lực công nghệ, kỷ luật lao động và tác phong chuyên nghiệp."
+  },
+  {
+    "question": "Trong chuyên đề, “công dân toàn cầu mang hồn Việt” cần được hình thành thông qua điều gì?",
+    "options": [
+      "Chỉ bằng việc học thuộc khẩu hiệu đối ngoại.",
+      "Tự học, đổi mới sáng tạo, tư duy phản biện và năng lực giải quyết vấn đề.",
+      "Chỉ thông qua hoạt động giao lưu ngắn hạn.",
+      "Chỉ bằng việc sử dụng mạng xã hội thường xuyên."
+    ],
+    "answer": "Tự học, đổi mới sáng tạo, tư duy phản biện và năng lực giải quyết vấn đề."
+  },
+  {
+    "question": "Trong chuyên đề, nếu thiếu tinh thần yêu nước chân chính và tinh thần quốc tế trong sáng thì dễ dẫn đến điều gì?",
+    "options": [
+      "Tinh thần tự chủ và tôn trọng lẫn nhau.",
+      "Sự hiểu biết sâu sắc giữa các dân tộc.",
+      "Sự hợp tác bình đẳng và cùng có lợi.",
+      "Chủ nghĩa dân tộc hẹp hòi hoặc chủ nghĩa bá quyền, kỳ thị chủng tộc."
+    ],
+    "answer": "Chủ nghĩa dân tộc hẹp hòi hoặc chủ nghĩa bá quyền, kỳ thị chủng tộc."
+  },
+  {
+    "question": "Trong chuyên đề, Cách mạng công nghiệp lần thứ tư tác động đến thanh niên như thế nào?",
+    "options": [
+      "Làm giảm nhu cầu học ngoại ngữ và kỹ năng số.",
+      "Làm thay đổi học tập, lao động, giao tiếp và hợp tác quốc tế của thanh niên.",
+      "Chỉ tác động đến thanh niên học ngành công nghệ.",
+      "Không liên quan đến hội nhập quốc tế của thanh niên."
+    ],
+    "answer": "Làm thay đổi học tập, lao động, giao tiếp và hợp tác quốc tế của thanh niên."
+  },
+  {
+    "question": "Trong chuyên đề, khi có bất đồng giữa các nước anh em, Hồ Chí Minh chủ trương xử lý như thế nào?",
+    "options": [
+      "Nhanh chóng chọn một bên để bảo vệ lợi ích trước mắt.",
+      "Tránh mọi trao đổi để không làm phát sinh tranh luận.",
+      "Giải quyết trên quan điểm độc lập, có lý có tình, không đứng về phía này chống phía kia.",
+      "Đặt lợi ích của nước lớn lên trên lợi ích đại cục."
+    ],
+    "answer": "Giải quyết trên quan điểm độc lập, có lý có tình, không đứng về phía này chống phía kia."
+  },
+  {
+    "question": "Trong chuyên đề, nguyên tắc quan trọng trong quan hệ ngoại giao theo Hồ Chí Minh là gì?",
+    "options": [
+      "Linh hoạt về hình thức, đặt lợi ích kinh tế lên hàng đầu.",
+      "Tự nguyện, bình đẳng, cùng có lợi, tôn trọng và hiểu biết lẫn nhau.",
+      "Ưu tiên nước lớn và hạn chế quan hệ với nước nhỏ.",
+      "Chỉ hợp tác khi có cùng chế độ chính trị."
+    ],
+    "answer": "Tự nguyện, bình đẳng, cùng có lợi, tôn trọng và hiểu biết lẫn nhau."
+  },
+  {
+    "question": "Trong chuyên đề, phương pháp Hồ Chí Minh ưu tiên để giải quyết xung đột là gì?",
+    "options": [
+      "Cắt đứt quan hệ để tránh mâu thuẫn.",
+      "Tạo sức ép bằng vũ lực ngay từ đầu.",
+      "Đối thoại, hòa giải, thương lượng để tìm giải pháp hòa bình.",
+      "Phụ thuộc vào quyết định của các cường quốc."
+    ],
+    "answer": "Đối thoại, hòa giải, thương lượng để tìm giải pháp hòa bình."
+  },
+  {
+    "question": "Trong chuyên đề Tư tưởng, đạo đức, phong cách Hồ Chí Minh về tinh thần quốc tế trong sáng, tinh thần quốc tế của Người hướng tới mục tiêu nào?",
+    "options": [
+      "Mở rộng quan hệ quốc tế nhưng không gắn với độc lập dân tộc.",
+      "Hòa bình, độc lập dân tộc, dân chủ và tiến bộ xã hội.",
+      "Phát triển kinh tế trước hết, sau đó mới mở rộng quan hệ quốc tế.",
+      "Tập trung vào lợi ích của một quốc gia, ít quan tâm đến nhân loại."
+    ],
+    "answer": "Hòa bình, độc lập dân tộc, dân chủ và tiến bộ xã hội."
+  },
+  {
+    "question": "Trong chuyên đề, tinh thần yêu nước chân chính và tinh thần quốc tế trong sáng có quan hệ thế nào?",
+    "options": [
+      "Liên hệ khăng khít với nhau.",
+      "Tinh thần yêu nước chỉ có ý nghĩa trong phạm vi quốc gia.",
+      "Tách biệt nhau trong từng giai đoạn cách mạng.",
+      "Tinh thần quốc tế thay thế cho tinh thần yêu nước."
+    ],
+    "answer": "Liên hệ khăng khít với nhau."
+  },
+  {
+    "question": "Trong chuyên đề, khi buộc phải tiến hành chiến tranh, mục tiêu cuối cùng Hồ Chí Minh hướng tới là gì?",
+    "options": [
+      "Chiến thắng bằng mọi giá mà không cần hòa bình.",
+      "Hòa bình, độc lập, thống nhất và dân chủ.",
+      "Duy trì chiến tranh để tạo sức ép lâu dài.",
+      "Mở rộng xung đột ra khu vực."
+    ],
+    "answer": "Hòa bình, độc lập, thống nhất và dân chủ."
+  },
+  {
+    "question": "Trong chuyên đề, nâng tầm ngoại giao nhân dân cần gắn với nội dung nào?",
+    "options": [
+      "Hạn chế trao đổi trên các diễn đàn quốc tế.",
+      "Chỉ duy trì quan hệ giao lưu mang tính lễ nghi.",
+      "Chỉ quan tâm hoạt động trong nước.",
+      "Tăng cường hợp tác với tổ chức thanh niên các nước và các tổ chức đa phương."
+    ],
+    "answer": "Tăng cường hợp tác với tổ chức thanh niên các nước và các tổ chức đa phương."
+  },
+  {
+    "question": "Trong chuyên đề, Hồ Chí Minh cho rằng hòa bình thế giới có thể thực hiện bằng cách nào?",
+    "options": [
+      "Các quốc gia chỉ tập trung vào lợi ích riêng.",
+      "Các nước giải quyết xích mích bằng thương lượng và nhân dân thế giới bảo vệ hòa bình.",
+      "Các nước lớn tự quyết định trật tự thế giới.",
+      "Các nước nhỏ tránh tham gia các vấn đề quốc tế."
+    ],
+    "answer": "Các nước giải quyết xích mích bằng thương lượng và nhân dân thế giới bảo vệ hòa bình."
+  },
+  {
+    "question": "Trong chuyên đề, việc Hồ Chí Minh kêu gọi nhân dân tiến bộ Mỹ phản đối chiến tranh ở Việt Nam cho thấy điều gì?",
+    "options": [
+      "Người chỉ dựa vào dư luận quốc tế để giành thắng lợi.",
+      "Người không coi trọng đấu tranh trong nước.",
+      "Người biết tranh thủ lực lượng yêu chuộng hòa bình trong nhân dân thế giới.",
+      "Người xem nhân dân Mỹ và Chính phủ Mỹ là một."
+    ],
+    "answer": "Người biết tranh thủ lực lượng yêu chuộng hòa bình trong nhân dân thế giới."
+  },
+  {
+    "question": "Trong chuyên đề, phong cách làm việc chuyên nghiệp của thanh niên gồm nội dung nào?",
+    "options": [
+      "Ưu tiên hình thức hơn chất lượng công việc.",
+      "Linh hoạt đến mức không cần kỷ luật.",
+      "Đúng giờ, giữ lời hứa, tuân thủ kỷ luật và có trách nhiệm cao.",
+      "Chỉ cần sáng tạo, không cần tuân thủ chuẩn mực."
+    ],
+    "answer": "Đúng giờ, giữ lời hứa, tuân thủ kỷ luật và có trách nhiệm cao."
+  }
+]

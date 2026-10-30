@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { supabase } from './supabaseClient.js';
 
 export type AccountStatus = 'idle' | 'pending' | 'running' | 'waiting_banner' | 'success' | 'error';
@@ -194,28 +196,64 @@ export class AccountManager {
 
   /**
    * Lưu (replace) toàn bộ danh sách tài khoản (dùng cho import JSON)
-   * Tự động cắt, đếm và chia lô 20 tài khoản mỗi lô nếu không chỉ định lô
+   * Tự động lọc trùng lặp, chuẩn hóa khoảng trắng và chia lô
    */
   public async saveAccounts(
     list: { username: string; password: string; lotId?: string; deviceSerial?: string }[],
     autoPartition = true,
     lotSize = 20
-  ): Promise<boolean> {
-    // Xóa hết rồi insert lại
+  ): Promise<{ success: boolean; message: string; count: number; duplicates?: string[] }> {
+    if (!Array.isArray(list) || list.length === 0) {
+      const { error: delError } = await supabase.from('accounts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      if (delError) {
+        return { success: false, message: `Lỗi xóa tài khoản cũ: ${delError.message}`, count: 0 };
+      }
+      this.accountsState.clear();
+      return { success: true, message: 'Đã làm trống danh sách tài khoản!', count: 0 };
+    }
+
+    // 1. Chuẩn hóa & Lọc trùng lặp ngay trong bộ nhớ trước khi ghi vào Database
+    const seen = new Set<string>();
+    const sanitizedList: { username: string; password: string; lotId?: string; deviceSerial?: string }[] = [];
+    const duplicateList: string[] = [];
+
+    for (const a of list) {
+      if (!a || !a.username) continue;
+      // Chuẩn hóa username: loại bỏ toàn bộ khoảng trắng thừa
+      const cleanUsername = String(a.username).replace(/\s+/g, '').trim();
+      const cleanPassword = String(a.password || '').trim();
+      if (!cleanUsername) continue;
+
+      const key = cleanUsername.toLowerCase();
+      if (seen.has(key)) {
+        duplicateList.push(cleanUsername);
+        continue; // Bỏ qua tài khoản trùng để tránh vi phạm Unique Constraint Supabase
+      }
+      seen.add(key);
+      sanitizedList.push({
+        ...a,
+        username: cleanUsername,
+        password: cleanPassword,
+      });
+    }
+
+    if (duplicateList.length > 0) {
+      console.warn(`[AccountManager] Đã tự động loại bỏ ${duplicateList.length} tài khoản trùng lặp:`, duplicateList);
+    }
+
+    // 2. Xóa hết rồi insert lại
     const { error: delError } = await supabase.from('accounts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
     if (delError) {
       console.error('[AccountManager] Lỗi xóa accounts:', delError.message);
-      return false;
+      return { success: false, message: `Lỗi xóa tài khoản cũ: ${delError.message}`, count: 0 };
     }
 
-    if (list.length === 0) return true;
-
     if (autoPartition) {
-      const totalLots = Math.ceil(list.length / lotSize);
+      const totalLots = Math.ceil(sanitizedList.length / lotSize);
       await this.ensureLotsExist(totalLots);
     }
 
-    const rows = list.map((a, idx) => {
+    const rows = sanitizedList.map((a, idx) => {
       let lotId = a.lotId;
       let sortOrder = idx;
 
@@ -226,8 +264,8 @@ export class AccountManager {
       }
 
       return {
-        username: a.username.trim(),
-        password: a.password.trim(),
+        username: a.username,
+        password: a.password,
         lot_id: lotId,
         device_serial: a.deviceSerial || '',
         sort_order: sortOrder,
@@ -240,12 +278,34 @@ export class AccountManager {
       const { error } = await supabase.from('accounts').insert(batch);
       if (error) {
         console.error(`[AccountManager] Lỗi insert accounts batch ${i}:`, error.message);
-        return false;
+        return { success: false, message: `Lỗi ghi tài khoản (Batch ${i}): ${error.message}`, count: 0 };
       }
     }
 
     this.accountsState.clear();
-    return true;
+
+    // 3. Đồng bộ lại file accounts.json cục bộ
+    try {
+      const localAccPath = path.join(process.cwd(), 'accounts.json');
+      const cleanJsonList = sanitizedList.map((a) => ({
+        username: a.username,
+        password: a.password,
+      }));
+      fs.writeFileSync(localAccPath, JSON.stringify(cleanJsonList, null, 2), 'utf-8');
+    } catch (err: any) {
+      console.warn('[AccountManager] Không thể ghi đè accounts.json:', err.message);
+    }
+
+    const dupMsg = duplicateList.length > 0
+      ? ` (Đã tự động loại bỏ ${duplicateList.length} tài khoản trùng lặp: ${duplicateList.slice(0, 3).join(', ')}${duplicateList.length > 3 ? '...' : ''})`
+      : '';
+
+    return {
+      success: true,
+      message: `Đã lưu thành công ${sanitizedList.length} tài khoản!${dupMsg}`,
+      count: sanitizedList.length,
+      duplicates: duplicateList,
+    };
   }
 
   /**

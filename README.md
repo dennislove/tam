@@ -128,7 +128,7 @@ pnpm start -- --fixed RANDOM
 
 ## 🌐 Giao Diện Web Dashboard (Port 3000)
 
-1. **Khởi động 1 click**: Click đúp vào file `Chay_Tool_Web_Port_3000.bat`.
+1. **Khởi động 1 click**: Click đúp vào file `CHAY_TOOL.bat`.
 2. **Khởi động qua lệnh**:
    ```bash
    pnpm ui
@@ -141,3 +141,6 @@ pnpm start -- --fixed RANDOM
 ---
 
 # tool-tnvn-app
+
+# tam
+

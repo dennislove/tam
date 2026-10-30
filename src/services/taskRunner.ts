@@ -2,6 +2,7 @@ import { deviceManager, DeviceInfo } from './deviceManager.js';
 import { accountManager, ManagedAccount } from './accountManager.js';
 import { bannerManager } from './bannerManager.js';
 import { examTask, TaskResult } from '../tasks/examTask.js';
+import { macService } from './macService.js';
 import { eventBus } from './eventBus.js';
 
 export type RunnerStatus = 'idle' | 'running' | 'waiting_banner' | 'stopping';
@@ -191,12 +192,38 @@ export class TaskRunner {
           fixedAnswer: options.fixedAnswer,
         };
 
-        const result: TaskResult = await examTask.execute(config, device.serial, {
-          answersData: bannerAnswers,
-          bannerTitle,
-          abortSignal: this.abortSignal,
-          speedMode: options.speedMode || 'fast',
-        });
+        let result: TaskResult;
+        if (device.serial === 'macos-app') {
+          const startTime = Date.now();
+          const macRes = await macService.runMacExam(
+            {
+              username: account.username,
+              password: account.password,
+              fixedAnswer: options.fixedAnswer,
+              totalQuestions: 50,
+            },
+            {
+              answersData: bannerAnswers,
+              fixedAnswer: options.fixedAnswer,
+              abortSignal: this.abortSignal,
+            }
+          );
+          result = {
+            username: account.username,
+            serial: 'macos-app',
+            success: macRes.success,
+            screenshotPath: macRes.screenshotPath,
+            error: macRes.error,
+            durationMs: Date.now() - startTime,
+          };
+        } else {
+          result = await examTask.execute(config, device.serial, {
+            answersData: bannerAnswers,
+            bannerTitle,
+            abortSignal: this.abortSignal,
+            speedMode: options.speedMode || 'safe',
+          });
+        }
 
         if (result.success) {
           this.completedCount++;

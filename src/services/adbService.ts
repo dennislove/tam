@@ -1,12 +1,14 @@
 
-import { Adb } from '@devicefarmer/adbkit';
+import adbkitPkg from '@devicefarmer/adbkit';
+const Adb = (adbkitPkg as any).Adb || (adbkitPkg as any).default?.Adb || adbkitPkg;
 import fs from 'node:fs';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
 import { pipeline } from 'node:stream/promises';
 import { Point, ScreenSize, scaleCoordinate, STANDARD_WIDTH, STANDARD_HEIGHT, APP_PACKAGES } from '../config/coordinates.js';
 
 /**
- * Tự động tìm đường dẫn adb.exe trên máy Windows
+ * Tự động tìm đường dẫn adb trên macOS, Windows hoặc Linux
  */
 export function detectAdbPath(): string | undefined {
   if (process.env.ADB_PATH && fs.existsSync(process.env.ADB_PATH)) {
@@ -15,9 +17,17 @@ export function detectAdbPath(): string | undefined {
 
   const resPath = (process as any).resourcesPath;
   const candidatePaths = [
-    ...(process.env.APP_ROOT ? [path.join(process.env.APP_ROOT, 'bin', 'adb.exe')] : []),
-    ...(resPath ? [path.join(resPath, 'app.asar.unpacked', 'bin', 'adb.exe')] : []),
+    // macOS / Linux
+    '/opt/homebrew/bin/adb',
+    '/usr/local/bin/adb',
+    '/usr/bin/adb',
+    path.join(process.env.HOME || '', 'Library/Android/sdk/platform-tools/adb'),
+    path.join(process.env.HOME || '', '.android/platform-tools/adb'),
+    // Windows
+    ...(process.env.APP_ROOT ? [path.join(process.env.APP_ROOT, 'bin', 'adb.exe'), path.join(process.env.APP_ROOT, 'bin', 'adb')] : []),
+    ...(resPath ? [path.join(resPath, 'app.asar.unpacked', 'bin', 'adb.exe'), path.join(resPath, 'app.asar.unpacked', 'bin', 'adb')] : []),
     path.join(process.cwd(), 'bin', 'adb.exe'),
+    path.join(process.cwd(), 'bin', 'adb'),
     path.join(process.cwd(), 'adb.exe'),
     'C:\\LDPlayer\\LDPlayer14\\adb.exe',
     'D:\\LDPlayer\\LDPlayer14\\adb.exe',
@@ -44,6 +54,16 @@ export function detectAdbPath(): string | undefined {
     if (fs.existsSync(candidate)) {
       return candidate;
     }
+  }
+
+  try {
+    const whichCmd = process.platform === 'win32' ? 'where adb' : 'which adb';
+    const found = execSync(whichCmd, { stdio: ['pipe', 'pipe', 'ignore'], encoding: 'utf-8' }).trim().split('\n')[0];
+    if (found && fs.existsSync(found)) {
+      return found;
+    }
+  } catch {
+    // ignore
   }
 
   return undefined;

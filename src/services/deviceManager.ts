@@ -47,9 +47,27 @@ export class DeviceManager {
         }
       }
 
+      // Trên hệ điều hành macOS: nếu có ứng dụng Thanh niên Việt Nam, tự động thêm thiết bị macOS Native
+      if (process.platform === 'darwin') {
+        devices.push({
+          serial: 'macos-app',
+          type: 'device',
+          model: 'macOS Native (Thanh niên Việt Nam.app)',
+          resolution: { width: 515, height: 796 },
+        });
+      }
+
       return devices;
     } catch (error: any) {
       console.error('[DeviceManager] Lỗi khi quét danh sách thiết bị ADB:', error.message);
+      if (process.platform === 'darwin') {
+        return [{
+          serial: 'macos-app',
+          type: 'device',
+          model: 'macOS Native (Thanh niên Việt Nam.app)',
+          resolution: { width: 515, height: 796 },
+        }];
+      }
       return [];
     }
   }
@@ -58,7 +76,7 @@ export class DeviceManager {
    * Thử kết nối vào các port giả lập LDPlayer phổ biến (5555, 5557, 5559...) nếu danh sách trống
    */
   public async tryConnectLdplayerPorts(
-    ports: number[] = [5555, 5557, 5559, 5561, 5563, 5565]
+    ports: number[] = [5555, 5557, 5559, 5561, 5563, 5565, 16384, 62001]
   ): Promise<void> {
     const client = this.adb.getClient();
     for (const port of ports) {

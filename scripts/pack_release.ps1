@@ -30,10 +30,7 @@ $itemsToCopy = @(
     '.env',
     'accounts.json',
     'answers.json',
-    'eng.traineddata',
-    'vie.traineddata',
     'CHAY_TOOL.bat',
-    'Chay_Tool_Web_Port_3000.bat',
     'HUONG_DAN_SU_DUNG.txt'
 )
 

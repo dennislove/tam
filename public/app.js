@@ -21,6 +21,11 @@
     accounts: [],
     devices: [],
     selectedAccountUsernames: new Set(),
+    batchSelectedUsernames: new Set(),
+    batchLastClickedIndex: null,
+    batchSearchQuery: '',
+    batchFilterMode: 'all',
+    certResultsCache: null,
     accountFilter: 'all',
     accountSearchQuery: '',
     questionSearchQuery: '',
@@ -90,8 +95,47 @@
     selectLot: document.getElementById('select-lot'),
     selectSpeedMode: document.getElementById('select-speed-mode'),
     btnStartRun: document.getElementById('btn-start-run'),
+    btnStartSingle: document.getElementById('btn-start-single'),
     btnStopRun: document.getElementById('btn-stop-run'),
     btnRunFailedOnly: document.getElementById('btn-run-failed-only'),
+
+    // Batch multi-account selector controls (Chế độ chạy hàng loạt)
+    batchSelectedCountBadge: document.getElementById('batch-selected-count-badge'),
+    btnBatchSelectAll: document.getElementById('btn-batch-select-all'),
+    btnBatchDeselectAll: document.getElementById('btn-batch-deselect-all'),
+    btnBatchInvert: document.getElementById('btn-batch-invert'),
+    btnBatchSelectNoCert: document.getElementById('btn-batch-select-no-cert'),
+    btnBatchPasteList: document.getElementById('btn-batch-paste-list'),
+    inputBatchSearch: document.getElementById('input-batch-search'),
+    btnBatchSearchClear: document.getElementById('btn-batch-search-clear'),
+    inputBatchRangeFrom: document.getElementById('input-batch-range-from'),
+    inputBatchRangeTo: document.getElementById('input-batch-range-to'),
+    btnBatchSelectRange: document.getElementById('btn-batch-select-range'),
+    btnBatchDeselectRange: document.getElementById('btn-batch-deselect-range'),
+    batchAccountGrid: document.getElementById('batch-account-grid'),
+    batchChipCountAll: document.getElementById('batch-chip-count-all'),
+    batchChipCountSelected: document.getElementById('batch-chip-count-selected'),
+    batchChipCountNoCert: document.getElementById('batch-chip-count-nocert'),
+    batchChipCountError: document.getElementById('batch-chip-count-error'),
+    batchFilterChips: document.querySelectorAll('[data-batch-filter]'),
+
+    // Area Switcher & Single Multi-banner controls
+    btnModeTabBatch: document.getElementById('btn-mode-tab-batch'),
+    btnModeTabSingleMulti: document.getElementById('btn-mode-tab-single-multi'),
+    panelModeBatch: document.getElementById('panel-mode-batch'),
+    panelModeSingleMulti: document.getElementById('panel-mode-single-multi'),
+    activeModeIndicator: document.getElementById('active-mode-indicator'),
+    selectSingleAcc: document.getElementById('select-single-acc'),
+    btnSinglePrevAcc: document.getElementById('btn-single-prev-acc'),
+    btnSingleNextAcc: document.getElementById('btn-single-next-acc'),
+    singleAccIndexLabel: document.getElementById('single-acc-index-label'),
+    selectSingleSpeed: document.getElementById('select-single-speed'),
+    btnSelectAllBanners: document.getElementById('btn-select-all-banners'),
+    btnDeselectAllBanners: document.getElementById('btn-deselect-all-banners'),
+    singleSelectedBannersCount: document.getElementById('single-selected-banners-count'),
+    singleMultiBannersGrid: document.getElementById('single-multi-banners-grid'),
+    btnStartSingleMulti: document.getElementById('btn-start-single-multi'),
+    btnStopSingleMulti: document.getElementById('btn-stop-single-multi'),
 
     // Info card
     infoStatusBadge: document.getElementById('info-status-badge'),
@@ -112,6 +156,8 @@
     chkSelectAllAccs: document.getElementById('chk-select-all-accs'),
     btnRunSelectedAccounts: document.getElementById('btn-run-selected-accounts'),
     selectedAccCount: document.getElementById('selected-acc-count'),
+    btnAddSelectedToBackup: document.getElementById('btn-add-selected-to-backup'),
+    selectedBackupCount: document.getElementById('selected-backup-count'),
     countFilterAll: document.getElementById('count-filter-all'),
     countFilterPending: document.getElementById('count-filter-pending'),
     countFilterSuccess: document.getElementById('count-filter-success'),
@@ -146,6 +192,20 @@
     btnCancelJsonAccounts: document.getElementById('btn-cancel-json-accounts'),
     btnConfirmSaveJsonAccounts: document.getElementById('btn-confirm-save-json-accounts'),
     btnCloseJsonAccountsModal: document.getElementById('btn-close-json-accounts-modal'),
+
+    // Modal Import Backup Lot
+    btnOpenImportBackupModal: document.getElementById('btn-open-import-backup-modal'),
+    modalImportBackupLot: document.getElementById('modal-import-backup-lot'),
+    btnCloseImportBackupModal: document.getElementById('btn-close-import-backup-modal'),
+    btnCancelImportBackup: document.getElementById('btn-cancel-import-backup'),
+    fileImportBackupJson: document.getElementById('file-import-backup-json'),
+    labelBackupFileName: document.getElementById('label-backup-file-name'),
+    btnClearBackupTextarea: document.getElementById('btn-clear-backup-textarea'),
+    badgeBackupJsonCount: document.getElementById('badge-backup-json-count'),
+    textareaBackupJson: document.getElementById('textarea-backup-json'),
+    chkReplaceBackupLot: document.getElementById('chk-replace-backup-lot'),
+    btnConfirmImportBackup: document.getElementById('btn-confirm-import-backup'),
+    btnEmptyBackupLotDirect: document.getElementById('btn-empty-backup-lot-direct'),
 
     modalAddAccount: document.getElementById('modal-add-account'),
     inputNewAccUsername: document.getElementById('input-new-acc-username'),
@@ -336,6 +396,15 @@
       }
     });
 
+    eventSource.addEventListener('check_event', (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        window.dispatchEvent(new CustomEvent('mac_check_event', { detail: data }));
+      } catch (err) {
+        console.error('Lỗi parse check_event:', err);
+      }
+    });
+
     eventSource.addEventListener('clear_logs', () => {
       dom.consoleOutput.innerHTML = '';
     });
@@ -357,25 +426,47 @@
     // Update Global Badge
     dom.globalStatusBadge.className = 'status-badge ' + status;
     if (status === 'idle') {
+      if (state.lastRunLimit === 1) {
+        state.lastRunLimit = null;
+        if (dom.selectStartAccount && dom.selectStartAccount.selectedIndex < dom.selectStartAccount.options.length - 1) {
+          dom.selectStartAccount.selectedIndex += 1;
+        }
+        if (dom.selectSingleAcc && dom.selectSingleAcc.selectedIndex < dom.selectSingleAcc.options.length - 1) {
+          dom.selectSingleAcc.selectedIndex += 1;
+          if (typeof updateSingleAccLabel === 'function') updateSingleAccLabel();
+        }
+      }
       dom.globalStatusText.textContent = 'Đang nghỉ (Idle)';
       dom.infoStatusBadge.className = 'badge badge-idle';
       dom.infoStatusBadge.textContent = 'Sẵn sàng';
       dom.btnStartRun.classList.remove('hidden');
+      if (dom.btnStartSingle) dom.btnStartSingle.classList.remove('hidden');
+      if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.remove('hidden');
+      if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.remove('hidden');
       dom.btnStopRun.classList.add('hidden');
+      if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.add('hidden');
       dom.bannerAlert.classList.add('hidden');
     } else if (status === 'running') {
       dom.globalStatusText.textContent = 'Đang chạy (Running)...';
       dom.infoStatusBadge.className = 'badge badge-running';
       dom.infoStatusBadge.textContent = 'Đang thi tự động...';
       dom.btnStartRun.classList.add('hidden');
+      if (dom.btnStartSingle) dom.btnStartSingle.classList.add('hidden');
+      if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.add('hidden');
+      if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.add('hidden');
       dom.btnStopRun.classList.remove('hidden');
+      if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.remove('hidden');
       dom.bannerAlert.classList.add('hidden');
     } else if (status === 'waiting_banner') {
       dom.globalStatusText.textContent = 'CHỜ BẠN CHỌN BANNER!';
       dom.infoStatusBadge.className = 'badge badge-waiting';
       dom.infoStatusBadge.textContent = 'Tạm dừng: Chờ chọn banner';
       dom.btnStartRun.classList.add('hidden');
+      if (dom.btnStartSingle) dom.btnStartSingle.classList.add('hidden');
+      if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.add('hidden');
+      if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.add('hidden');
       dom.btnStopRun.classList.remove('hidden');
+      if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.remove('hidden');
       if (state.runner.waitingDetails) {
         renderBannerAlert(state.runner.waitingDetails);
       }
@@ -394,7 +485,14 @@
     }
 
     // Running info card
-    dom.infoCurrentAcc.textContent = state.runner.currentAccount || 'Chưa có';
+    let currentAccDisplay = state.runner.currentAccount || 'Chưa có';
+    if (currentAccDisplay !== 'Chưa có' && !currentAccDisplay.startsWith('#')) {
+      const found = state.accounts?.find((a) => a.username === currentAccDisplay);
+      if (found) {
+        currentAccDisplay = `#${found.index} - ${found.username}`;
+      }
+    }
+    dom.infoCurrentAcc.textContent = currentAccDisplay;
     dom.infoCurrentDevice.textContent = state.runner.currentDevice || 'Tự động';
 
     // Stats
@@ -477,6 +575,7 @@
 
       renderBannerDropdown();
       renderBannersTable();
+      renderMultiBannerCards();
 
       const cur = state.banners.find((b) => b.id === state.currentBannerId);
       if (cur) {
@@ -932,8 +1031,8 @@
   // ============================================================
   async function loadAccounts(renderTable = true) {
     try {
-      const lotId = dom.selectLot?.value || '';
-      const url = lotId ? `/api/accounts?lotId=${encodeURIComponent(lotId)}` : '/api/accounts';
+      // Khi tạm ẩn phân lô, luôn nạp toàn bộ tài khoản
+      const url = '/api/accounts';
       const res = await fetch(url);
       const data = await res.json();
       if (!data.success) return;
@@ -942,6 +1041,7 @@
       dom.badgeTotalAccounts.textContent = state.accounts.length;
 
       renderStartAccountDropdown();
+      renderBatchAccountsGrid();
 
       if (renderTable) {
         renderAccountsTable();
@@ -1002,19 +1102,109 @@
       console.error('Lỗi nạp lots:', err);
     }
   }
+  window.reloadAllLots = loadLots;
 
   function renderStartAccountDropdown() {
+    if (!dom.selectStartAccount) return;
     const currentVal = dom.selectStartAccount.value;
     dom.selectStartAccount.innerHTML = '';
     state.accounts.forEach((acc) => {
       const opt = document.createElement('option');
-      opt.value = acc.index;
+      opt.value = String(acc.index);
       opt.textContent = `#${acc.index} - ${acc.username}`;
       dom.selectStartAccount.appendChild(opt);
     });
     if (currentVal && dom.selectStartAccount.querySelector(`option[value="${currentVal}"]`)) {
       dom.selectStartAccount.value = currentVal;
     }
+    renderSingleAccountDropdown();
+  }
+
+  function renderSingleAccountDropdown() {
+    if (!dom.selectSingleAcc) return;
+    const currentVal = dom.selectSingleAcc.value || (dom.selectStartAccount ? dom.selectStartAccount.value : '');
+    dom.selectSingleAcc.innerHTML = '';
+    state.accounts.forEach((acc) => {
+      const opt = document.createElement('option');
+      opt.value = String(acc.index);
+      opt.textContent = `#${acc.index} - ${acc.username}`;
+      dom.selectSingleAcc.appendChild(opt);
+    });
+    if (currentVal && dom.selectSingleAcc.querySelector(`option[value="${currentVal}"]`)) {
+      dom.selectSingleAcc.value = currentVal;
+    }
+    updateSingleAccLabel();
+  }
+
+  function updateSingleAccLabel() {
+    if (!dom.selectSingleAcc || !dom.singleAccIndexLabel) return;
+    const total = state.accounts.length;
+    const idx = dom.selectSingleAcc.selectedIndex >= 0 ? dom.selectSingleAcc.selectedIndex + 1 : 0;
+    dom.singleAccIndexLabel.textContent = total > 0 ? `Tài khoản ${idx} / ${total}` : 'Chưa có tài khoản';
+  }
+
+  function renderMultiBannerCards() {
+    if (!dom.singleMultiBannersGrid) return;
+    if (!state.banners || state.banners.length === 0) {
+      dom.singleMultiBannersGrid.innerHTML = '<div style="color: #94a3b8; font-size: 0.85rem; padding: 10px;">Đang tải danh sách banner...</div>';
+      return;
+    }
+
+    // Preserve previously checked checkboxes
+    const prevChecked = new Set();
+    const existingBoxes = dom.singleMultiBannersGrid.querySelectorAll('input[type="checkbox"]');
+    const isFirstTime = existingBoxes.length === 0;
+    existingBoxes.forEach(cb => {
+      if (cb.checked) prevChecked.add(cb.value);
+    });
+
+    dom.singleMultiBannersGrid.innerHTML = '';
+    state.banners.forEach((b, i) => {
+      const card = document.createElement('div');
+      // If first time, check all banners by default. Otherwise keep user's checked state
+      const isChecked = isFirstTime ? true : prevChecked.has(b.id);
+      card.className = `multi-banner-card ${isChecked ? 'checked' : ''}`;
+      card.setAttribute('data-banner-id', b.id);
+
+      card.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px; pointer-events: none;">
+          <input type="checkbox" id="chk-banner-${b.id}" value="${b.id}" ${isChecked ? 'checked' : ''} style="pointer-events: auto;">
+          <div>
+            <div style="font-weight: 700; color: #f8fafc; font-size: 0.88rem; line-height: 1.3;">${b.title}</div>
+            <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 3px;">
+              Mã: <code style="color: #38bdf8;">${b.id}</code> • <span style="color: #34d399; font-weight: 600;">${b.totalQuestions} câu</span>
+            </div>
+          </div>
+        </div>
+        <span class="badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); font-size: 0.72rem; padding: 2px 8px; border-radius: 8px; pointer-events: none;">
+          #${i + 1}
+        </span>
+      `;
+
+      card.addEventListener('click', (e) => {
+        const cb = card.querySelector('input[type="checkbox"]');
+        if (e.target !== cb) {
+          cb.checked = !cb.checked;
+        }
+        if (cb.checked) {
+          card.classList.add('checked');
+        } else {
+          card.classList.remove('checked');
+        }
+        updateSelectedBannersCount();
+      });
+
+      dom.singleMultiBannersGrid.appendChild(card);
+    });
+
+    updateSelectedBannersCount();
+  }
+
+  function updateSelectedBannersCount() {
+    if (!dom.singleSelectedBannersCount) return;
+    const checkedBoxes = dom.singleMultiBannersGrid ? dom.singleMultiBannersGrid.querySelectorAll('input[type="checkbox"]:checked') : [];
+    const total = state.banners ? state.banners.length : 0;
+    dom.singleSelectedBannersCount.textContent = `Đã chọn: ${checkedBoxes.length} / ${total} banner`;
   }
 
   function updateAccountCounts() {
@@ -1027,6 +1217,185 @@
     dom.countFilterPending.textContent = pending;
     dom.countFilterSuccess.textContent = success;
     dom.countFilterError.textContent = error;
+  }
+
+  // ============================================================
+  // CHẾ ĐỘ 1: BỘ CHỌN NHIỀU TÀI KHOẢN (BATCH SELECTOR)
+  // ============================================================
+  async function ensureCertificatesCache() {
+    if (state.certResultsCache) return state.certResultsCache;
+    try {
+      const res = await fetch('/api/mac/certificates/results');
+      const data = await res.json();
+      if (data && data.success && data.results) {
+        state.certResultsCache = data.results;
+        return state.certResultsCache;
+      }
+    } catch (e) {
+      console.warn('Không thể nạp trước kết quả chứng chỉ:', e);
+    }
+    return null;
+  }
+
+  async function renderBatchAccountsGrid() {
+    if (!dom.batchAccountGrid) return;
+    await ensureCertificatesCache();
+    const certResults = state.certResultsCache || {};
+    const currentBanner = dom.selectBanner?.value || state.currentBannerId || 'banner_2';
+
+    const query = (state.batchSearchQuery || '').toLowerCase().trim();
+    if (!query && dom.inputBatchSearch && dom.inputBatchSearch.value && document.activeElement !== dom.inputBatchSearch) {
+      dom.inputBatchSearch.value = '';
+    }
+    const totalAccounts = state.accounts.length;
+
+    // Tính toán số lượng cho các filter chips
+    const selectedCount = state.batchSelectedUsernames.size;
+    let noCertCount = 0;
+    let errorCount = 0;
+
+    state.accounts.forEach((acc) => {
+      const certInfo = certResults[acc.username];
+      const hasCert = !!(certInfo && certInfo.bannerStatus && certInfo.bannerStatus[currentBanner]);
+      if (!hasCert) noCertCount++;
+      if (acc.status === 'error' || (certInfo && certInfo.status === 'FAIL')) errorCount++;
+    });
+
+    if (dom.batchChipCountAll) dom.batchChipCountAll.textContent = totalAccounts;
+    if (dom.batchChipCountSelected) dom.batchChipCountSelected.textContent = selectedCount;
+    if (dom.batchChipCountNoCert) dom.batchChipCountNoCert.textContent = noCertCount;
+    if (dom.batchChipCountError) dom.batchChipCountError.textContent = errorCount;
+
+    // Header counter badge
+    if (dom.batchSelectedCountBadge) {
+      dom.batchSelectedCountBadge.textContent = `Đã chọn: ${selectedCount} / ${totalAccounts}`;
+      if (selectedCount > 0) {
+        dom.batchSelectedCountBadge.classList.add('active-selection');
+      } else {
+        dom.batchSelectedCountBadge.classList.remove('active-selection');
+      }
+    }
+
+    // Dynamic Start Button
+    if (dom.btnStartRun) {
+      if (selectedCount > 0) {
+        dom.btnStartRun.innerHTML = `<span class="icon">▶</span> CHẠY ${selectedCount} ACC ĐÃ CHỌN`;
+        dom.btnStartRun.classList.add('running-selected');
+        dom.btnStartRun.title = `Chạy chính xác ${selectedCount} tài khoản được chọn cho banner hiện tại`;
+      } else {
+        dom.btnStartRun.innerHTML = '<span class="icon">▶</span> BẮT ĐẦU CHẠY';
+        dom.btnStartRun.classList.remove('running-selected');
+        dom.btnStartRun.title = 'Chạy tự động liên tục từ tài khoản đã chọn ở "Bắt Đầu Từ"';
+      }
+    }
+
+    // Lọc danh sách tài khoản hiển thị
+    const filtered = state.accounts.filter((acc) => {
+      const u = (acc.username || '').toLowerCase();
+      const idxStr = String(acc.index || '');
+      const certInfo = certResults[acc.username];
+      const hasCertThisBanner = !!(certInfo && certInfo.bannerStatus && certInfo.bannerStatus[currentBanner]);
+
+      // Filter query
+      if (query) {
+        const matchUser = u.includes(query);
+        const matchIdx = idxStr === query || `#${idxStr}` === query;
+        if (!matchUser && !matchIdx) return false;
+      }
+
+      // Filter chip
+      if (state.batchFilterMode === 'selected') {
+        if (!state.batchSelectedUsernames.has(acc.username)) return false;
+      } else if (state.batchFilterMode === 'no_cert') {
+        if (hasCertThisBanner) return false;
+      } else if (state.batchFilterMode === 'error') {
+        if (acc.status !== 'error' && (!certInfo || certInfo.status !== 'FAIL')) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      dom.batchAccountGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; color: #94a3b8; padding: 24px; font-size: 0.85rem;">
+          ${totalAccounts === 0 ? 'Đang tải danh sách tài khoản...' : 'Không có tài khoản nào phù hợp với bộ lọc.'}
+        </div>
+      `;
+      return;
+    }
+
+    dom.batchAccountGrid.innerHTML = '';
+    const frag = document.createDocumentFragment();
+
+    filtered.forEach((acc) => {
+      const isChecked = state.batchSelectedUsernames.has(acc.username);
+      const certInfo = certResults[acc.username];
+      const hasCertThisBanner = !!(certInfo && certInfo.bannerStatus && certInfo.bannerStatus[currentBanner]);
+
+      const card = document.createElement('div');
+      card.className = `batch-acc-card ${isChecked ? 'selected' : ''}`;
+      card.setAttribute('data-username', acc.username);
+      card.setAttribute('data-idx', acc.index);
+
+      let certTagHtml = '';
+      if (certInfo && certInfo.checked_at) {
+        if (hasCertThisBanner) {
+          certTagHtml = '<span class="batch-cert-tag has-cert" title="Đã có chứng chỉ banner này">✓ Có CC</span>';
+        } else {
+          certTagHtml = '<span class="batch-cert-tag no-cert" title="Chưa có chứng chỉ banner này">Chưa CC</span>';
+        }
+      }
+
+      card.innerHTML = `
+        <input type="checkbox" class="chk-batch-acc" ${isChecked ? 'checked' : ''} tabindex="-1">
+        <span class="batch-acc-idx">#${acc.index}</span>
+        <div class="batch-acc-info">
+          <div class="batch-acc-user" title="${escapeHtml(acc.username)}">${escapeHtml(acc.username)}</div>
+          <div class="batch-acc-meta">
+            ${certTagHtml}
+            ${acc.status === 'error' ? '<span class="text-red">⚠️ Lỗi</span>' : ''}
+          </div>
+        </div>
+      `;
+
+      // Handle click with Shift + Click support
+      card.addEventListener('click', (e) => {
+        const chk = card.querySelector('.chk-batch-acc');
+        let newCheckedState = !state.batchSelectedUsernames.has(acc.username);
+
+        // If clicked on input itself, keep the input's current state
+        if (e.target === chk) {
+          newCheckedState = chk.checked;
+        }
+
+        if (e.shiftKey && state.batchLastClickedIndex !== null) {
+          // Range selection
+          const startIdx = Math.min(state.batchLastClickedIndex, acc.index);
+          const endIdx = Math.max(state.batchLastClickedIndex, acc.index);
+          state.accounts.forEach((a) => {
+            if (a.index >= startIdx && a.index <= endIdx) {
+              if (newCheckedState) {
+                state.batchSelectedUsernames.add(a.username);
+              } else {
+                state.batchSelectedUsernames.delete(a.username);
+              }
+            }
+          });
+        } else {
+          if (newCheckedState) {
+            state.batchSelectedUsernames.add(acc.username);
+          } else {
+            state.batchSelectedUsernames.delete(acc.username);
+          }
+        }
+
+        state.batchLastClickedIndex = acc.index;
+        renderBatchAccountsGrid();
+      });
+
+      frag.appendChild(card);
+    });
+
+    dom.batchAccountGrid.appendChild(frag);
   }
 
   function renderAccountsTable() {
@@ -1050,7 +1419,7 @@
     });
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="9" class="text-center text-muted py-4">Không tìm thấy tài khoản nào phù hợp!</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-4">Không tìm thấy tài khoản nào phù hợp!</td></tr>`;
       return;
     }
 
@@ -1084,7 +1453,7 @@
         </td>
         <td><b>#${acc.index}</b></td>
         <td><span class="text-cyan font-semibold">${escapeHtml(acc.username)}</span></td>
-        <td><span class="badge badge-info" style="font-size: 0.72rem;">${escapeHtml(acc.lotName || 'Chưa gán')}</span></td>
+        <td class="lot-feature-hidden"><span class="badge badge-info" style="font-size: 0.72rem;">${escapeHtml(acc.lotName || 'Chưa gán')}</span></td>
         <td><code>••••••••</code></td>
         <td>${statusHtml}</td>
         <td>${durationStr}</td>
@@ -1119,7 +1488,7 @@
       });
 
       tr.querySelector('.btn-run-single').addEventListener('click', () => {
-        startExecution({ usernames: [acc.username] });
+        startExecution({ startFromIndex: acc.index, limit: 1 });
       });
 
       tr.querySelector('.btn-delete-acc').addEventListener('click', () => {
@@ -1142,6 +1511,35 @@
     const count = state.selectedAccountUsernames.size;
     dom.selectedAccCount.textContent = count;
     dom.btnRunSelectedAccounts.disabled = count === 0;
+    if (dom.selectedBackupCount) dom.selectedBackupCount.textContent = count;
+    if (dom.btnAddSelectedToBackup) dom.btnAddSelectedToBackup.disabled = count === 0;
+  }
+
+  if (dom.btnAddSelectedToBackup) {
+    dom.btnAddSelectedToBackup.addEventListener('click', async () => {
+      const selectedUsers = Array.from(state.selectedAccountUsernames);
+      if (selectedUsers.length === 0) return;
+      const payload = selectedUsers.map(u => {
+        const found = state.accounts.find(a => a.username === u);
+        return { username: u, password: found?.password || '', error: found?.error || 'Thêm từ danh sách tài khoản' };
+      });
+      try {
+        const res = await fetch('/api/backup-lot/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accounts: payload }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(`✅ Đã thêm ${selectedUsers.length} tài khoản vào Lô Dự Phòng!`);
+          await loadLots();
+        } else {
+          showToast(data.message || 'Lỗi thêm vào Lô Dự Phòng', true);
+        }
+      } catch (e) {
+        showToast('Lỗi kết nối máy chủ', true);
+      }
+    });
   }
 
   dom.chkSelectAllAccs.addEventListener('change', (e) => {
@@ -1172,6 +1570,7 @@
   dom.btnRunSelectedAccounts.addEventListener('click', () => {
     const usernames = Array.from(state.selectedAccountUsernames);
     if (usernames.length === 0) return;
+    document.getElementById('tab-nav-dashboard')?.click();
     startExecution({ usernames });
   });
 
@@ -1253,7 +1652,7 @@
     }
   });
 
-  // Modal Import / Edit JSON Accounts
+  // Modal Import / Edit JSON Accounts (Chính)
   dom.btnOpenImportAccModal.addEventListener('click', () => {
     requireAuth(() => {
       const rawList = state.accounts.map((a) => ({
@@ -1292,6 +1691,216 @@
     }
   });
 
+  // ============================================================
+  // MODAL IMPORT JSON LÔ DỰ PHÒNG (KHÔNG CHECK TRÙNG)
+  // ============================================================
+  function parseBackupAccountsFromText(text) {
+    if (!text || !text.trim()) return [];
+    let parsed;
+    try {
+      parsed = JSON.parse(text.trim());
+    } catch (e) {
+      throw new Error('Cú pháp JSON chưa hợp lệ: ' + e.message);
+    }
+
+    let list = [];
+    if (Array.isArray(parsed)) {
+      list = parsed;
+    } else if (parsed && Array.isArray(parsed.accounts)) {
+      list = parsed.accounts;
+    } else if (parsed && Array.isArray(parsed.users)) {
+      list = parsed.users;
+    } else if (parsed && typeof parsed === 'object') {
+      // Nếu là object dạng {"0866251495": "matkhau", ...}
+      list = Object.entries(parsed).map(([u, p]) => ({ username: u, password: String(p) }));
+    } else {
+      throw new Error('Dữ liệu phải là mảng [...] hoặc đối tượng { "accounts": [...] }');
+    }
+
+    return list.map(item => {
+      if (typeof item === 'string') {
+        return { username: item.trim(), password: '' };
+      }
+      return {
+        username: String(item.username || item.user || item.phone || item.email || '').trim(),
+        password: String(item.password || item.pass || '').trim(),
+        error: item.error ? String(item.error) : 'Thêm từ file JSON Lô Dự Phòng',
+      };
+    }).filter(a => a.username);
+  }
+
+  function updateBackupJsonBadge() {
+    if (!dom.textareaBackupJson || !dom.badgeBackupJsonCount) return;
+    const val = dom.textareaBackupJson.value.trim();
+    if (!val) {
+      dom.badgeBackupJsonCount.textContent = '0 tài khoản nhận diện';
+      dom.badgeBackupJsonCount.style.background = 'rgba(255, 255, 255, 0.1)';
+      dom.badgeBackupJsonCount.style.color = 'var(--text-muted)';
+      return;
+    }
+    try {
+      const list = parseBackupAccountsFromText(val);
+      dom.badgeBackupJsonCount.textContent = `${list.length} tài khoản hợp lệ`;
+      dom.badgeBackupJsonCount.style.background = 'rgba(16, 185, 129, 0.2)';
+      dom.badgeBackupJsonCount.style.color = '#34d399';
+    } catch (err) {
+      dom.badgeBackupJsonCount.textContent = '⚠️ Cú pháp JSON chưa đúng';
+      dom.badgeBackupJsonCount.style.background = 'rgba(239, 68, 68, 0.2)';
+      dom.badgeBackupJsonCount.style.color = '#f87171';
+    }
+  }
+
+  if (dom.btnOpenImportBackupModal) {
+    dom.btnOpenImportBackupModal.addEventListener('click', () => {
+      requireAuth(async () => {
+        // Nạp danh sách Lô Dự Phòng hiện có để xem/chỉnh sửa nếu khung đang trống
+        if (!dom.textareaBackupJson.value.trim()) {
+          try {
+            const res = await fetch('/api/backup-lot');
+            const data = await res.json();
+            if (data.success && Array.isArray(data.accounts) && data.accounts.length > 0) {
+              const preview = data.accounts.map(a => ({
+                username: a.username,
+                password: a.password,
+                error: a.error || undefined
+              }));
+              dom.textareaBackupJson.value = JSON.stringify(preview, null, 2);
+            }
+          } catch (e) {
+            console.warn('Lỗi đọc backup lot:', e);
+          }
+        }
+        updateBackupJsonBadge();
+        dom.modalImportBackupLot.classList.remove('hidden');
+      });
+    });
+  }
+
+  if (dom.btnCloseImportBackupModal) {
+    dom.btnCloseImportBackupModal.addEventListener('click', () => {
+      dom.modalImportBackupLot.classList.add('hidden');
+    });
+  }
+
+  if (dom.btnCancelImportBackup) {
+    dom.btnCancelImportBackup.addEventListener('click', () => {
+      dom.modalImportBackupLot.classList.add('hidden');
+    });
+  }
+
+  if (dom.fileImportBackupJson) {
+    dom.fileImportBackupJson.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      if (dom.labelBackupFileName) {
+        dom.labelBackupFileName.textContent = `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        dom.labelBackupFileName.style.color = '#38bdf8';
+      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        dom.textareaBackupJson.value = event.target?.result || '';
+        updateBackupJsonBadge();
+      };
+      reader.onerror = () => {
+        alert('Không thể đọc file: ' + reader.error);
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  if (dom.btnClearBackupTextarea) {
+    dom.btnClearBackupTextarea.addEventListener('click', () => {
+      dom.textareaBackupJson.value = '';
+      if (dom.labelBackupFileName) {
+        dom.labelBackupFileName.textContent = 'Chưa chọn file nào';
+        dom.labelBackupFileName.style.color = 'var(--text-muted)';
+      }
+      if (dom.fileImportBackupJson) dom.fileImportBackupJson.value = '';
+      updateBackupJsonBadge();
+    });
+  }
+
+  if (dom.textareaBackupJson) {
+    dom.textareaBackupJson.addEventListener('input', updateBackupJsonBadge);
+  }
+
+  if (dom.btnConfirmImportBackup) {
+    dom.btnConfirmImportBackup.addEventListener('click', async () => {
+      try {
+        const accounts = parseBackupAccountsFromText(dom.textareaBackupJson.value);
+        if (accounts.length === 0) {
+          return alert('Chưa tìm thấy tài khoản hợp lệ nào trong nội dung JSON!');
+        }
+
+        const isReplace = dom.chkReplaceBackupLot?.checked || false;
+        dom.btnConfirmImportBackup.disabled = true;
+        const originalText = dom.btnConfirmImportBackup.textContent;
+        dom.btnConfirmImportBackup.textContent = '⏳ Đang nạp...';
+
+        const res = await fetch('/api/backup-lot/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accounts, replace: isReplace }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          dom.modalImportBackupLot.classList.add('hidden');
+          await loadLots();
+
+          // Chuyển bộ lọc bảng sang Lô Dự Phòng và nạp dữ liệu hiển thị ngay
+          if (dom.selectTableLotFilter) {
+            dom.selectTableLotFilter.value = 'lot_backup';
+            state.selectedLotFilter = 'lot_backup';
+          }
+          const resBackup = await fetch('/api/accounts?lotId=lot_backup');
+          const dataBackup = await resBackup.json();
+          if (dataBackup.success) {
+            state.accounts = dataBackup.accounts;
+            renderAccountsTable();
+            updateAccountCounts();
+          }
+
+          alert(`✅ ${data.message}`);
+        } else {
+          alert('Lỗi nạp Lô Dự Phòng: ' + (data.message || 'Thất bại'));
+        }
+      } catch (err) {
+        alert('Lỗi: ' + err.message);
+      } finally {
+        dom.btnConfirmImportBackup.disabled = false;
+        dom.btnConfirmImportBackup.textContent = '⚡ Nạp Vào Lô Dự Phòng';
+      }
+    });
+  }
+
+  if (dom.btnEmptyBackupLotDirect) {
+    dom.btnEmptyBackupLotDirect.addEventListener('click', async () => {
+      if (!confirm('Bạn có chắc chắn muốn XÓA SẠCH toàn bộ tài khoản trong Lô Dự Phòng?')) return;
+      try {
+        const res = await fetch('/api/backup-lot', { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          dom.textareaBackupJson.value = '';
+          if (dom.labelBackupFileName) dom.labelBackupFileName.textContent = 'Chưa chọn file nào';
+          updateBackupJsonBadge();
+          await loadLots();
+
+          if (state.selectedLotFilter === 'lot_backup') {
+            state.accounts = [];
+            renderAccountsTable();
+            updateAccountCounts();
+          }
+          alert('Đã xóa sạch tài khoản trong Lô Dự Phòng!');
+        } else {
+          alert('Lỗi xóa: ' + data.message);
+        }
+      } catch (err) {
+        alert('Lỗi: ' + err.message);
+      }
+    });
+  }
+
 
   // ============================================================
   // DEVICES
@@ -1303,37 +1912,36 @@
       if (!data.success) return;
 
       state.devices = data.devices;
-      dom.selectDevice.innerHTML = '<option value="">Tất cả thiết bị sẵn sàng</option>';
-      state.devices.forEach((d) => {
-        const opt = document.createElement('option');
-        opt.value = d.serial;
-        const resStr = d.resolution ? `${d.resolution.width}x${d.resolution.height}` : '';
-        opt.textContent = `${d.serial} (${d.model || 'Android'} - ${resStr})`;
-        dom.selectDevice.appendChild(opt);
-      });
+      if (dom.selectDevice) {
+        dom.selectDevice.innerHTML = `
+          <option value="mac_native" selected>🍏 App macOS Native (Thanh niên VN)</option>
+        `;
+      }
     } catch (err) {
       console.error('Lỗi quét thiết bị:', err);
     }
   }
 
-  dom.btnReconnectAdb.addEventListener('click', async () => {
-    dom.btnReconnectAdb.disabled = true;
-    dom.btnReconnectAdb.innerHTML = '<span class="icon">⏳</span> Đang quét...';
-    try {
-      const res = await fetch('/api/devices/scan', { method: 'POST' });
-      const data = await res.json();
-      if (data.success) {
-        state.devices = data.devices;
-        loadDevices();
-        alert(`Đã phát hiện ${state.devices.length} máy ảo LDPlayer / thiết bị Android!`);
+  if (dom.btnReconnectAdb) {
+    dom.btnReconnectAdb.addEventListener('click', async () => {
+      dom.btnReconnectAdb.disabled = true;
+      dom.btnReconnectAdb.innerHTML = '<span class="icon">⏳</span> Đang quét...';
+      try {
+        const res = await fetch('/api/devices/scan', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          state.devices = data.devices;
+          loadDevices();
+          alert(`Đã phát hiện ${state.devices.length} máy ảo LDPlayer / thiết bị Android!`);
+        }
+      } catch (err) {
+        alert('Lỗi quét máy ảo: ' + err.message);
+      } finally {
+        dom.btnReconnectAdb.disabled = false;
+        dom.btnReconnectAdb.innerHTML = '<span class="icon">🔄</span> Quét Máy Ảo';
       }
-    } catch (err) {
-      alert('Lỗi quét máy ảo: ' + err.message);
-    } finally {
-      dom.btnReconnectAdb.disabled = false;
-      dom.btnReconnectAdb.innerHTML = '<span class="icon">🔄</span> Quét Máy Ảo';
-    }
-  });
+    });
+  }
 
   if (dom.btnTriggerLdplayerConnect) {
     dom.btnTriggerLdplayerConnect.addEventListener('click', () => dom.btnReconnectAdb.click());
@@ -1344,48 +1952,450 @@
   // ============================================================
   async function startExecution(customOptions = {}) {
     try {
-      const bannerId = dom.selectBanner?.value || state.currentBannerId;
-      const lotId = dom.selectLot?.value || undefined;
-      const startFromIndex = customOptions.startFromIndex || parseInt(dom.selectStartAccount?.value, 10) || 1;
-      const usernames = customOptions.usernames || undefined;
-      const deviceSerial = dom.selectDevice?.value || undefined;
-      const speedMode = dom.selectSpeedMode ? dom.selectSpeedMode.value : 'fast';
-      const concurrency = 1;
-      const fixedAnswer = 'RANDOM';
+      const bannerId = customOptions.bannerId || dom.selectBanner?.value || state.currentBannerId;
+      const lotId = customOptions.lotId || undefined;
+      const banners = customOptions.banners || undefined;
 
-      const payload = {
-        bannerId,
-        lotId,
-        startFromIndex,
-        usernames,
-        deviceSerial,
-        concurrency,
-        fixedAnswer,
-        speedMode,
-      };
+      // Xác định danh sách tài khoản muốn chạy
+      let usernamesToRun = null;
+      if (customOptions.usernames && Array.isArray(customOptions.usernames) && customOptions.usernames.length > 0) {
+        usernamesToRun = customOptions.usernames;
+      } else if (customOptions.limit !== 1 && state.batchSelectedUsernames.size > 0) {
+        usernamesToRun = Array.from(state.batchSelectedUsernames);
+      }
 
-      const res = await fetch('/api/action/start', {
+      let selectedAccounts = undefined;
+      if (usernamesToRun && usernamesToRun.length > 0) {
+        const accMap = new Map(state.accounts.map((a) => [a.username.toLowerCase(), a]));
+        selectedAccounts = usernamesToRun.map((u) => accMap.get(u.toLowerCase()) || { username: u });
+      }
+
+      // Đọc chính xác giá trị từ dropdown Bắt Đầu Từ
+      let startFromIndex = customOptions.startFromIndex;
+      if (!startFromIndex) {
+        const val = dom.selectStartAccount?.value;
+        if (val) startFromIndex = parseInt(val, 10);
+      }
+      if (!startFromIndex || isNaN(startFromIndex)) {
+        // Fallback đọc từ text option đang chọn nếu value rỗng
+        const selOpt = dom.selectStartAccount?.selectedOptions?.[0];
+        if (selOpt) {
+          const m = selOpt.textContent.match(/#(\d+)/);
+          if (m) startFromIndex = parseInt(m[1], 10);
+        }
+      }
+      if (!startFromIndex || isNaN(startFromIndex)) startFromIndex = 1;
+
+      console.log('🚀 [startExecution] Bắt đầu chạy:', { bannerId, banners, startFromIndex, usernamesCount: usernamesToRun?.length });
+
+      // Luôn gọi API Mac Native (chạy script đa tài khoản thật OCR + đối chiếu đáp án chuẩn)
+      dom.btnStartRun.classList.add('hidden');
+      if (dom.btnStartSingle) dom.btnStartSingle.classList.add('hidden');
+      if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.add('hidden');
+      if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.add('hidden');
+      dom.btnStopRun.classList.remove('hidden');
+      if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.remove('hidden');
+
+      const limit = customOptions.limit || undefined;
+      let res = await fetch('/api/mac/flow/start', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          bannerId,
+          banners,
+          startFromIndex,
+          lotId,
+          limit,
+          usernames: usernamesToRun,
+          selectedAccounts,
+        }),
       });
-      const data = await res.json();
+      let data = await res.json();
+
+      // Zero-restart fallback: nếu server cũ chưa restart và không nhận usernames, tự đẩy vào backup-lot
+      if (!data.success && selectedAccounts && selectedAccounts.length > 0) {
+        try {
+          await fetch('/api/backup-lot/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ accounts: selectedAccounts, replace: true }),
+          });
+          res = await fetch('/api/mac/flow/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bannerId, banners, lotId: 'lot_backup', startFromIndex: 1, limit }),
+          });
+          data = await res.json();
+        } catch (e) {}
+      }
+
       if (!data.success) {
         alert('Không thể bắt đầu: ' + data.message);
+        dom.btnStartRun.classList.remove('hidden');
+        if (dom.btnStartSingle) dom.btnStartSingle.classList.remove('hidden');
+        if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.remove('hidden');
+        if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.remove('hidden');
+        dom.btnStopRun.classList.add('hidden');
+        if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.add('hidden');
       } else {
-        // Switch to dashboard tab to see live execution
-        document.getElementById('tab-nav-dashboard')?.click();
+        state.lastRunLimit = limit;
       }
+      return;
     } catch (err) {
       alert('Lỗi gửi lệnh bắt đầu: ' + err.message);
+      dom.btnStartRun.classList.remove('hidden');
+      if (dom.btnStartSingle) dom.btnStartSingle.classList.remove('hidden');
+      if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.remove('hidden');
+      if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.remove('hidden');
+      dom.btnStopRun.classList.add('hidden');
+      if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.add('hidden');
     }
   }
 
   dom.btnStartRun.addEventListener('click', () => startExecution());
 
+  if (dom.btnStartSingle) {
+    dom.btnStartSingle.addEventListener('click', () => {
+      if (state.batchSelectedUsernames.size === 1) {
+        const singleUser = Array.from(state.batchSelectedUsernames)[0];
+        startExecution({ usernames: [singleUser], limit: 1 });
+      } else {
+        startExecution({ limit: 1 });
+      }
+    });
+  }
+
+  // Batch Multi-Account Selector Actions
+  if (dom.btnBatchSelectAll) {
+    dom.btnBatchSelectAll.addEventListener('click', () => {
+      const certResults = state.certResultsCache || {};
+      const currentBanner = dom.selectBanner?.value || state.currentBannerId || 'banner_2';
+      const query = (state.batchSearchQuery || '').toLowerCase().trim();
+
+      state.accounts.forEach((acc) => {
+        const u = (acc.username || '').toLowerCase();
+        const idxStr = String(acc.index || '');
+        const certInfo = certResults[acc.username];
+        const hasCertThisBanner = !!(certInfo && certInfo.bannerStatus && certInfo.bannerStatus[currentBanner]);
+
+        if (query && !u.includes(query) && idxStr !== query && `#${idxStr}` !== query) return;
+        if (state.batchFilterMode === 'no_cert' && hasCertThisBanner) return;
+        if (state.batchFilterMode === 'error' && acc.status !== 'error' && (!certInfo || certInfo.status !== 'FAIL')) return;
+
+        state.batchSelectedUsernames.add(acc.username);
+      });
+      renderBatchAccountsGrid();
+    });
+  }
+
+  if (dom.btnBatchDeselectAll) {
+    dom.btnBatchDeselectAll.addEventListener('click', () => {
+      state.batchSelectedUsernames.clear();
+      state.batchLastClickedIndex = null;
+      renderBatchAccountsGrid();
+    });
+  }
+
+  if (dom.btnBatchInvert) {
+    dom.btnBatchInvert.addEventListener('click', () => {
+      state.accounts.forEach((acc) => {
+        if (state.batchSelectedUsernames.has(acc.username)) {
+          state.batchSelectedUsernames.delete(acc.username);
+        } else {
+          state.batchSelectedUsernames.add(acc.username);
+        }
+      });
+      renderBatchAccountsGrid();
+    });
+  }
+
+  if (dom.btnBatchSelectNoCert) {
+    dom.btnBatchSelectNoCert.addEventListener('click', async () => {
+      await ensureCertificatesCache();
+      const certResults = state.certResultsCache || {};
+      const currentBanner = dom.selectBanner?.value || state.currentBannerId || 'banner_2';
+      let added = 0;
+      state.accounts.forEach((acc) => {
+        const certInfo = certResults[acc.username];
+        const hasCert = !!(certInfo && certInfo.bannerStatus && certInfo.bannerStatus[currentBanner]);
+        if (!hasCert) {
+          state.batchSelectedUsernames.add(acc.username);
+          added++;
+        }
+      });
+      renderBatchAccountsGrid();
+      alert(`Đã chọn ${added} tài khoản chưa có chứng chỉ cho banner đang chọn!`);
+    });
+  }
+
+  if (dom.btnBatchSelectRange) {
+    dom.btnBatchSelectRange.addEventListener('click', () => {
+      const fromVal = parseInt(dom.inputBatchRangeFrom?.value, 10);
+      const toVal = parseInt(dom.inputBatchRangeTo?.value, 10);
+      if (isNaN(fromVal) || isNaN(toVal) || fromVal > toVal) {
+        return alert('Vui lòng nhập khoảng STT hợp lệ (ví dụ: Từ #1 Đến #20)');
+      }
+      state.accounts.forEach((acc) => {
+        if (acc.index >= fromVal && acc.index <= toVal) {
+          state.batchSelectedUsernames.add(acc.username);
+        }
+      });
+      renderBatchAccountsGrid();
+    });
+  }
+
+  if (dom.btnBatchDeselectRange) {
+    dom.btnBatchDeselectRange.addEventListener('click', () => {
+      const fromVal = parseInt(dom.inputBatchRangeFrom?.value, 10);
+      const toVal = parseInt(dom.inputBatchRangeTo?.value, 10);
+      if (isNaN(fromVal) || isNaN(toVal) || fromVal > toVal) return;
+      state.accounts.forEach((acc) => {
+        if (acc.index >= fromVal && acc.index <= toVal) {
+          state.batchSelectedUsernames.delete(acc.username);
+        }
+      });
+      renderBatchAccountsGrid();
+    });
+  }
+
+  if (dom.btnBatchPasteList) {
+    dom.btnBatchPasteList.addEventListener('click', () => {
+      const raw = prompt('Dán danh sách tài khoản (SĐT, Email, hoặc khoảng STT ví dụ: 1-20, 25, 30):');
+      if (!raw) return;
+      const tokens = raw.split(/[\n,;\t ]+/).map((t) => t.trim()).filter(Boolean);
+      const userMap = new Map(state.accounts.map((a) => [a.username.toLowerCase(), a]));
+      const indexMap = new Map(state.accounts.map((a) => [a.index, a]));
+      let matched = 0;
+
+      tokens.forEach((tok) => {
+        const rangeMatch = tok.match(/^#?(\d+)\s*[-~]\s*#?(\d+)$/);
+        if (rangeMatch) {
+          const start = parseInt(rangeMatch[1], 10);
+          const end = parseInt(rangeMatch[2], 10);
+          const min = Math.min(start, end);
+          const max = Math.max(start, end);
+          for (let i = min; i <= max; i++) {
+            const acc = indexMap.get(i);
+            if (acc) {
+              state.batchSelectedUsernames.add(acc.username);
+              matched++;
+            }
+          }
+          return;
+        }
+
+        const numMatch = tok.match(/^#?(\d+)$/);
+        if (numMatch) {
+          const num = parseInt(numMatch[1], 10);
+          const acc = indexMap.get(num);
+          if (acc) {
+            state.batchSelectedUsernames.add(acc.username);
+            matched++;
+            return;
+          }
+        }
+
+        const acc = userMap.get(tok.toLowerCase());
+        if (acc) {
+          state.batchSelectedUsernames.add(acc.username);
+          matched++;
+        }
+      });
+
+      alert(`Đã nhận diện và chọn ${matched} tài khoản phù hợp!`);
+      renderBatchAccountsGrid();
+    });
+  }
+
+  if (dom.inputBatchSearch) {
+    dom.inputBatchSearch.addEventListener('input', (e) => {
+      state.batchSearchQuery = e.target.value;
+      if (dom.btnBatchSearchClear) {
+        dom.btnBatchSearchClear.style.display = e.target.value ? 'block' : 'none';
+      }
+      renderBatchAccountsGrid();
+    });
+
+    dom.inputBatchSearch.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dom.inputBatchSearch.value = '';
+        state.batchSearchQuery = '';
+        if (dom.btnBatchSearchClear) dom.btnBatchSearchClear.style.display = 'none';
+        renderBatchAccountsGrid();
+      }
+    });
+  }
+
+  if (dom.btnBatchSearchClear) {
+    dom.btnBatchSearchClear.addEventListener('click', () => {
+      if (dom.inputBatchSearch) {
+        dom.inputBatchSearch.value = '';
+        state.batchSearchQuery = '';
+        dom.btnBatchSearchClear.style.display = 'none';
+        dom.inputBatchSearch.focus();
+        renderBatchAccountsGrid();
+      }
+    });
+  }
+
+  if (dom.batchFilterChips) {
+    dom.batchFilterChips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        dom.batchFilterChips.forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        state.batchFilterMode = chip.getAttribute('data-batch-filter') || 'all';
+        renderBatchAccountsGrid();
+      });
+    });
+  }
+
+  if (dom.selectBanner) {
+    dom.selectBanner.addEventListener('change', () => {
+      renderBatchAccountsGrid();
+    });
+  }
+
   dom.btnStopRun.addEventListener('click', async () => {
-    await fetch('/api/action/stop', { method: 'POST' });
+    await fetch('/api/mac/flow/stop', { method: 'POST' }).catch(() => {});
+    await fetch('/api/action/stop', { method: 'POST' }).catch(() => {});
+    dom.btnStartRun.classList.remove('hidden');
+    if (dom.btnStartSingle) dom.btnStartSingle.classList.remove('hidden');
+    if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.remove('hidden');
+    if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.remove('hidden');
+    dom.btnStopRun.classList.add('hidden');
+    if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.add('hidden');
   });
+
+  if (dom.btnStopSingleMulti) {
+    dom.btnStopSingleMulti.addEventListener('click', async () => {
+      await fetch('/api/mac/flow/stop', { method: 'POST' }).catch(() => {});
+      await fetch('/api/action/stop', { method: 'POST' }).catch(() => {});
+      dom.btnStartRun.classList.remove('hidden');
+      if (dom.btnStartSingle) dom.btnStartSingle.classList.remove('hidden');
+      if (dom.btnStartSingleMulti) dom.btnStartSingleMulti.classList.remove('hidden');
+      if (dom.btnRunFailedOnly) dom.btnRunFailedOnly.classList.remove('hidden');
+      dom.btnStopRun.classList.add('hidden');
+      if (dom.btnStopSingleMulti) dom.btnStopSingleMulti.classList.add('hidden');
+    });
+  }
+
+  // Chế độ 2: Chạy đơn thi nhiều banner
+  if (dom.btnStartSingleMulti) {
+    dom.btnStartSingleMulti.addEventListener('click', () => {
+      if (!dom.singleMultiBannersGrid) return;
+      const checkedBoxes = Array.from(dom.singleMultiBannersGrid.querySelectorAll('input[type="checkbox"]:checked'));
+      const selectedBanners = checkedBoxes.map((cb) => cb.value);
+
+      if (selectedBanners.length === 0) {
+        alert('⚠️ Vui lòng tích chọn ít nhất 1 banner để thi liên hoàn!');
+        return;
+      }
+
+      let selectedAccIdx = 1;
+      if (dom.selectSingleAcc && dom.selectSingleAcc.value) {
+        const val = dom.selectSingleAcc.value;
+        const num = parseInt(val, 10);
+        if (!isNaN(num)) selectedAccIdx = num;
+      }
+
+      startExecution({
+        startFromIndex: selectedAccIdx,
+        limit: 1,
+        banners: selectedBanners,
+        bannerId: selectedBanners[0],
+      });
+    });
+  }
+
+  // Area Tab Switcher
+  if (dom.btnModeTabBatch && dom.btnModeTabSingleMulti) {
+    dom.btnModeTabBatch.addEventListener('click', () => {
+      dom.btnModeTabBatch.className = 'btn-area-tab active-batch';
+      dom.btnModeTabSingleMulti.className = 'btn-area-tab';
+      if (dom.panelModeBatch) dom.panelModeBatch.classList.remove('hidden');
+      if (dom.panelModeSingleMulti) dom.panelModeSingleMulti.classList.add('hidden');
+      if (dom.activeModeIndicator) {
+        dom.activeModeIndicator.textContent = 'Chế Độ 1: Chạy Hàng Loạt';
+        dom.activeModeIndicator.style.color = '#38bdf8';
+        dom.activeModeIndicator.style.background = 'rgba(6, 182, 212, 0.15)';
+        dom.activeModeIndicator.style.borderColor = 'rgba(6, 182, 212, 0.3)';
+      }
+    });
+
+    dom.btnModeTabSingleMulti.addEventListener('click', () => {
+      dom.btnModeTabBatch.className = 'btn-area-tab';
+      dom.btnModeTabSingleMulti.className = 'btn-area-tab active-single';
+      if (dom.panelModeBatch) dom.panelModeBatch.classList.add('hidden');
+      if (dom.panelModeSingleMulti) dom.panelModeSingleMulti.classList.remove('hidden');
+      if (dom.activeModeIndicator) {
+        dom.activeModeIndicator.textContent = 'Chế Độ 2: Chạy Đơn (Thi Nhiều Banner)';
+        dom.activeModeIndicator.style.color = '#fbbf24';
+        dom.activeModeIndicator.style.background = 'rgba(245, 158, 11, 0.15)';
+        dom.activeModeIndicator.style.borderColor = 'rgba(245, 158, 11, 0.35)';
+      }
+      renderMultiBannerCards();
+      updateSingleAccLabel();
+    });
+  }
+
+  // Banner Checkbox Select/Deselect All
+  if (dom.btnSelectAllBanners) {
+    dom.btnSelectAllBanners.addEventListener('click', () => {
+      if (!dom.singleMultiBannersGrid) return;
+      dom.singleMultiBannersGrid.querySelectorAll('.multi-banner-card').forEach((card) => {
+        card.classList.add('checked');
+        const cb = card.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = true;
+      });
+      updateSelectedBannersCount();
+    });
+  }
+
+  if (dom.btnDeselectAllBanners) {
+    dom.btnDeselectAllBanners.addEventListener('click', () => {
+      if (!dom.singleMultiBannersGrid) return;
+      dom.singleMultiBannersGrid.querySelectorAll('.multi-banner-card').forEach((card) => {
+        card.classList.remove('checked');
+        const cb = card.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = false;
+      });
+      updateSelectedBannersCount();
+    });
+  }
+
+  // Account selector sync & Prev/Next buttons
+  if (dom.selectSingleAcc) {
+    dom.selectSingleAcc.addEventListener('change', () => {
+      updateSingleAccLabel();
+      if (dom.selectStartAccount) dom.selectStartAccount.value = dom.selectSingleAcc.value;
+    });
+  }
+  if (dom.selectStartAccount) {
+    dom.selectStartAccount.addEventListener('change', () => {
+      if (dom.selectSingleAcc) {
+        dom.selectSingleAcc.value = dom.selectStartAccount.value;
+        updateSingleAccLabel();
+      }
+    });
+  }
+  if (dom.btnSinglePrevAcc) {
+    dom.btnSinglePrevAcc.addEventListener('click', () => {
+      if (dom.selectSingleAcc && dom.selectSingleAcc.selectedIndex > 0) {
+        dom.selectSingleAcc.selectedIndex -= 1;
+        updateSingleAccLabel();
+        if (dom.selectStartAccount) dom.selectStartAccount.value = dom.selectSingleAcc.value;
+      }
+    });
+  }
+  if (dom.btnSingleNextAcc) {
+    dom.btnSingleNextAcc.addEventListener('click', () => {
+      if (dom.selectSingleAcc && dom.selectSingleAcc.selectedIndex < dom.selectSingleAcc.options.length - 1) {
+        dom.selectSingleAcc.selectedIndex += 1;
+        updateSingleAccLabel();
+        if (dom.selectStartAccount) dom.selectStartAccount.value = dom.selectSingleAcc.value;
+      }
+    });
+  }
 
   // Resume when paused at banner selection
   async function resumeBannerWait() {
@@ -1416,6 +2426,7 @@
       return alert('Hiện tại không có tài khoản nào bị lỗi!');
     }
     if (confirm(`Tìm thấy ${failedUsers.length} tài khoản bị lỗi. Bắt đầu chạy lại ngay?`)) {
+      document.getElementById('tab-nav-dashboard')?.click();
       startExecution({ usernames: failedUsers });
     }
   });
@@ -1434,6 +2445,19 @@
   // INITIALIZATION
   // ============================================================
   async function init() {
+    // Chống trình duyệt tự động điền (autofill) tài khoản đã lưu vào ô tìm kiếm
+    const resetSearchInput = () => {
+      if (dom.inputBatchSearch && document.activeElement !== dom.inputBatchSearch) {
+        dom.inputBatchSearch.value = '';
+        state.batchSearchQuery = '';
+        if (dom.btnBatchSearchClear) dom.btnBatchSearchClear.style.display = 'none';
+      }
+    };
+    resetSearchInput();
+    setTimeout(resetSearchInput, 100);
+    setTimeout(resetSearchInput, 300);
+    setTimeout(resetSearchInput, 700);
+
     await loadBanners();
     // Tự động kết nối các port LDPlayer khi tải trang (giống bấm nút Quét Máy Ảo)
     try {
@@ -1451,8 +2475,25 @@
 
     // Khi đổi lô ở bảng Tài khoản → lọc trực tiếp
     if (dom.selectTableLotFilter) {
-      dom.selectTableLotFilter.addEventListener('change', (e) => {
+      dom.selectTableLotFilter.addEventListener('change', async (e) => {
         state.selectedLotFilter = e.target.value;
+        if (state.selectedLotFilter === 'lot_backup') {
+          try {
+            const res = await fetch('/api/accounts?lotId=lot_backup');
+            const data = await res.json();
+            if (data.success) {
+              state.accounts = data.accounts;
+              renderAccountsTable();
+              updateAccountCounts();
+              return;
+            }
+          } catch (err) {
+            console.error('Lỗi nạp Lô Dự Phòng:', err);
+          }
+        } else {
+          await loadAccounts();
+          return;
+        }
         renderAccountsTable();
       });
     }

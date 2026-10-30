@@ -1,0 +1,137 @@
+{
+  "note": "Calibrated via live recording - 2026-10-25",
+  "calibrated_w": 515,
+  "calibrated_h": 796,
+  "engine": "cliclick",
+  "_important": "App TNVN dung Flutter - phai dung cliclick (di chuot that), CGEventPostToPid khong hoat dong",
+  "tab_cong_tac_doan": {
+    "rx": 0.3,
+    "ry": 0.965,
+    "label": "Tab Cong tac doan (bottom bar)"
+  },
+  "hoc_va_thi": {
+    "rx": 0.72,
+    "ry": 0.22,
+    "label": "The Hoc va thi (goc tren phai)"
+  },
+  "cuoc_thi_trc_tuyen": {
+    "rx": 0.5,
+    "ry": 0.135,
+    "label": "Muc Cuoc thi truc tuyen"
+  },
+  "banner_1": {
+    "rx": 0.5,
+    "ry": 0.24,
+    "label": "Banner 1 - KIEM TRA DAI HOI DOAN XIII"
+  },
+  "cuoc_thi_dau_tien": {
+    "rx": 0.5,
+    "ry": 0.24,
+    "label": "Cuoc thi dau tien"
+  },
+  "banner_2": {
+    "rx": 0.5,
+    "ry": 0.36,
+    "label": "Banner 2 - Nghi quyet XIV cua Dang"
+  },
+  "banner_3": {
+    "rx": 0.5,
+    "ry": 0.56,
+    "label": "Banner 3 - Chuyen de DD TT HCM - DVTN"
+  },
+  "banner_4": {
+    "rx": 0.5,
+    "ry": 0.8,
+    "label": "Banner 4 - Cuoc thi Pham Huu Lau (anh banner)"
+  },
+  "banner_6": {
+    "rx": 0.5,
+    "ry": 0.44,
+    "label": "Banner 6 - Chuyen de DD TT HCM - CB Doan"
+  },
+  "bat_dau_bai_thi": {
+    "rx": 0.5,
+    "ry": 0.22,
+    "label": "Nut BAT DAU BAI THI (mau xanh)"
+  },
+  "lam_lai_bai_thi": {
+    "rx": 0.5,
+    "ry": 0.22,
+    "label": "Nut LAM LAI BAI THI"
+  },
+  "close_x": {
+    "rx": 0.92,
+    "ry": 0.07,
+    "label": "Nut X dong popup"
+  },
+  "back_arrow": {
+    "rx": 0.08,
+    "ry": 0.07,
+    "label": "Nut Back (<-)"
+  },
+  "login_username": {
+    "rx": 0.5,
+    "ry": 0.58,
+    "label": "O nhap username"
+  },
+  "login_password": {
+    "rx": 0.5,
+    "ry": 0.69,
+    "label": "O nhap password"
+  },
+  "login_button": {
+    "rx": 0.5,
+    "ry": 0.88,
+    "label": "Nut DANG NHAP (mau cam)"
+  },
+  "answer_A": {
+    "rx": 0.08,
+    "ry": 0.22,
+    "label": "Dap an A - CHUA CALIBRATE"
+  },
+  "answer_B": {
+    "rx": 0.08,
+    "ry": 0.26,
+    "label": "Dap an B - CHUA CALIBRATE"
+  },
+  "answer_C": {
+    "rx": 0.08,
+    "ry": 0.3,
+    "label": "Dap an C - CHUA CALIBRATE"
+  },
+  "answer_D": {
+    "rx": 0.08,
+    "ry": 0.34,
+    "label": "Dap an D - CHUA CALIBRATE"
+  },
+  "next_question": {
+    "rx": 0.934,
+    "ry": 0.964,
+    "label": "Nut > sang cau tiep (da calibrate)"
+  },
+  "nop_bai": {
+    "rx": 0.882,
+    "ry": 0.143,
+    "label": "Nut NOP BAI (da calibrate)"
+  },
+  "confirm_nop": {
+    "rx": 0.705,
+    "ry": 0.599,
+    "label": "Nut NOP BAI trong popup xac nhan (da calibrate)"
+  },
+  "tab_ca_nhan": {
+    "rx": 0.9,
+    "ry": 0.965,
+    "label": "Tab Ca nhan (bottom bar)"
+  },
+  "dang_xuat": {
+    "rx": 0.5,
+    "ry": 0.85,
+    "label": "Nut Dang xuat - CHUA CALIBRATE"
+  },
+  "answer_radio_x": {
+    "rx": 0.037,
+    "ry": 0,
+    "label": "Cot X cua radio dap an"
+  }
+}

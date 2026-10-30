@@ -198,5 +198,27 @@
       "Sài Gòn"
     ],
     "answer": "Phnôm Pênh (Vương quốc Campuchia)"
+  },
+  {
+    "question": "Câu 1: Trong chuyên đé, thanh niên Việt Nam ở nước ngoài có vai trò gi?",
+    "options": [
+      ") Không thuộc lực lượng cản tập hợp trong công tác Đoản.|",
+      ") Chi có vai trò giao lưu ván hóa cá nhân.",
+      ") Là cánh tay nối dài, góp phần kết nối nguồn lực tri thức trẻ toản cầu.",
+      "Là lực lượng tách biệt với thanh niên trong nước.|"
+    ],
+    "answer": ") Là cánh tay nối dài, góp phần kết nối nguồn lực tri thức trẻ toản cầu.",
+    "source": "gemini_ai"
+  },
+  {
+    "question": "Ai là Tổng Bí thư đầu tiên của Đảng Cộng sản Việt Nam?",
+    "options": [
+      "Nguyễn Ái Quốc",
+      "Trần Phú",
+      "Lê Hồng Phong",
+      "Hà Huy Tập"
+    ],
+    "answer": "Trần Phú",
+    "source": "gemini_ai"
   }
 ]

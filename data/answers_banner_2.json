@@ -1,1 +1,1052 @@
-[]
+[
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng nền quốc phòng theo hướng nào?",
+    "options": [
+      "Nền quốc phòng chuyên sâu, tập trung vào các địa bàn chiến lược",
+      "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân",
+      "Nền quốc phòng khu vực, gắn với xây dựng lực lượng dự bị động viên",
+      "Nền quốc phòng hiện đại, gắn với phát triển công nghiệp quốc phòng và kinh tế biển"
+    ],
+    "answer": "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng nền quốc phòng theo hướng nào?",
+    "options": [
+      "Nền quốc phòng chuyên sâu, tập trung vào các địa bàn chiến lược",
+      "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân",
+      "Nền quốc phòng khu vực, gắn với xây dựng lực lượng dự bị động viên",
+      "Nền quốc phòng hiện đại, gắn với phát triển công nghiệp quốc phòng và kinh tế biển"
+    ],
+    "answer": "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương châm phân cấp, phân quyền cho chính quyền địa phương là gì?",
+    "options": [
+      "Trung ương định hướng, địa phương triển khai, Nhân dân giám sát",
+      "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm",
+      "Cấp trên giao việc, cấp dưới thực hiện, hệ thống kiểm tra",
+      "Địa phương chủ động, vùng liên kết, Trung ương điều phối"
+    ],
+    "answer": "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương châm phân cấp, phân quyền cho chính quyền địa phương là gì?",
+    "options": [
+      "Trung ương định hướng, địa phương triển khai, Nhân dân giám sát",
+      "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm",
+      "Cấp trên giao việc, cấp dưới thực hiện, hệ thống kiểm tra",
+      "Địa phương chủ động, vùng liên kết, Trung ương điều phối"
+    ],
+    "answer": "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm"
+  },
+  {
+    "question": "Phương châm của Đại hội XIV là gì?",
+    "options": [
+      "Dân chủ – Kỷ cương – Sáng tạo – Hội nhập – Phát triển",
+      "Đoàn kết – Dân chủ – Kỷ cương – Đột phá – Phát triển",
+      "Đoàn kết – Đổi mới – Sáng tạo – Phát triển – Hội nhập",
+      "Đổi mới – Dân chủ – Kỷ luật – Trách nhiệm – Phát triển"
+    ],
+    "answer": "Đoàn kết – Dân chủ – Kỷ cương – Đột phá – Phát triển"
+  },
+  {
+    "question": "Phương châm của Đại hội XIV là gì?",
+    "options": [
+      "Dân chủ – Kỷ cương – Sáng tạo – Hội nhập – Phát triển",
+      "Đoàn kết – Dân chủ – Kỷ cương – Đột phá – Phát triển",
+      "Đoàn kết – Đổi mới – Sáng tạo – Phát triển – Hội nhập",
+      "Đổi mới – Dân chủ – Kỷ luật – Trách nhiệm – Phát triển"
+    ],
+    "answer": "Đoàn kết – Dân chủ – Kỷ cương – Đột phá – Phát triển"
+  },
+  {
+    "question": "Tầm nhìn phát triển đến năm 2045 gắn với kỷ niệm sự kiện nào?",
+    "options": [
+      "100 năm thành lập Đảng Cộng sản Việt Nam",
+      "80 năm Quốc khánh nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "50 năm thực hiện công cuộc đổi mới"
+    ],
+    "answer": "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam"
+  },
+  {
+    "question": "Tầm nhìn phát triển đến năm 2045 gắn với kỷ niệm sự kiện nào?",
+    "options": [
+      "100 năm thành lập Đảng Cộng sản Việt Nam",
+      "80 năm Quốc khánh nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "50 năm thực hiện công cuộc đổi mới"
+    ],
+    "answer": "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định quan điểm trọng tâm trong phát triển là?",
+    "options": [
+      "Lấy tăng trưởng kinh tế làm trung tâm tuyệt đối",
+      "Lấy ổn định làm mục tiêu duy nhất",
+      "Lấy phát triển để ổn định, ổn định để thúc đẩy phát triển",
+      "Lấy hội nhập quốc tế làm động lực chủ yếu"
+    ],
+    "answer": "Lấy phát triển để ổn định, ổn định để thúc đẩy phát triển"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định quan điểm trọng tâm trong phát triển là?",
+    "options": [
+      "Lấy tăng trưởng kinh tế làm trung tâm tuyệt đối",
+      "Lấy ổn định làm mục tiêu duy nhất",
+      "Lấy phát triển để ổn định, ổn định để thúc đẩy phát triển",
+      "Lấy hội nhập quốc tế làm động lực chủ yếu"
+    ],
+    "answer": "Lấy phát triển để ổn định, ổn định để thúc đẩy phát triển"
+  },
+  {
+    "question": "Đến năm 2030, Văn kiện Đại hội XIV của Đảng đặt mục tiêu cơ bản nào?",
+    "options": [
+      "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân",
+      "Xoá bỏ hoàn toàn chênh lệch vùng miền",
+      "Miễn toàn bộ học phí đại học",
+      "Phổ cập nhà ở miễn phí cho toàn dân"
+    ],
+    "answer": "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân"
+  },
+  {
+    "question": "Đến năm 2030, Văn kiện Đại hội XIV của Đảng đặt mục tiêu cơ bản nào?",
+    "options": [
+      "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân",
+      "Xoá bỏ hoàn toàn chênh lệch vùng miền",
+      "Miễn toàn bộ học phí đại học",
+      "Phổ cập nhà ở miễn phí cho toàn dân"
+    ],
+    "answer": "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần ưu tiên tiếp thu, chuyển giao, ứng dụng sáng tạo, làm chủ làm chủ các công nghệ nào?",
+    "options": [
+      "Công nghệ tiên tiến, công nghệ chiến lược, công nghệ lõi, công nghệ nguồn, công nghệ số",
+      "Công nghệ khai thác thủ công, công nghệ truyền thống",
+      "Công nghệ phục vụ chủ yếu cho tiêu dùng cá nhân",
+      "Công nghệ sản xuất nhỏ lẻ, phân tán"
+    ],
+    "answer": "Công nghệ tiên tiến, công nghệ chiến lược, công nghệ lõi, công nghệ nguồn, công nghệ số"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần ưu tiên tiếp thu, chuyển giao, ứng dụng sáng tạo, làm chủ làm chủ các công nghệ nào?",
+    "options": [
+      "Công nghệ tiên tiến, công nghệ chiến lược, công nghệ lõi, công nghệ nguồn, công nghệ số",
+      "Công nghệ khai thác thủ công, công nghệ truyền thống",
+      "Công nghệ phục vụ chủ yếu cho tiêu dùng cá nhân",
+      "Công nghệ sản xuất nhỏ lẻ, phân tán"
+    ],
+    "answer": "Công nghệ tiên tiến, công nghệ chiến lược, công nghệ lõi, công nghệ nguồn, công nghệ số"
+  },
+  {
+    "question": "Đâu là nội dung chính xác trong quan điểm chỉ đạo được xác định tại Văn kiện Đại hội XIV của Đảng?",
+    "options": [
+      "Phát triển con người là trung tâm; đổi mới sáng tạo là then chốt; phát triển văn hoá là nền tảng; hội nhập quốc tế là thường xuyên",
+      "Phát triển kinh tế, xã hội, bảo vệ môi trường là trung tâm; xây dựng Đảng là then chốt; phát triển văn hoá, con người là nền tảng; tăng cường quốc phòng, an ninh và đẩy mạnh đối ngoại, hội nhập quốc tế là trọng yếu, thường xuyên",
+      "Xây dựng Đảng là trung tâm; phát triển kinh tế - xã hội là then chốt; bảo vệ Tổ quốc là nền tảng; phát triển văn hoá là thường xuyên",
+      "Phát triển khoa học công nghệ là trung tâm; xây dựng Đảng là then chốt; phát triển kinh tế là nền tảng; an ninh quốc phòng là trọng yếu"
+    ],
+    "answer": "Phát triển kinh tế, xã hội, bảo vệ môi trường là trung tâm; xây dựng Đảng là then chốt; phát triển văn hoá, con người là nền tảng; tăng cường quốc phòng, an ninh và đẩy mạnh đối ngoại, hội nhập quốc tế là trọng yếu, thường xuyên"
+  },
+  {
+    "question": "Đâu là nội dung chính xác trong quan điểm chỉ đạo được xác định tại Văn kiện Đại hội XIV của Đảng?",
+    "options": [
+      "Phát triển con người là trung tâm; đổi mới sáng tạo là then chốt; phát triển văn hoá là nền tảng; hội nhập quốc tế là thường xuyên",
+      "Phát triển kinh tế, xã hội, bảo vệ môi trường là trung tâm; xây dựng Đảng là then chốt; phát triển văn hoá, con người là nền tảng; tăng cường quốc phòng, an ninh và đẩy mạnh đối ngoại, hội nhập quốc tế là trọng yếu, thường xuyên",
+      "Xây dựng Đảng là trung tâm; phát triển kinh tế - xã hội là then chốt; bảo vệ Tổ quốc là nền tảng; phát triển văn hoá là thường xuyên",
+      "Phát triển khoa học công nghệ là trung tâm; xây dựng Đảng là then chốt; phát triển kinh tế là nền tảng; an ninh quốc phòng là trọng yếu"
+    ],
+    "answer": "Phát triển kinh tế, xã hội, bảo vệ môi trường là trung tâm; xây dựng Đảng là then chốt; phát triển văn hoá, con người là nền tảng; tăng cường quốc phòng, an ninh và đẩy mạnh đối ngoại, hội nhập quốc tế là trọng yếu, thường xuyên"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng hệ thống quản lý nhà nước, quản trị quốc gia theo hướng nào?",
+    "options": [
+      "Tập trung, thống nhất, tăng cường kiểm soát hành chính",
+      "Chuyên nghiệp, ổn định, ưu tiên quản lý theo ngành",
+      "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển",
+      "Đồng bộ, phân cấp mạnh, lấy địa phương làm trung tâm"
+    ],
+    "answer": "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng hệ thống quản lý nhà nước, quản trị quốc gia theo hướng nào?",
+    "options": [
+      "Tập trung, thống nhất, tăng cường kiểm soát hành chính",
+      "Chuyên nghiệp, ổn định, ưu tiên quản lý theo ngành",
+      "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển",
+      "Đồng bộ, phân cấp mạnh, lấy địa phương làm trung tâm"
+    ],
+    "answer": "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ sáu về quốc phòng, an ninh và đối ngoại xác định mục tiêu gì cho Quân đội và Công an?",
+    "options": [
+      "Phát triển công nghiệp quốc phòng tự chủ, đạt trình độ khu vực vào năm 2030",
+      "Tập trung hiện đại hoá trang bị vũ khí, khí tài và ứng dụng trí tuệ nhân tạo trong quân sự",
+      "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ",
+      "Xây dựng lực lượng quân sự chuyên nghiệp, hiệu quả, tinh gọn theo mô hình quân đội hiện đại"
+    ],
+    "answer": "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ sáu về quốc phòng, an ninh và đối ngoại xác định mục tiêu gì cho Quân đội và Công an?",
+    "options": [
+      "Phát triển công nghiệp quốc phòng tự chủ, đạt trình độ khu vực vào năm 2030",
+      "Tập trung hiện đại hoá trang bị vũ khí, khí tài và ứng dụng trí tuệ nhân tạo trong quân sự",
+      "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ",
+      "Xây dựng lực lượng quân sự chuyên nghiệp, hiệu quả, tinh gọn theo mô hình quân đội hiện đại"
+    ],
+    "answer": "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng quán triệt sâu sắc quan điểm nào trong phát huy vai trò chủ thể của Nhân dân?",
+    "options": [
+      "Dân là gốc, Nhân dân là chủ thể, trung tâm của công cuộc đổi mới",
+      "Nhân dân tham gia giám sát một số lĩnh vực trọng yếu",
+      "Dân chủ là động lực chủ yếu của phát triển kinh tế",
+      "Phát huy quyền làm chủ của Nhân dân ở cấp cơ sở"
+    ],
+    "answer": "Dân là gốc, Nhân dân là chủ thể, trung tâm của công cuộc đổi mới"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng quán triệt sâu sắc quan điểm nào trong phát huy vai trò chủ thể của Nhân dân?",
+    "options": [
+      "Dân là gốc, Nhân dân là chủ thể, trung tâm của công cuộc đổi mới",
+      "Nhân dân tham gia giám sát một số lĩnh vực trọng yếu",
+      "Dân chủ là động lực chủ yếu của phát triển kinh tế",
+      "Phát huy quyền làm chủ của Nhân dân ở cấp cơ sở"
+    ],
+    "answer": "Dân là gốc, Nhân dân là chủ thể, trung tâm của công cuộc đổi mới"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định yêu cầu nào trong công tác cán bộ?",
+    "options": [
+      "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở",
+      "Chú trọng cán bộ quản lý nhà nước, chưa đặt trọng tâm đối với cán bộ khoa học, kỹ thuật",
+      "Ưu tiên bố trí cán bộ theo ngành dọc, hạn chế tăng cường cán bộ cho địa bàn khó khăn",
+      "Tập trung đào tạo cán bộ cấp chiến lược, từng bước giảm đào tạo cán bộ cơ sở"
+    ],
+    "answer": "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định yêu cầu nào trong công tác cán bộ?",
+    "options": [
+      "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở",
+      "Chú trọng cán bộ quản lý nhà nước, chưa đặt trọng tâm đối với cán bộ khoa học, kỹ thuật",
+      "Ưu tiên bố trí cán bộ theo ngành dọc, hạn chế tăng cường cán bộ cho địa bàn khó khăn",
+      "Tập trung đào tạo cán bộ cấp chiến lược, từng bước giảm đào tạo cán bộ cơ sở"
+    ],
+    "answer": "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần bảo vệ, phục hồi hệ sinh thái nào?",
+    "options": [
+      "Chủ yếu hệ sinh thái đô thị",
+      "Thu hẹp các khu bảo tồn thiên nhiên",
+      "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên",
+      "Chỉ tập trung hệ sinh thái nông nghiệp"
+    ],
+    "answer": "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần bảo vệ, phục hồi hệ sinh thái nào?",
+    "options": [
+      "Chủ yếu hệ sinh thái đô thị",
+      "Thu hẹp các khu bảo tồn thiên nhiên",
+      "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên",
+      "Chỉ tập trung hệ sinh thái nông nghiệp"
+    ],
+    "answer": "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, đột phá chiến lược thứ ba về kết cấu hạ tầng xác định ưu tiên đột phá vào những loại hạ tầng nào?",
+    "options": [
+      "Chỉ tập trung vào hạ tầng giao thông đường bộ cao tốc và đường sắt tốc độ cao",
+      "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao",
+      "Tập trung hạ tầng năng lượng tái tạo và lưới điện thông minh quốc gia",
+      "Ưu tiên hạ tầng số và kết nối internet tốc độ cao trên toàn quốc"
+    ],
+    "answer": "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, đột phá chiến lược thứ ba về kết cấu hạ tầng xác định ưu tiên đột phá vào những loại hạ tầng nào?",
+    "options": [
+      "Chỉ tập trung vào hạ tầng giao thông đường bộ cao tốc và đường sắt tốc độ cao",
+      "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao",
+      "Tập trung hạ tầng năng lượng tái tạo và lưới điện thông minh quốc gia",
+      "Ưu tiên hạ tầng số và kết nối internet tốc độ cao trên toàn quốc"
+    ],
+    "answer": "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, Ban Chấp hành Trung ương Đảng khoá XIV gồm bao nhiêu đồng chí, trong đó có bao nhiêu Uỷ viên chính thức và bao nhiêu Uỷ viên dự khuyết?",
+    "options": [
+      "200 đồng chí, gồm 180 Uỷ viên chính thức và 20 Uỷ viên dự khuyết",
+      "180 đồng chí, gồm 160 Uỷ viên chính thức và 20 Uỷ viên dự khuyết",
+      "190 đồng chí, gồm 170 Uỷ viên chính thức và 20 Uỷ viên dự khuyết",
+      "220 đồng chí, gồm 200 Uỷ viên chính thức và 20 Uỷ viên dự khuyết"
+    ],
+    "answer": "200 đồng chí, gồm 180 Uỷ viên chính thức và 20 Uỷ viên dự khuyết"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, Ban Chấp hành Trung ương Đảng khoá XIV gồm bao nhiêu đồng chí, trong đó có bao nhiêu Uỷ viên chính thức và bao nhiêu Uỷ viên dự khuyết?",
+    "options": [
+      "200 đồng chí, gồm 180 Uỷ viên chính thức và 20 Uỷ viên dự khuyết",
+      "180 đồng chí, gồm 160 Uỷ viên chính thức và 20 Uỷ viên dự khuyết",
+      "190 đồng chí, gồm 170 Uỷ viên chính thức và 20 Uỷ viên dự khuyết",
+      "220 đồng chí, gồm 200 Uỷ viên chính thức và 20 Uỷ viên dự khuyết"
+    ],
+    "answer": "200 đồng chí, gồm 180 Uỷ viên chính thức và 20 Uỷ viên dự khuyết"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV xác định quá trình thực hiện Nghị quyết Đại hội XIII diễn ra trong bối cảnh thế giới như thế nào?",
+    "options": [
+      "Diễn biến nhanh, phức tạp, bất ổn, khó lường, khó khăn, thách thức nhiều hơn thuận lợi",
+      "Ổn định, thuận lợi, ít biến động và có nhiều cơ hội phát triển hơn thách thức",
+      "Chỉ chịu ảnh hưởng của khủng hoảng kinh tế và biến đổi khí hậu",
+      "Chủ yếu chịu tác động bởi xu hướng hòa bình, hợp tác và phát triển"
+    ],
+    "answer": "Diễn biến nhanh, phức tạp, bất ổn, khó lường, khó khăn, thách thức nhiều hơn thuận lợi"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV xác định quá trình thực hiện Nghị quyết Đại hội XIII diễn ra trong bối cảnh thế giới như thế nào?",
+    "options": [
+      "Diễn biến nhanh, phức tạp, bất ổn, khó lường, khó khăn, thách thức nhiều hơn thuận lợi",
+      "Ổn định, thuận lợi, ít biến động và có nhiều cơ hội phát triển hơn thách thức",
+      "Chỉ chịu ảnh hưởng của khủng hoảng kinh tế và biến đổi khí hậu",
+      "Chủ yếu chịu tác động bởi xu hướng hòa bình, hợp tác và phát triển"
+    ],
+    "answer": "Diễn biến nhanh, phức tạp, bất ổn, khó lường, khó khăn, thách thức nhiều hơn thuận lợi"
+  },
+  {
+    "question": "Đại hội XIV xác định mục tiêu phát triển đất nước đến năm 2030 gắn với mốc lịch sử nào?",
+    "options": [
+      "Khi kết thúc thời kỳ quá độ lên chủ nghĩa xã hội",
+      "Khi nước ta tròn 100 năm thành lập",
+      "Khi Đảng ta tròn 100 năm thành lập",
+      "Khi hoàn thành công nghiệp hóa đất nước"
+    ],
+    "answer": "Khi Đảng ta tròn 100 năm thành lập"
+  },
+  {
+    "question": "Đại hội XIV xác định mục tiêu phát triển đất nước đến năm 2030 gắn với mốc lịch sử nào?",
+    "options": [
+      "Khi kết thúc thời kỳ quá độ lên chủ nghĩa xã hội",
+      "Khi nước ta tròn 100 năm thành lập",
+      "Khi Đảng ta tròn 100 năm thành lập",
+      "Khi hoàn thành công nghiệp hóa đất nước"
+    ],
+    "answer": "Khi Đảng ta tròn 100 năm thành lập"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định 4 nhóm kết quả nổi bật trong thực hiện Nghị quyết Đại hội XIII của Đảng và sau 40 năm đổi mới trên những lĩnh vực nào?",
+    "options": [
+      "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, quản lý tài nguyên, bảo vệ môi trường; Phát triển văn hóa, con người và xã hội; đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị.",
+      "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, quản lý tài nguyên, bảo vệ môi trường; Quốc phòng, an ninh, đối ngoại; phát triển lý luận về chủ nghĩa xã hội và con đường đi lên chủ nghĩa xã hội; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị.",
+      "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, tài nguyên, môi trường; Phát triển văn hóa, con người và xã hội; Quốc phòng, an ninh, đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị",
+      "Phát triển văn hóa, con người và xã hội; Quốc phòng, an ninh, đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị; tinh gọn tổ chức bộ máy."
+    ],
+    "answer": "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, tài nguyên, môi trường; Phát triển văn hóa, con người và xã hội; Quốc phòng, an ninh, đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định 4 nhóm kết quả nổi bật trong thực hiện Nghị quyết Đại hội XIII của Đảng và sau 40 năm đổi mới trên những lĩnh vực nào?",
+    "options": [
+      "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, quản lý tài nguyên, bảo vệ môi trường; Phát triển văn hóa, con người và xã hội; đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị.",
+      "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, quản lý tài nguyên, bảo vệ môi trường; Quốc phòng, an ninh, đối ngoại; phát triển lý luận về chủ nghĩa xã hội và con đường đi lên chủ nghĩa xã hội; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị.",
+      "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, tài nguyên, môi trường; Phát triển văn hóa, con người và xã hội; Quốc phòng, an ninh, đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị",
+      "Phát triển văn hóa, con người và xã hội; Quốc phòng, an ninh, đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị; tinh gọn tổ chức bộ máy."
+    ],
+    "answer": "Phát triển kinh tế, thực hiện 3 đột phá chiến lược, tài nguyên, môi trường; Phát triển văn hóa, con người và xã hội; Quốc phòng, an ninh, đối ngoại; Xây dựng, chỉnh đốn Đảng và hệ thống chính trị"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phát triển toàn diện con người Việt Nam với những phẩm chất nào?",
+    "options": [
+      "Đạo đức, trí tuệ, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số",
+      "Trí tuệ, ý thức dân tộc, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp",
+      "Đạo đức, trí tuệ, ý thức dân tộc, trách nhiệm công dân, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số",
+      "Đạo đức, trí tuệ, ý thức dân tộc, trách nhiệm công dân, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số"
+    ],
+    "answer": "Đạo đức, trí tuệ, ý thức dân tộc, trách nhiệm công dân, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phát triển toàn diện con người Việt Nam với những phẩm chất nào?",
+    "options": [
+      "Đạo đức, trí tuệ, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số",
+      "Trí tuệ, ý thức dân tộc, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp",
+      "Đạo đức, trí tuệ, ý thức dân tộc, trách nhiệm công dân, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số",
+      "Đạo đức, trí tuệ, ý thức dân tộc, trách nhiệm công dân, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số"
+    ],
+    "answer": "Đạo đức, trí tuệ, ý thức dân tộc, trách nhiệm công dân, thượng tôn pháp luật, năng lực sáng tạo, thẩm mỹ, thể lực, kỹ năng sống, kỹ năng nghề nghiệp, kỹ năng số"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương thức quản lý nhà nước cần chuyển mạnh theo hướng nào?",
+    "options": [
+      "Phân quyền sang tập trung",
+      "Quản lý trực tiếp sang bao cấp",
+      "Tiền kiểm sang hậu kiểm",
+      "Hậu kiểm sang tiền kiểm"
+    ],
+    "answer": "Tiền kiểm sang hậu kiểm"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương thức quản lý nhà nước cần chuyển mạnh theo hướng nào?",
+    "options": [
+      "Phân quyền sang tập trung",
+      "Quản lý trực tiếp sang bao cấp",
+      "Tiền kiểm sang hậu kiểm",
+      "Hậu kiểm sang tiền kiểm"
+    ],
+    "answer": "Tiền kiểm sang hậu kiểm"
+  },
+  {
+    "question": "Đâu không phải là quan điểm trong Văn kiện Đại hội XIV của Đảng về chính sách đột phá thúc đẩy chuyển đổi số?",
+    "options": [
+      "Quản lý, thúc đẩy phát triển tài sản số, tiền kỹ thuật số lành mạnh và hiệu quả",
+      "Hạn chế phát triển tài sản số, tiền kỹ thuật số",
+      "Ứng dụng công nghệ số, trí tuệ nhân tạo trong quản lý, điều hành của Đảng, Nhà nước",
+      "Phát triển công dân số, trang bị kiến thức, kỹ năng tham gia nền kinh tế số, xã hội số"
+    ],
+    "answer": "Hạn chế phát triển tài sản số, tiền kỹ thuật số"
+  },
+  {
+    "question": "Đâu không phải là quan điểm trong Văn kiện Đại hội XIV của Đảng về chính sách đột phá thúc đẩy chuyển đổi số?",
+    "options": [
+      "Quản lý, thúc đẩy phát triển tài sản số, tiền kỹ thuật số lành mạnh và hiệu quả",
+      "Hạn chế phát triển tài sản số, tiền kỹ thuật số",
+      "Ứng dụng công nghệ số, trí tuệ nhân tạo trong quản lý, điều hành của Đảng, Nhà nước",
+      "Phát triển công dân số, trang bị kiến thức, kỹ năng tham gia nền kinh tế số, xã hội số"
+    ],
+    "answer": "Hạn chế phát triển tài sản số, tiền kỹ thuật số"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định nội dung nào về xây dựng và kết nối dữ liệu trong chuyển đổi số quốc gia?",
+    "options": [
+      "Xây dựng cơ sở dữ liệu riêng biệt cho từng ngành, địa phương, không cần liên thông và cập nhật định kỳ hằng năm",
+      "Tập trung số hóa hồ sơ giấy ở cấp Trung ương, chưa triển khai kết nối dữ liệu với địa phương",
+      "Ưu tiên phát triển hạ tầng viễn thông, chưa đặt yêu cầu xây dựng cơ sở dữ liệu và liên thông dữ liệu quốc gia",
+      "Xây dựng cơ sở dữ liệu quốc gia, dữ liệu chuyên ngành và liên thông với dữ liệu quốc gia; xây dựng cơ sở dữ liệu liên thông từ cấp tỉnh đến cấp xã; tổ chức một cửa liên thông số, kết nối dân cư - đất đai - an sinh - doanh nghiệp, cập nhật thời gian thực từ cơ sở tới Trung ương"
+    ],
+    "answer": "Xây dựng cơ sở dữ liệu quốc gia, dữ liệu chuyên ngành và liên thông với dữ liệu quốc gia; xây dựng cơ sở dữ liệu liên thông từ cấp tỉnh đến cấp xã; tổ chức một cửa liên thông số, kết nối dân cư - đất đai - an sinh - doanh nghiệp, cập nhật thời gian thực từ cơ sở tới Trung ương"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định nội dung nào về xây dựng và kết nối dữ liệu trong chuyển đổi số quốc gia?",
+    "options": [
+      "Xây dựng cơ sở dữ liệu riêng biệt cho từng ngành, địa phương, không cần liên thông và cập nhật định kỳ hằng năm",
+      "Tập trung số hóa hồ sơ giấy ở cấp Trung ương, chưa triển khai kết nối dữ liệu với địa phương",
+      "Ưu tiên phát triển hạ tầng viễn thông, chưa đặt yêu cầu xây dựng cơ sở dữ liệu và liên thông dữ liệu quốc gia",
+      "Xây dựng cơ sở dữ liệu quốc gia, dữ liệu chuyên ngành và liên thông với dữ liệu quốc gia; xây dựng cơ sở dữ liệu liên thông từ cấp tỉnh đến cấp xã; tổ chức một cửa liên thông số, kết nối dân cư - đất đai - an sinh - doanh nghiệp, cập nhật thời gian thực từ cơ sở tới Trung ương"
+    ],
+    "answer": "Xây dựng cơ sở dữ liệu quốc gia, dữ liệu chuyên ngành và liên thông với dữ liệu quốc gia; xây dựng cơ sở dữ liệu liên thông từ cấp tỉnh đến cấp xã; tổ chức một cửa liên thông số, kết nối dân cư - đất đai - an sinh - doanh nghiệp, cập nhật thời gian thực từ cơ sở tới Trung ương"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ nhất trong nhiệm kỳ Đại hội XIV là gì?",
+    "options": [
+      "Tập trung ưu tiên xây dựng đồng bộ thể chế phát triển, trọng tâm là hệ thống pháp luật, cơ chế, chính sách nhằm tháo gỡ kịp thời, dứt điểm các nút thắt, điểm nghẽn, thúc đẩy đổi mới sáng tạo",
+      "Tập trung đẩy mạnh công nghiệp hoá, hiện đại hoá và phát triển kinh tế nhanh, bền vững",
+      "Tập trung xây dựng đội ngũ cán bộ lãnh đạo chất lượng cao ở tất cả các cấp",
+      "Tập trung phát triển kinh tế số và chuyển đổi số quốc gia trong mọi lĩnh vực"
+    ],
+    "answer": "Tập trung ưu tiên xây dựng đồng bộ thể chế phát triển, trọng tâm là hệ thống pháp luật, cơ chế, chính sách nhằm tháo gỡ kịp thời, dứt điểm các nút thắt, điểm nghẽn, thúc đẩy đổi mới sáng tạo"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ nhất trong nhiệm kỳ Đại hội XIV là gì?",
+    "options": [
+      "Tập trung ưu tiên xây dựng đồng bộ thể chế phát triển, trọng tâm là hệ thống pháp luật, cơ chế, chính sách nhằm tháo gỡ kịp thời, dứt điểm các nút thắt, điểm nghẽn, thúc đẩy đổi mới sáng tạo",
+      "Tập trung đẩy mạnh công nghiệp hoá, hiện đại hoá và phát triển kinh tế nhanh, bền vững",
+      "Tập trung xây dựng đội ngũ cán bộ lãnh đạo chất lượng cao ở tất cả các cấp",
+      "Tập trung phát triển kinh tế số và chuyển đổi số quốc gia trong mọi lĩnh vực"
+    ],
+    "answer": "Tập trung ưu tiên xây dựng đồng bộ thể chế phát triển, trọng tâm là hệ thống pháp luật, cơ chế, chính sách nhằm tháo gỡ kịp thời, dứt điểm các nút thắt, điểm nghẽn, thúc đẩy đổi mới sáng tạo"
+  },
+  {
+    "question": "Tầm nhìn phát triển đến năm 2045 gắn với kỷ niệm sự kiện nào?",
+    "options": [
+      "100 năm thành lập Đảng Cộng sản Việt Nam",
+      "50 năm thực hiện công cuộc đổi mới",
+      "80 năm Quốc khánh nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam"
+    ],
+    "answer": "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam"
+  },
+  {
+    "question": "Tầm nhìn phát triển đến năm 2045 gắn với kỷ niệm sự kiện nào?",
+    "options": [
+      "100 năm thành lập Đảng Cộng sản Việt Nam",
+      "50 năm thực hiện công cuộc đổi mới",
+      "80 năm Quốc khánh nước Cộng hòa xã hội chủ nghĩa Việt Nam",
+      "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam"
+    ],
+    "answer": "100 năm thành lập nước Cộng hòa xã hội chủ nghĩa Việt Nam"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng hệ thống quản lý nhà nước, quản trị quốc gia theo hướng nào?",
+    "options": [
+      "Tập trung, thống nhất, tăng cường kiểm soát hành chính",
+      "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển",
+      "Đồng bộ, phân cấp mạnh, lấy địa phương làm trung tâm",
+      "Chuyên nghiệp, ổn định, ưu tiên quản lý theo ngành"
+    ],
+    "answer": "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng hệ thống quản lý nhà nước, quản trị quốc gia theo hướng nào?",
+    "options": [
+      "Tập trung, thống nhất, tăng cường kiểm soát hành chính",
+      "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển",
+      "Đồng bộ, phân cấp mạnh, lấy địa phương làm trung tâm",
+      "Chuyên nghiệp, ổn định, ưu tiên quản lý theo ngành"
+    ],
+    "answer": "Hiện đại, hiệu quả, phục vụ và kiến tạo phát triển"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần hoàn thiện thể chế và thực hiện nguyên tắc nào trong công tác xây dựng tổ chức bộ máy, cán bộ, biên chế của hệ thống chính trị?",
+    "options": [
+      "Nhà nước thống nhất quản lý, tăng cường tập trung quyền lực ở cấp trên",
+      "Mặt trận Tổ quốc chủ trì công tác cán bộ và tổ chức bộ máy",
+      "Đảng thống nhất lãnh đạo, đẩy mạnh phân cấp, xác định rõ thẩm quyền, trách nhiệm và vai trò nêu gương",
+      "Chính quyền địa phương tự quyết toàn bộ công tác tổ chức và nhân sự"
+    ],
+    "answer": "Đảng thống nhất lãnh đạo, đẩy mạnh phân cấp, xác định rõ thẩm quyền, trách nhiệm và vai trò nêu gương"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần hoàn thiện thể chế và thực hiện nguyên tắc nào trong công tác xây dựng tổ chức bộ máy, cán bộ, biên chế của hệ thống chính trị?",
+    "options": [
+      "Nhà nước thống nhất quản lý, tăng cường tập trung quyền lực ở cấp trên",
+      "Mặt trận Tổ quốc chủ trì công tác cán bộ và tổ chức bộ máy",
+      "Đảng thống nhất lãnh đạo, đẩy mạnh phân cấp, xác định rõ thẩm quyền, trách nhiệm và vai trò nêu gương",
+      "Chính quyền địa phương tự quyết toàn bộ công tác tổ chức và nhân sự"
+    ],
+    "answer": "Đảng thống nhất lãnh đạo, đẩy mạnh phân cấp, xác định rõ thẩm quyền, trách nhiệm và vai trò nêu gương"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chính sách dân số cần hướng tới yêu cầu nào?",
+    "options": [
+      "Tận dụng có hiệu quả dân số vàng, thích ứng già hóa dân số, duy trì vững chắc mức sinh thay thế, giảm chênh lệch mức sinh giữa các vùng",
+      "Hạn chế chính sách dân số theo vùng",
+      "Tập trung tăng nhanh quy mô dân số",
+      "Tiếp tục giảm mức sinh toàn dân"
+    ],
+    "answer": "Tận dụng có hiệu quả dân số vàng, thích ứng già hóa dân số, duy trì vững chắc mức sinh thay thế, giảm chênh lệch mức sinh giữa các vùng"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chính sách dân số cần hướng tới yêu cầu nào?",
+    "options": [
+      "Tận dụng có hiệu quả dân số vàng, thích ứng già hóa dân số, duy trì vững chắc mức sinh thay thế, giảm chênh lệch mức sinh giữa các vùng",
+      "Hạn chế chính sách dân số theo vùng",
+      "Tập trung tăng nhanh quy mô dân số",
+      "Tiếp tục giảm mức sinh toàn dân"
+    ],
+    "answer": "Tận dụng có hiệu quả dân số vàng, thích ứng già hóa dân số, duy trì vững chắc mức sinh thay thế, giảm chênh lệch mức sinh giữa các vùng"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chỉ tiêu tốc độ tăng năng suất lao động giai đoạn 2026-2030 là bao nhiêu?",
+    "options": [
+      "Khoảng 8,5%/năm",
+      "Khoảng 6,5%/năm",
+      "Khoảng 10%/năm",
+      "Khoảng 7,5%/năm"
+    ],
+    "answer": "Khoảng 6,5%/năm"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chỉ tiêu tốc độ tăng năng suất lao động giai đoạn 2026-2030 là bao nhiêu?",
+    "options": [
+      "Khoảng 8,5%/năm",
+      "Khoảng 6,5%/năm",
+      "Khoảng 10%/năm",
+      "Khoảng 7,5%/năm"
+    ],
+    "answer": "Khoảng 6,5%/năm"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, đột phá chiến lược thứ ba về kết cấu hạ tầng xác định ưu tiên đột phá vào những loại hạ tầng nào?",
+    "options": [
+      "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao",
+      "Ưu tiên hạ tầng số và kết nối internet tốc độ cao trên toàn quốc",
+      "Tập trung hạ tầng năng lượng tái tạo và lưới điện thông minh quốc gia",
+      "Chỉ tập trung vào hạ tầng giao thông đường bộ cao tốc và đường sắt tốc độ cao"
+    ],
+    "answer": "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, đột phá chiến lược thứ ba về kết cấu hạ tầng xác định ưu tiên đột phá vào những loại hạ tầng nào?",
+    "options": [
+      "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao",
+      "Ưu tiên hạ tầng số và kết nối internet tốc độ cao trên toàn quốc",
+      "Tập trung hạ tầng năng lượng tái tạo và lưới điện thông minh quốc gia",
+      "Chỉ tập trung vào hạ tầng giao thông đường bộ cao tốc và đường sắt tốc độ cao"
+    ],
+    "answer": "Kết cấu hạ tầng giao thông đa phương thức, hạ tầng công nghệ, hạ tầng phục vụ chuyển đổi số, chuyển đổi xanh, chuyển đổi năng lượng, thích ứng với biến đổi khí hậu, hạ tầng văn hoá, giáo dục, thể thao"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định trọng tâm của sức sản xuất mới là?",
+    "options": [
+      "Kinh tế tự cung tự cấp",
+      "Kinh tế dữ liệu, kinh tế số",
+      "Kinh tế khai khoáng",
+      "Kinh tế hộ gia đình"
+    ],
+    "answer": "Kinh tế dữ liệu, kinh tế số"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định trọng tâm của sức sản xuất mới là?",
+    "options": [
+      "Kinh tế tự cung tự cấp",
+      "Kinh tế dữ liệu, kinh tế số",
+      "Kinh tế khai khoáng",
+      "Kinh tế hộ gia đình"
+    ],
+    "answer": "Kinh tế dữ liệu, kinh tế số"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng nền quốc phòng theo hướng nào?",
+    "options": [
+      "Nền quốc phòng chuyên sâu, tập trung vào các địa bàn chiến lược",
+      "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân",
+      "Nền quốc phòng hiện đại, gắn với phát triển công nghiệp quốc phòng và kinh tế biển",
+      "Nền quốc phòng khu vực, gắn với xây dựng lực lượng dự bị động viên"
+    ],
+    "answer": "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định xây dựng nền quốc phòng theo hướng nào?",
+    "options": [
+      "Nền quốc phòng chuyên sâu, tập trung vào các địa bàn chiến lược",
+      "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân",
+      "Nền quốc phòng hiện đại, gắn với phát triển công nghiệp quốc phòng và kinh tế biển",
+      "Nền quốc phòng khu vực, gắn với xây dựng lực lượng dự bị động viên"
+    ],
+    "answer": "Nền quốc phòng toàn dân, thế trận quốc phòng toàn dân gắn với nền an ninh nhân dân"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định các cơ quan lãnh đạo của Đảng ở Trung ương phải thực sự là gì?",
+    "options": [
+      "Trung tâm điều phối, kiểm tra việc thực hiện chính sách",
+      "Đầu mối tham mưu, tổng hợp công tác xây dựng Đảng",
+      "Hạt nhân trí tuệ, “bộ tổng tham mưu chiến lược”",
+      "quan chỉ đạo, hướng dẫn hoạt động của hệ thống chính trị"
+    ],
+    "answer": "Hạt nhân trí tuệ, “bộ tổng tham mưu chiến lược”"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định các cơ quan lãnh đạo của Đảng ở Trung ương phải thực sự là gì?",
+    "options": [
+      "Trung tâm điều phối, kiểm tra việc thực hiện chính sách",
+      "Đầu mối tham mưu, tổng hợp công tác xây dựng Đảng",
+      "Hạt nhân trí tuệ, “bộ tổng tham mưu chiến lược”",
+      "quan chỉ đạo, hướng dẫn hoạt động của hệ thống chính trị"
+    ],
+    "answer": "Hạt nhân trí tuệ, “bộ tổng tham mưu chiến lược”"
+  },
+  {
+    "question": "Phương châm của Đại hội XIV là gì?",
+    "options": [
+      "Dân chủ - Kỷ cương - Sáng tạo - Hội nhập - Phát triển",
+      "Đoàn kết - Dân chủ - Kỷ cương - Đột phá - Phát triển",
+      "Đoàn kết - Đổi mới - Sáng tạo - Phát triển - Hội nhập",
+      "Đổi mới - Dân chủ - Kỷ luật - Trách nhiệm - Phát triển"
+    ],
+    "answer": "Đoàn kết - Dân chủ - Kỷ cương - Đột phá - Phát triển"
+  },
+  {
+    "question": "Phương châm của Đại hội XIV là gì?",
+    "options": [
+      "Dân chủ - Kỷ cương - Sáng tạo - Hội nhập - Phát triển",
+      "Đoàn kết - Dân chủ - Kỷ cương - Đột phá - Phát triển",
+      "Đoàn kết - Đổi mới - Sáng tạo - Phát triển - Hội nhập",
+      "Đổi mới - Dân chủ - Kỷ luật - Trách nhiệm - Phát triển"
+    ],
+    "answer": "Đoàn kết - Dân chủ - Kỷ cương - Đột phá - Phát triển"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ tư về đột phá khoa học, công nghệ xác định hai ngành công nghệ chiến lược ưu tiên là gì?",
+    "options": [
+      "Internet vạn vật (IoT) và điện toán đám mây",
+      "Công nghệ sinh học và năng lượng tái tạo",
+      "Hàng không vũ trụ và công nghệ vật liệu mới",
+      "Chip bán dẫn và trí tuệ nhân tạo"
+    ],
+    "answer": "Chip bán dẫn và trí tuệ nhân tạo"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ tư về đột phá khoa học, công nghệ xác định hai ngành công nghệ chiến lược ưu tiên là gì?",
+    "options": [
+      "Internet vạn vật (IoT) và điện toán đám mây",
+      "Công nghệ sinh học và năng lượng tái tạo",
+      "Hàng không vũ trụ và công nghệ vật liệu mới",
+      "Chip bán dẫn và trí tuệ nhân tạo"
+    ],
+    "answer": "Chip bán dẫn và trí tuệ nhân tạo"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương châm thực hiện dân chủ ở cơ sở là gì?",
+    "options": [
+      "Dân biết, dân bàn, dân làm, dân kiểm tra, dân giám sát, dân thụ hưởng",
+      "Dân tham gia, dân đồng thuận, dân thực hiện, dân giám sát",
+      "Dân bàn, dân làm, dân giám sát, dân phản biện, dân thụ hưởng",
+      "Dân biết, dân góp ý, dân thực hiện, dân kiểm tra, dân đánh giá"
+    ],
+    "answer": "Dân biết, dân bàn, dân làm, dân kiểm tra, dân giám sát, dân thụ hưởng"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương châm thực hiện dân chủ ở cơ sở là gì?",
+    "options": [
+      "Dân biết, dân bàn, dân làm, dân kiểm tra, dân giám sát, dân thụ hưởng",
+      "Dân tham gia, dân đồng thuận, dân thực hiện, dân giám sát",
+      "Dân bàn, dân làm, dân giám sát, dân phản biện, dân thụ hưởng",
+      "Dân biết, dân góp ý, dân thực hiện, dân kiểm tra, dân đánh giá"
+    ],
+    "answer": "Dân biết, dân bàn, dân làm, dân kiểm tra, dân giám sát, dân thụ hưởng"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định hệ thống an sinh xã hội phải lấy gì làm trung tâm?",
+    "options": [
+      "Công nghệ",
+      "Thị trường",
+      "Con người",
+      "Doanh nghiệp"
+    ],
+    "answer": "Con người"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định hệ thống an sinh xã hội phải lấy gì làm trung tâm?",
+    "options": [
+      "Công nghệ",
+      "Thị trường",
+      "Con người",
+      "Doanh nghiệp"
+    ],
+    "answer": "Con người"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ năm về phát triển nguồn lực con người và văn hoá xác định điều gì?",
+    "options": [
+      "Xây dựng xã hội học tập, đảm bảo mọi người dân đều được học tập suốt đời",
+      "Tập trung phát triển văn học, nghệ thuật và xuất khẩu văn hoá để tăng sức mạnh mềm",
+      "Ưu tiên đào tạo nguồn nhân lực cho các ngành kinh tế mũi nhọn và khu vực công nghệ cao",
+      "Phát triển văn hoá thực sự trở thành nền tảng tinh thần, sức mạnh nội sinh, động lực to lớn cho sự phát triển; xây dựng nền giáo dục quốc dân hiện đại, ngang tầm khu vực và thế giới"
+    ],
+    "answer": "Phát triển văn hoá thực sự trở thành nền tảng tinh thần, sức mạnh nội sinh, động lực to lớn cho sự phát triển; xây dựng nền giáo dục quốc dân hiện đại, ngang tầm khu vực và thế giới"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ năm về phát triển nguồn lực con người và văn hoá xác định điều gì?",
+    "options": [
+      "Xây dựng xã hội học tập, đảm bảo mọi người dân đều được học tập suốt đời",
+      "Tập trung phát triển văn học, nghệ thuật và xuất khẩu văn hoá để tăng sức mạnh mềm",
+      "Ưu tiên đào tạo nguồn nhân lực cho các ngành kinh tế mũi nhọn và khu vực công nghệ cao",
+      "Phát triển văn hoá thực sự trở thành nền tảng tinh thần, sức mạnh nội sinh, động lực to lớn cho sự phát triển; xây dựng nền giáo dục quốc dân hiện đại, ngang tầm khu vực và thế giới"
+    ],
+    "answer": "Phát triển văn hoá thực sự trở thành nền tảng tinh thần, sức mạnh nội sinh, động lực to lớn cho sự phát triển; xây dựng nền giáo dục quốc dân hiện đại, ngang tầm khu vực và thế giới"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ hai về xây dựng, chỉnh đốn Đảng yêu cầu điều gì về công tác cán bộ?",
+    "options": [
+      "Tăng cường hợp tác quốc tế trong đào tạo, bồi dưỡng cán bộ lãnh đạo, quản lý",
+      "Tập trung trẻ hoá đội ngũ cán bộ, ưu tiên cán bộ dưới 45 tuổi vào các vị trí lãnh đạo chủ chốt",
+      "Thực hiện luân chuyển toàn bộ cán bộ lãnh đạo cấp chiến lược sau mỗi nhiệm kỳ",
+      "Tiếp tục đổi mới mạnh mẽ công tác cán bộ bảo đảm thực chất, hiệu quả, nhất là công tác thẩm định, đánh giá cán bộ; xây dựng đội ngũ cán bộ thật sự có đức, có tài, không ngừng tự đổi mới, ngang tầm nhiệm vụ"
+    ],
+    "answer": "Tiếp tục đổi mới mạnh mẽ công tác cán bộ bảo đảm thực chất, hiệu quả, nhất là công tác thẩm định, đánh giá cán bộ; xây dựng đội ngũ cán bộ thật sự có đức, có tài, không ngừng tự đổi mới, ngang tầm nhiệm vụ"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ hai về xây dựng, chỉnh đốn Đảng yêu cầu điều gì về công tác cán bộ?",
+    "options": [
+      "Tăng cường hợp tác quốc tế trong đào tạo, bồi dưỡng cán bộ lãnh đạo, quản lý",
+      "Tập trung trẻ hoá đội ngũ cán bộ, ưu tiên cán bộ dưới 45 tuổi vào các vị trí lãnh đạo chủ chốt",
+      "Thực hiện luân chuyển toàn bộ cán bộ lãnh đạo cấp chiến lược sau mỗi nhiệm kỳ",
+      "Tiếp tục đổi mới mạnh mẽ công tác cán bộ bảo đảm thực chất, hiệu quả, nhất là công tác thẩm định, đánh giá cán bộ; xây dựng đội ngũ cán bộ thật sự có đức, có tài, không ngừng tự đổi mới, ngang tầm nhiệm vụ"
+    ],
+    "answer": "Tiếp tục đổi mới mạnh mẽ công tác cán bộ bảo đảm thực chất, hiệu quả, nhất là công tác thẩm định, đánh giá cán bộ; xây dựng đội ngũ cán bộ thật sự có đức, có tài, không ngừng tự đổi mới, ngang tầm nhiệm vụ"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định yêu cầu nào trong công tác cán bộ?",
+    "options": [
+      "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở",
+      "Chú trọng cán bộ quản lý nhà nước, chưa đặt trọng tâm đối với cán bộ khoa học, kỹ thuật",
+      "Tập trung đào tạo cán bộ cấp chiến lược, từng bước giảm đào tạo cán bộ cơ sở",
+      "Ưu tiên bố trí cán bộ theo ngành dọc, hạn chế tăng cường cán bộ cho địa bàn khó khăn"
+    ],
+    "answer": "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định yêu cầu nào trong công tác cán bộ?",
+    "options": [
+      "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở",
+      "Chú trọng cán bộ quản lý nhà nước, chưa đặt trọng tâm đối với cán bộ khoa học, kỹ thuật",
+      "Tập trung đào tạo cán bộ cấp chiến lược, từng bước giảm đào tạo cán bộ cơ sở",
+      "Ưu tiên bố trí cán bộ theo ngành dọc, hạn chế tăng cường cán bộ cho địa bàn khó khăn"
+    ],
+    "answer": "Phát hiện, đào tạo, bồi dưỡng, trọng dụng nhân tài; ưu tiên chuẩn hóa đội ngũ cán bộ cơ sở"
+  },
+  {
+    "question": "Câu 20: Đâu là quan điểm được xác định trong Văn kiện Đại hội XIV của Đảng đối với thế hệ trẻ Việt Nam?",
+    "options": [
+      "Tăng cường giáo dục thế hệ trẻ Việt Nam về lý tưởng cách mạng, đạo đức, lối sống, lòng yêu nước, tự hào dân tộc, nuôi dưỡng ước mơ, hoài bão, ý chí, khát vọng cống hiến, nêu cao trách nhiệm đối với đất nước, xã hội",
+      "Tăng cường giáo dục cho thế hệ trẻ văn hóa ứng xử, ý thức trách nhiệm xã hội, tinh thần cống hiến và năng lực tham gia các hoạt động cộng đồng",
+      "Tăng cường trang bị cho thế hệ trẻ kỹ năng nghề nghiệp, năng lực hội nhập quốc tế, khả năng thích ứng với thị trường lao động và yêu cầu phát triển mới",
+      "Tăng cường phát triển cho thế hệ trẻ tri thức khoa học, năng lực số, tư duy đổi mới sáng tạo và khát vọng khởi nghiệp"
+    ],
+    "answer": "Tăng cường giáo dục thế hệ trẻ Việt Nam về lý tưởng cách mạng, đạo đức, lối sống, lòng yêu nước, tự hào dân tộc, nuôi dưỡng ước mơ, hoài bão, ý chí, khát vọng cống hiến, nêu cao trách nhiệm đối với đất nước, xã hội"
+  },
+  {
+    "question": "Câu 20: Đâu là quan điểm được xác định trong Văn kiện Đại hội XIV của Đảng đối với thế hệ trẻ Việt Nam?",
+    "options": [
+      "Tăng cường giáo dục thế hệ trẻ Việt Nam về lý tưởng cách mạng, đạo đức, lối sống, lòng yêu nước, tự hào dân tộc, nuôi dưỡng ước mơ, hoài bão, ý chí, khát vọng cống hiến, nêu cao trách nhiệm đối với đất nước, xã hội",
+      "Tăng cường giáo dục cho thế hệ trẻ văn hóa ứng xử, ý thức trách nhiệm xã hội, tinh thần cống hiến và năng lực tham gia các hoạt động cộng đồng",
+      "Tăng cường trang bị cho thế hệ trẻ kỹ năng nghề nghiệp, năng lực hội nhập quốc tế, khả năng thích ứng với thị trường lao động và yêu cầu phát triển mới",
+      "Tăng cường phát triển cho thế hệ trẻ tri thức khoa học, năng lực số, tư duy đổi mới sáng tạo và khát vọng khởi nghiệp"
+    ],
+    "answer": "Tăng cường giáo dục thế hệ trẻ Việt Nam về lý tưởng cách mạng, đạo đức, lối sống, lòng yêu nước, tự hào dân tộc, nuôi dưỡng ước mơ, hoài bão, ý chí, khát vọng cống hiến, nêu cao trách nhiệm đối với đất nước, xã hội"
+  },
+  {
+    "question": "Đến năm 2030, Văn kiện Đại hội XIV của Đảng đặt mục tiêu cơ bản nào?",
+    "options": [
+      "Miễn toàn bộ học phí đại học",
+      "Xoá bỏ hoàn toàn chênh lệch vùng miền",
+      "Phổ cập nhà ở miễn phí cho toàn dân",
+      "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân"
+    ],
+    "answer": "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân"
+  },
+  {
+    "question": "Đến năm 2030, Văn kiện Đại hội XIV của Đảng đặt mục tiêu cơ bản nào?",
+    "options": [
+      "Miễn toàn bộ học phí đại học",
+      "Xoá bỏ hoàn toàn chênh lệch vùng miền",
+      "Phổ cập nhà ở miễn phí cho toàn dân",
+      "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân"
+    ],
+    "answer": "Cơ bản không còn hộ nghèo, cơ bản miễn viện phí toàn dân"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ ba về phát triển kinh tế xác định kinh tế tư nhân có vai trò gì?",
+    "options": [
+      "Phát triển kinh tế tư nhân là một động lực quan trọng nhất của nền kinh tế; xác lập mô hình tăng trưởng mới lấy khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số làm động lực chính",
+      "Kinh tế tư nhân cần được phát triển có chọn lọc, ưu tiên các ngành công nghệ cao",
+      "Kinh tế tư nhân đóng vai trò chủ đạo cùng với kinh tế nhà nước trong phát triển đất nước",
+      "Kinh tế tư nhân là động lực bổ sung, hỗ trợ kinh tế nhà nước trong một số lĩnh vực"
+    ],
+    "answer": "Phát triển kinh tế tư nhân là một động lực quan trọng nhất của nền kinh tế; xác lập mô hình tăng trưởng mới lấy khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số làm động lực chính"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ ba về phát triển kinh tế xác định kinh tế tư nhân có vai trò gì?",
+    "options": [
+      "Phát triển kinh tế tư nhân là một động lực quan trọng nhất của nền kinh tế; xác lập mô hình tăng trưởng mới lấy khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số làm động lực chính",
+      "Kinh tế tư nhân cần được phát triển có chọn lọc, ưu tiên các ngành công nghệ cao",
+      "Kinh tế tư nhân đóng vai trò chủ đạo cùng với kinh tế nhà nước trong phát triển đất nước",
+      "Kinh tế tư nhân là động lực bổ sung, hỗ trợ kinh tế nhà nước trong một số lĩnh vực"
+    ],
+    "answer": "Phát triển kinh tế tư nhân là một động lực quan trọng nhất của nền kinh tế; xác lập mô hình tăng trưởng mới lấy khoa học, công nghệ, đổi mới sáng tạo và chuyển đổi số làm động lực chính"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định hoạt động của các cơ quan, tổ chức trong hệ thống chính trị phải bảo đảm yêu cầu nào?",
+    "options": [
+      "Hiệu năng, hiệu lực, hiệu quả, nâng cao chất lượng phục vụ Nhân dân",
+      "Đổi mới, sáng tạo, phát huy trách nhiệm của từng cơ quan, đơn vị",
+      "Đồng bộ, thống nhất, công khai, minh bạch trong tổ chức thực hiện",
+      "Tinh gọn, chuyên nghiệp, hiện đại, tăng cường phân cấp cho địa phương"
+    ],
+    "answer": "Hiệu năng, hiệu lực, hiệu quả, nâng cao chất lượng phục vụ Nhân dân"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định hoạt động của các cơ quan, tổ chức trong hệ thống chính trị phải bảo đảm yêu cầu nào?",
+    "options": [
+      "Hiệu năng, hiệu lực, hiệu quả, nâng cao chất lượng phục vụ Nhân dân",
+      "Đổi mới, sáng tạo, phát huy trách nhiệm của từng cơ quan, đơn vị",
+      "Đồng bộ, thống nhất, công khai, minh bạch trong tổ chức thực hiện",
+      "Tinh gọn, chuyên nghiệp, hiện đại, tăng cường phân cấp cho địa phương"
+    ],
+    "answer": "Hiệu năng, hiệu lực, hiệu quả, nâng cao chất lượng phục vụ Nhân dân"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định công nghiệp quốc phòng, công nghiệp an ninh cần phát triển theo hướng nào?",
+    "options": [
+      "Tự chủ, tự lực, tự cường, lưỡng dụng, hiện đại",
+      "Hiện đại, chuyên sâu, tập trung vào một số lĩnh vực mũi nhọn",
+      "Từng bước hiện đại, gắn với nâng cao tiềm lực quốc phòng, an ninh",
+      "Đồng bộ, có trọng tâm, gắn với phát triển khoa học công nghệ"
+    ],
+    "answer": "Tự chủ, tự lực, tự cường, lưỡng dụng, hiện đại"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định công nghiệp quốc phòng, công nghiệp an ninh cần phát triển theo hướng nào?",
+    "options": [
+      "Tự chủ, tự lực, tự cường, lưỡng dụng, hiện đại",
+      "Hiện đại, chuyên sâu, tập trung vào một số lĩnh vực mũi nhọn",
+      "Từng bước hiện đại, gắn với nâng cao tiềm lực quốc phòng, an ninh",
+      "Đồng bộ, có trọng tâm, gắn với phát triển khoa học công nghệ"
+    ],
+    "answer": "Tự chủ, tự lực, tự cường, lưỡng dụng, hiện đại"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương châm phân cấp, phân quyền cho chính quyền địa phương là gì?",
+    "options": [
+      "Địa phương chủ động, vùng liên kết, Trung ương điều phối",
+      "Cấp trên giao việc, cấp dưới thực hiện, hệ thống kiểm tra",
+      "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm",
+      "Trung ương định hướng, địa phương triển khai, Nhân dân giám sát"
+    ],
+    "answer": "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định phương châm phân cấp, phân quyền cho chính quyền địa phương là gì?",
+    "options": [
+      "Địa phương chủ động, vùng liên kết, Trung ương điều phối",
+      "Cấp trên giao việc, cấp dưới thực hiện, hệ thống kiểm tra",
+      "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm",
+      "Trung ương định hướng, địa phương triển khai, Nhân dân giám sát"
+    ],
+    "answer": "Địa phương quyết, địa phương làm, địa phương chịu trách nhiệm"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần bảo vệ, phục hồi hệ sinh thái nào?",
+    "options": [
+      "Chủ yếu hệ sinh thái đô thị",
+      "Chỉ tập trung hệ sinh thái nông nghiệp",
+      "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên",
+      "Thu hẹp các khu bảo tồn thiên nhiên"
+    ],
+    "answer": "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần bảo vệ, phục hồi hệ sinh thái nào?",
+    "options": [
+      "Chủ yếu hệ sinh thái đô thị",
+      "Chỉ tập trung hệ sinh thái nông nghiệp",
+      "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên",
+      "Thu hẹp các khu bảo tồn thiên nhiên"
+    ],
+    "answer": "Hệ sinh thái rừng, đất ngập nước, biển, khu bảo tồn thiên nhiên"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ sáu về quốc phòng, an ninh và đối ngoại xác định mục tiêu gì cho Quân đội và Công an?",
+    "options": [
+      "Tập trung hiện đại hoá trang bị vũ khí, khí tài và ứng dụng trí tuệ nhân tạo trong quân sự",
+      "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ",
+      "Xây dựng lực lượng quân sự chuyên nghiệp, hiệu quả, tinh gọn theo mô hình quân đội hiện đại",
+      "Phát triển công nghiệp quốc phòng tự chủ, đạt trình độ khu vực vào năm 2030"
+    ],
+    "answer": "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ"
+  },
+  {
+    "question": "Theo Nghị quyết Đại hội đại biểu toàn quốc lần thứ XIV của Đảng, nhiệm vụ trọng tâm thứ sáu về quốc phòng, an ninh và đối ngoại xác định mục tiêu gì cho Quân đội và Công an?",
+    "options": [
+      "Tập trung hiện đại hoá trang bị vũ khí, khí tài và ứng dụng trí tuệ nhân tạo trong quân sự",
+      "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ",
+      "Xây dựng lực lượng quân sự chuyên nghiệp, hiệu quả, tinh gọn theo mô hình quân đội hiện đại",
+      "Phát triển công nghiệp quốc phòng tự chủ, đạt trình độ khu vực vào năm 2030"
+    ],
+    "answer": "Tiếp tục xây dựng Quân đội nhân dân, Công an nhân dân cách mạng, chính quy, tinh nhuệ, hiện đại, bảo vệ vững chắc độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ"
+  },
+  {
+    "question": "Theo Văn kiện Đại hội XIV của Đảng, hạn chế nào về văn hóa được chỉ ra trong đánh giá kết quả nhiệm kỳ XIII?",
+    "options": [
+      "Văn hoá đối ngoại chưa góp phần nâng cao hình ảnh Việt Nam trên trường quốc tế",
+      "Văn hoá chưa được đầu tư ngân sách đúng mức so với các lĩnh vực khác",
+      "Văn hoá chưa thực sự trở thành nguồn lực, sức mạnh nội sinh và động lực mạnh mẽ của sự phát triển",
+      "Văn hoá truyền thống chưa được bảo tồn và phát huy trong thời đại số"
+    ],
+    "answer": "Văn hoá chưa thực sự trở thành nguồn lực, sức mạnh nội sinh và động lực mạnh mẽ của sự phát triển"
+  },
+  {
+    "question": "Theo Văn kiện Đại hội XIV của Đảng, hạn chế nào về văn hóa được chỉ ra trong đánh giá kết quả nhiệm kỳ XIII?",
+    "options": [
+      "Văn hoá đối ngoại chưa góp phần nâng cao hình ảnh Việt Nam trên trường quốc tế",
+      "Văn hoá chưa được đầu tư ngân sách đúng mức so với các lĩnh vực khác",
+      "Văn hoá chưa thực sự trở thành nguồn lực, sức mạnh nội sinh và động lực mạnh mẽ của sự phát triển",
+      "Văn hoá truyền thống chưa được bảo tồn và phát huy trong thời đại số"
+    ],
+    "answer": "Văn hoá chưa thực sự trở thành nguồn lực, sức mạnh nội sinh và động lực mạnh mẽ của sự phát triển"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chỉ tiêu đóng góp của năng suất nhân tố tổng hợp (TFP) vào tăng trưởng kinh tế là bao nhiêu?",
+    "options": [
+      "Trên 55%",
+      "Trên 45%",
+      "Trên 60%",
+      "Trên 50%"
+    ],
+    "answer": "Trên 55%"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chỉ tiêu đóng góp của năng suất nhân tố tổng hợp (TFP) vào tăng trưởng kinh tế là bao nhiêu?",
+    "options": [
+      "Trên 55%",
+      "Trên 45%",
+      "Trên 60%",
+      "Trên 50%"
+    ],
+    "answer": "Trên 55%"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chỉ tiêu về Chỉ số phát triển con người (HDI) đến năm 2030 phấn đấu đạt bao nhiêu?",
+    "options": [
+      "Khoảng 0,8",
+      "Khoảng 0,85",
+      "Khoảng 0,7",
+      "Khoảng 0,75"
+    ],
+    "answer": "Khoảng 0,75"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chỉ tiêu về Chỉ số phát triển con người (HDI) đến năm 2030 phấn đấu đạt bao nhiêu?",
+    "options": [
+      "Khoảng 0,8",
+      "Khoảng 0,85",
+      "Khoảng 0,7",
+      "Khoảng 0,75"
+    ],
+    "answer": "Khoảng 0,75"
+  },
+  {
+    "question": "Theo Văn kiện Đại hội XIV của Đảng, cuộc cách mạng nào trong nhiệm kỳ XIII được đánh giá đạt kết quả mang tính đột phá, được cán bộ, đảng viên, Nhân dân đồng tình ủng hộ?",
+    "options": [
+      "Cuộc cách mạng cải cách thủ tục hành chính và điện tử hóa dịch vụ công",
+      "Cuộc cách mạng công nghiệp 4.0 trong lĩnh vực sản xuất công nghiệp",
+      "Cuộc cách mạng về sắp xếp tổ chức bộ máy của hệ thống chính trị theo hướng tinh, gọn, mạnh, hiệu năng, hiệu lực, hiệu quả",
+      "Cuộc cách mạng chuyển đổi số trong nền kinh tế quốc dân"
+    ],
+    "answer": "Cuộc cách mạng về sắp xếp tổ chức bộ máy của hệ thống chính trị theo hướng tinh, gọn, mạnh, hiệu năng, hiệu lực, hiệu quả"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định tiềm lực khoa học, công nghệ và đổi mới sáng tạo quốc gia cần đạt trình độ nào?",
+    "options": [
+      "Trình độ phổ cập trong khu vực công",
+      "Trình độ trung bình trong các nước đang phát triển",
+      "Trình độ cơ bản ở một số ngành truyền thống",
+      "Trình độ tiên tiến ở những lĩnh vực quan trọng, thuộc nhóm dẫn đầu trong các nước có thu nhập trung bình cao"
+    ],
+    "answer": "Trình độ tiên tiến ở những lĩnh vực quan trọng, thuộc nhóm dẫn đầu trong các nước có thu nhập trung bình cao"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định cần phát huy sức mạnh tổng hợp của cả hệ thống chính trị và toàn dân, thực hiện đồng bộ các biện pháp để xây dựng, hoàn thiện cơ chế phòng, chống tham nhũng, lãng phí, tiêu cực như thế nào?",
+    "options": [
+      "“Phòng ngừa”, “phát hiện”, “xử lý”, “khắc phục” tham nhũng, lãng phí, tiêu cực",
+      "“Chủ động”, “kịp thời”, “nghiêm minh”, “hiệu quả” trong kiểm tra, giám sát",
+      "“Không thể”, “không dám”, “không muốn”, “không cần” tham nhũng, lãng phí, tiêu cực",
+      "“Không để”, “không lọt”, “không sót”, “không chậm” trong phát hiện, xử lý vi phạm"
+    ],
+    "answer": "“Không thể”, “không dám”, “không muốn”, “không cần” tham nhũng, lãng phí, tiêu cực"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định chỉ tiêu tỉ trọng kinh tế số đến năm 2030 là bao nhiêu phần trăm GDP?",
+    "options": [
+      "Khoảng 20% GDP",
+      "Khoảng 35% GDP",
+      "Khoảng 25% GDP",
+      "Khoảng 30% GDP"
+    ],
+    "answer": "Khoảng 30% GDP"
+  },
+  {
+    "question": "Văn kiện Đại hội XIV của Đảng xác định mục tiêu phát triển đến năm 2030 là gì?",
+    "options": [
+      "Trở thành nước công nghiệp theo hướng hiện đại, GDP bình quân đầu người đạt 10.000 USD",
+      "Trở thành nước đang phát triển có công nghiệp hiện đại, thu nhập trung bình cao",
+      "Trở thành nước có thu nhập trung bình cao, chỉ số HDI đạt mức rất cao",
+      "Trở thành nước phát triển, thu nhập cao theo chuẩn của Ngân hàng Thế giới"
+    ],
+    "answer": "Trở thành nước đang phát triển có công nghiệp hiện đại, thu nhập trung bình cao"
+  }
+]
