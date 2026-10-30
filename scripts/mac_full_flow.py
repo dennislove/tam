@@ -125,7 +125,7 @@ def is_exam(lines):
     return qnum is not None and find(lines, 'NỘP') is not None and len(opts) >= 2
 
 
-EXAM_START_MAX_WAIT = 10.0
+EXAM_START_MAX_WAIT = 60.0
 
 
 def wait_contest_list_loaded(win, max_wait=90.0):
@@ -151,7 +151,7 @@ def wait_contest_list_loaded(win, max_wait=90.0):
 
 def wait_exam_start_loaded(win, max_wait=EXAM_START_MAX_WAIT):
     """
-    Chờ thông minh sau khi click 'BẮT ĐẦU BÀI THI' / 'LÀM LẠI' (tối đa max_wait giây - mặc định 10s):
+    Chờ thông minh sau khi click 'BẮT ĐẦU BÀI THI' / 'LÀM LẠI' (tối đa max_wait giây - mặc định 60s / 1 phút):
     - Nếu đề thi tải xong sớm -> trả về (True, lines) ngay lập tức để làm bài luôn ("xong sớm thi sớm").
     - Nếu hệ thống quá tải/chậm -> kiên nhẫn chờ đủ max_wait giây, không vội click thao tác khác.
     - Tự động click popup xác nhận nếu có.
@@ -160,7 +160,7 @@ def wait_exam_start_loaded(win, max_wait=EXAM_START_MAX_WAIT):
     last_log_t = 0.0
     handled_popup = False
 
-    print(f'⏳ Đã ấn thi -> Chờ tải vào bài thi (tối đa {max_wait:g}s do hệ thống quá tải, xong sớm thi sớm)...', flush=True)
+    print(f'⏳ Đã ấn thi -> Chờ tải vào bài thi (tối đa {max_wait:g}s / 1 phút do hệ thống quá tải, xong sớm thi sớm)...', flush=True)
     time.sleep(0.35)
 
     while True:
@@ -172,7 +172,7 @@ def wait_exam_start_loaded(win, max_wait=EXAM_START_MAX_WAIT):
             print(f'⚡ Đã vào màn hình làm bài sau {elapsed:.1f}s -> Bắt đầu làm bài ngay!', flush=True)
             return True, lines
 
-        if not handled_popup and elapsed < 4.5:
+        if not handled_popup and elapsed < 15.0:
             p = find(lines, 'ĐỒNG Ý') or find(lines, 'XÁC NHẬN') or find(lines, 'TIẾP TỤC')
             if p:
                 print(f'📋 Popup xác nhận: "{p["t"]}" -> Click xác nhận', flush=True)
@@ -187,7 +187,7 @@ def wait_exam_start_loaded(win, max_wait=EXAM_START_MAX_WAIT):
 
         remain = max_wait - (time.monotonic() - t0)
         if remain <= 0:
-            print(f'⏰ Đã chờ đủ {max_wait:g}s sau khi ấn thi nhưng chưa vào được bài thi.', flush=True)
+            print(f'⏰ Đã chờ đủ {max_wait:g}s (1 phút) sau khi ấn thi nhưng chưa vào được bài thi.', flush=True)
             return False, lines
 
         if elapsed - last_log_t >= 2.0:
